@@ -15,7 +15,7 @@
 			</span>
 		</a>
 	</li>
-	<li class="nav-item dropdown <?= $this->uri->uri_string() == 'category' ? 'show' : '' ?>">
+	<li class="nav-item dropdown <?= $this->uri->uri_string() == 'category' || $this->uri->uri_string() == 'product' ? 'show' : '' ?>">
 		<a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown" data-bs-auto-close="false"
 			role="button" aria-expanded="false">
 			<span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -33,7 +33,7 @@
 				Master
 			</span>
 		</a>
-		<div class="dropdown-menu <?= $this->uri->uri_string() == 'category' ? 'show' : '' ?>">
+		<div class="dropdown-menu <?= $this->uri->uri_string() == 'category' || $this->uri->uri_string() == 'product' ? 'show' : '' ?>">
 			<div class="dropdown-menu-columns">
 				<div class="dropdown-menu-column">
 					<a class="dropdown-item <?= $this->uri->uri_string() == 'category' ? 'active' : '' ?>" href="<?= base_url('category') ?>">
@@ -41,7 +41,7 @@
 					</a>
 				</div>
 				<div class="dropdown-menu-column">
-					<a class="dropdown-item" href="./accordion.html">
+					<a class="dropdown-item <?= $this->uri->uri_string() == 'category' ? 'active' : '' ?>" href="<?= base_url('product') ?>">
 						Produk
 					</a>
 				</div>

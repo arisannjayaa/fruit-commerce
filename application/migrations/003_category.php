@@ -42,6 +42,20 @@ class Migration_Category extends CI_Migration
 			'created_at' => date('Y-m-d H:i:s'),
 			'updated_at' => date('Y-m-d H:i:s'),
 		]);
+
+		$this->db->insert($this->tableName, [
+			'attachment'   => 'uploads/category/default.jpg',
+			'name'   => 'Jus',
+			'created_at' => date('Y-m-d H:i:s'),
+			'updated_at' => date('Y-m-d H:i:s'),
+		]);
+
+		$this->db->insert($this->tableName, [
+			'attachment'   => 'uploads/category/default.jpg',
+			'name'   => 'Kacang',
+			'created_at' => date('Y-m-d H:i:s'),
+			'updated_at' => date('Y-m-d H:i:s'),
+		]);
     }
 
     public function down()

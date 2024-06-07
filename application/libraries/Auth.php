@@ -79,6 +79,21 @@ class Auth {
 		return false;
 	}
 
+	public function isAdmin()
+	{
+		if ($this->check()) {
+			$get = $this->CI->user->find($this->CI->session->id);
+
+			if ($get->role_id == 1) {
+				return true;
+			}
+
+			return false;
+		}
+
+		return false;
+	}
+
 	/**
 	 * Keluar dari sesi.
 	 *

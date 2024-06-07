@@ -257,6 +257,7 @@
 			</footer>
 		</div>
 	</div>
+	<input type="hidden" id="base-url" value="<?= base_url('') ?>">
 	@yield('url')
 	<!-- Libs JS -->
 	<script src="<?= base_url('assets/') ?>dist/libs/apexcharts/dist/apexcharts.min.js?1684106062" defer></script>
