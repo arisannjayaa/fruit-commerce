@@ -28,7 +28,7 @@ class ProductService extends MY_Service{
 		try {
 			$this->output->set_status_header(200);
 			$this->Product->create($data);
-			echo json_encode(array('status' => "OK", 'code' => 200, 'message' => "Data kategori berhasil ditambahkan"));
+			echo json_encode(array('status' => "OK", 'code' => 200, 'message' => "Data produk berhasil ditambahkan"));
 			return;
 		} catch (Exception $exception) {
 			show_error('Terjadi kesalahan', 500);
@@ -42,7 +42,7 @@ class ProductService extends MY_Service{
 			unset($data['id']);
 			$this->output->set_status_header(200);
 			$this->Product->update($id, $data);
-			echo json_encode(array('status' => "OK", 'code' => 200, 'message' => "Data kategori berhasil diupdate"));
+			echo json_encode(array('status' => "OK", 'code' => 200, 'message' => "Data produk berhasil diupdate"));
 		} catch (Exception $exception) {
 			show_error('Terjadi kesalahan', 500);
 		}
@@ -53,7 +53,7 @@ class ProductService extends MY_Service{
 		try {
 			$this->Product->delete($id);
 			$this->output->set_status_header(200);
-			echo json_encode(array('success' => true, 'code' => 200, 'message' => "Data kategori berhasil dihapus"));
+			echo json_encode(array('success' => true, 'code' => 200, 'message' => "Data produk berhasil dihapus"));
 		} catch (Exception $exception) {
 			show_error('Terjadi kesalahan', 500);
 		}
