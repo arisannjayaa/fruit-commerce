@@ -68,7 +68,7 @@ $("#form-product").submit(function (e) {
 
 	// send data
 	ajaxPost(url, formData, btn).done(function (res) {
-		notifySuccess(res.message);
+		toastSuccess(res.message);
 		reloadTable(table);
 		$(modal).modal("hide");
 		$(form)[0].reset();
@@ -112,7 +112,7 @@ $("#table").on("click", ".delete", function () {
 	let url = $("#delete-url").val();
 	let table = "#table";
 
-	ajaxDel(url, id, false, 'notifySuccess', table);
+	ajaxDel(url, id, false, 'toastSuccess', table);
 });
 
 $('#modal-product').on('hidden.bs.modal', function () {
