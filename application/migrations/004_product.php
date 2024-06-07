@@ -38,17 +38,14 @@ class Migration_Product extends CI_Migration
 			],
 			'description' => [
 				'type'              => 'VARCHAR',
-				'constraint'        => '255'
+				'constraint'        => '255',
+				'null'				=> true
 			],
 			'stock' => [
 				'type'              => 'INT',
 				'constraint'        => 11
 			],
-			'normal_price' => [
-				'type'              => 'INT',
-				'constraint'        => 11
-			],
-			'promotion_price' => [
+			'price' => [
 				'type'              => 'INT',
 				'constraint'        => 11
 			],

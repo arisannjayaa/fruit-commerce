@@ -15,10 +15,15 @@ $("#table").DataTable({
 				return meta.row + meta.settings._iDisplayStart + 1;
 			}
 		},
-		{ data: 'title', name: 'title', className: 'text-nowrap'},
-		{ data: 'stock', name: 'stock', className: 'text-nowrap'},
-		{ data: 'normal_price', name: 'normal_price', className: 'text-nowrap'},
-		{ data: 'promotion_price', name: 'promotion_price', className: 'text-nowrap'},
+		{ data: 'title', name: 'title', className: 'text-nowrap', render: function (data, type, row, meta) {
+				return `<div><img class="img-fluid me-3" width="50" src="${BASE_URL + row.attachment}" alt=""><span>${row.title}</span></div>`
+			}},
+		{ data: 'stock', name: 'stock', className: 'text-nowrap', orderable: false, searchable: false, render: function (data) {
+				return `<span class="badge bg-success">${data}</span>`
+			}},
+		{ data: 'price', name: 'price', className: 'text-nowrap', orderable: false, searchable: false, render: function (data) {
+				return `<span class="badge bg-primary">${formatRupiah(data, "IDR")}</span>`
+			}},
 		{ data: null, className: 'text-nowrap', orderable: false, searchable: false,
 			render: function (data, type, row, meta) {
 				return `<a href="javascript:void(0)" data-id="${row.id}" class="btn btn-warning btn-sm edit">Edit</a>
@@ -29,17 +34,27 @@ $("#table").DataTable({
 });
 
 $('#btn-add').click(function () {
+	$('#attachment , .dropify-wrapper').remove();
+	let html = `<input type="file" id="attachment" name="attachment" class="dropify" data-max-file-size="1M" data-allowed-file-extensions="jpg png" data-default-file='' />`;
+	$('.custom-file').append(html);
+	$('.dropify').dropify();
+
 	$("#form-product")[0].reset();
 	$("#modal-product").modal('show');
 
 	$('.modal-title').empty().append('Tambah Produk');
 });
 
+resetValidationFile();
+
 $("#form-product").submit(function (e) {
 	e.preventDefault();
 
 	let id = $("#id").val();
+	let description = quill.getSemanticHTML();
 	let formData = new FormData(this);
+	formData.append('description', description);
+	formData.set('price', reverseFormatRupiah($("#price").val()));
 	let btn = "#btn-submit";
 	let table = "#table";
 	let form = "#form-product";
@@ -57,6 +72,13 @@ $("#form-product").submit(function (e) {
 		reloadTable(table);
 		$(modal).modal("hide");
 		$(form)[0].reset();
+	}).fail(function (res) {
+		let data = res.responseJSON;
+		let errorMessage = document.querySelectorAll('.text-left.invalid-feedback.order-3');
+		errorMessage[0]?.remove();
+		$(".dropify-error").empty().append(data.errors.attachment[0]);
+		$(".dropify-wrapper").addClass("error");
+		$(".dropify-error").show();
 	});
 });
 
@@ -69,6 +91,17 @@ $("#table").on("click", ".edit", function () {
 		$(".modal-title").empty().append("Edit Produk");
 		$("#id").val(res.data.id);
 		$("#title").val(res.data.title);
+		$("#price").val(formatRupiah(res.data.price, "IDR"));
+		$("#stock").val(res.data.stock);
+		$("#category-id").val(res.data.category_id);
+		$(".ql-editor").empty().append(res.data.description);
+
+		$('#attachment , .dropify-wrapper').remove();
+
+		let html = `<input type="file" id="attachment" name="attachment" class="dropify" data-max-file-size="1M" data-allowed-file-extensions="jpg png" value="${res.data.attachment}" data-default-file='${BASE_URL + res.data.attachment}' />
+			<input type="hidden" name="old_attachment" id="old-attachment" value="${res.data.attachment}">`;
+		$('.custom-file').append(html);
+		$('.dropify').dropify();
 		$("#modal-product").modal("show");
 	});
 });

@@ -72,5 +72,8 @@ $route['product/update'] = 'ProductController/update';
 $route['product/delete'] = 'ProductController/delete';
 $route['product/edit/(:any)'] = 'ProductController/edit/$1';
 $route['product/table']['GET'] = 'ProductController/table';
+
+//home
+$route['default_controller'] = 'HomeController/index';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

@@ -3,6 +3,27 @@
 @section('title', 'Produk')
 
 @section('style')
+<style>
+	span.file-icon p {
+		font-size: 12px !important;
+	}
+
+	.dropify-wrapper.error {
+		border: 1px solid red !important;
+	}
+
+	.description.error {
+		border: 1px solid red !important;
+	}
+	
+	.invalid-feedback-description {
+		display: block;
+		width: 100%;
+		margin-top: .25rem;
+		font-size: 85.714285%;
+		color: var(--tblr-form-invalid-color);
+	}
+</style>
 @endsection
 
 @section('content')
@@ -20,8 +41,7 @@
 						<th>No</th>
 						<th>Judul</th>
 						<th>Stok</th>
-						<th>Harga Normal</th>
-						<th>Harga Promo</th>
+						<th>Harga</th>
 						<th>Aksi</th>
 					</tr>
 					</thead>
@@ -44,5 +64,10 @@
 
 @section('script')
 <script src="{{ base_url('assets/dist/js/product/product.js') }}"></script>
+<script>
+	const quill = new Quill('#editor', {
+		theme: 'snow'
+	});
+</script>
 @endsection
 

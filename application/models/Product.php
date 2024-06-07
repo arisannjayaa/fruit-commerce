@@ -47,9 +47,6 @@ class Product extends CI_Model
 			$arrKeyword = explode(" ", $keyword);
 			for ($i=0; $i < count($arrKeyword); $i++) {
 				$builder = $builder->or_like('title', $arrKeyword[$i]);
-				$builder = $builder->or_like('stock', $arrKeyword[$i]);
-				$builder = $builder->or_like('normal_price', $arrKeyword[$i]);
-				$builder = $builder->or_like('promotion_price', $arrKeyword[$i]);
 			}
 		}
 
