@@ -12,7 +12,7 @@ class MigrationController extends CI_Controller
     public function index()
     {
         $this->load->library('migration');
-        for($i = 1; $i <= 3; $i++) {
+        for($i = 1; $i <= 4; $i++) {
             if ($this->migration->version($i) === false) {
                 echo $this->migration->error_string();
             } else {
