@@ -43,6 +43,27 @@ class User extends CI_Model
 	{
 		return $this->db->get_where($this->table, ['email' => $email])->row_array();
 	}
+
+	public function datatable($keyword = null, $start = 0, $length = 0)
+	{
+		$builder = $this->db->select("*")->from($this->table);
+
+		$builder = $builder->where('role_id', 2);
+		if($keyword) {
+			$arrKeyword = explode(" ", $keyword);
+			for ($i=0; $i < count($arrKeyword); $i++) {
+				$builder = $builder->or_like('username', $arrKeyword[$i]);
+				$builder = $builder->or_like('email', $arrKeyword[$i]);
+				$builder = $builder->or_like('role_id', $arrKeyword[$i]);
+			}
+		}
+
+		if($start != 0 || $length != 0) {
+			$builder = $builder->limit($length, $start);
+		}
+
+		return $builder->get()->result();
+	}
 }
 
 

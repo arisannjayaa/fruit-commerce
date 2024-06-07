@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://e-commerce.test:8080';
+$config['base_url'] = 'http://fruit-commerce.test:8080';
 
 /*
 |--------------------------------------------------------------------------
