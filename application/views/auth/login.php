@@ -15,13 +15,13 @@
 <body class="goto-here">
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-lg-8 col-12 p-0">
+		<div class="col-lg-8 col-12 p-0 d-none d-lg-block">
 			<div style="background-image: url(<?= base_url('assets/home/images/about.jpg') ?>); height: 100vh; width: 100%; background-size: cover;">
 			</div>
 		</div>
 		<div class="col-lg-4 col-12">
-			<div style="padding: 50px">
-				<div class="form-wrap">
+			<div style="padding: 20px">
+				<div class="form-wrap mt-lg-4 mt-5">
 					<h4>Login</h4>
 					<p>Selamat Datang di Portal Bu Jem Jem's Stall. Isi Detail Login Anda dan Mari Mulai Petualangan!</p>
 					<form id="form-login">
