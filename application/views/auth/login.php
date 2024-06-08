@@ -21,7 +21,8 @@
 		</div>
 		<div class="col-lg-4 col-12">
 			<div style="padding: 20px">
-				<div class="form-wrap mt-lg-4 mt-5">
+				<button onclick="location.href='<?= base_url('') ?>'" class="btn btn-primary"><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-left"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M5 12l6 6" /><path d="M5 12l6 -6" /></svg></button>
+				<div class="form-wrap mt-3">
 					<h4>Login</h4>
 					<p>Selamat Datang di Portal Bu Jem Jem's Stall. Isi Detail Login Anda dan Mari Mulai Petualangan!</p>
 					<form id="form-login">
