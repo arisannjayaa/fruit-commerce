@@ -12,7 +12,7 @@
 			<li class="nav-item <?= $this->uri->uri_string() == "contact" ? "active" : "" ?>"><a href="contact.html" class="nav-link">Contact</a></li>
 			<li class="nav-item cta cta-colored"><a href="cart.html" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
 			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Akun</a>
+				<a class="nav-link dropdown-toggle" href="javascript:void(0)" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Akun</a>
 				<div class="dropdown-menu" aria-labelledby="dropdown04">
 					@if($this->auth->isAdmin())
 						<a class="dropdown-item" href="<?= base_url('dashboard') ?>">Dashboard</a>
