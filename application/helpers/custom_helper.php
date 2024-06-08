@@ -8,3 +8,8 @@ function slug($string, $spaceRepl = "-")
 	$string = str_replace(" ", $spaceRepl, $string);
 	return $string;
 }
+
+function formatToRupiah($amount) {
+	$formatted_amount = number_format($amount, 0, ',', '.');
+	return "Rp. " . $formatted_amount;
+}

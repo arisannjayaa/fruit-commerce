@@ -56,6 +56,12 @@ class Category extends CI_Model
 
 		return $builder->get()->result();
 	}
+
+	public function limit($limit)
+	{
+		$query = $this->db->select("*")->from($this->table);
+		return $query->limit($limit)->get()->result();
+	}
 }
 
 

@@ -75,5 +75,7 @@ $route['product/table']['GET'] = 'ProductController/table';
 
 //home
 $route['default_controller'] = 'HomeController/index';
+$route['shop'] = 'HomeController/shop';
+$route['shop/(:any)'] = 'HomeController/detail/$1';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

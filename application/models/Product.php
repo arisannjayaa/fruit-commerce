@@ -56,6 +56,31 @@ class Product extends CI_Model
 
 		return $builder->get()->result();
 	}
+
+	public function limit($limit)
+	{
+		$query = $this->db->select("*")->from($this->table);
+		return $query->limit($limit)->get()->result();
+	}
+
+	public function findByCategoryId($category_id)
+	{
+		$query = $this->db->select("*")->from($this->table);
+
+		if ($category_id == "") {
+			return $query->get()->result();
+		}
+
+		$query->where('category_id', $category_id);
+		return $query->get()->result();
+	}
+
+	public function findBySlug($slug)
+	{
+		$query = $this->db->select("*")->from($this->table);
+		$query->where('slug', $slug);
+		return $query->get()->row();
+	}
 }
 
 
