@@ -1,5 +1,6 @@
 .DS_Store
 !uploads/products/default.svg
+uploads/products/*
 application/cache/*
 !application/cache/index.html
 

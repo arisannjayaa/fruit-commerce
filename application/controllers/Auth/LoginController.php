@@ -6,7 +6,7 @@ class LoginController extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
-		$this->load->service('UserService', 'userService');
+		$this->load->service('AuthService', 'authService');
     }
 
     public function index()
@@ -46,12 +46,12 @@ class LoginController extends CI_Controller {
 		$email = $this->input->post('email');
 		$password = $this->input->post('password');
 
-		return $this->userService->login($email, $password);
+		return $this->authService->login($email, $password);
 	}
 
 	public function logout()
 	{
-		return $this->userService->logout();
+		return $this->authService->logout();
 	}
 
 	public function rules()

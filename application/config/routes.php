@@ -50,8 +50,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 $route['login']['GET'] = 'Auth/LoginController/index';
+$route['register']['GET'] = 'Auth/RegisterController/index';
 $route['dashboard']['GET'] = 'DashboardController/index';
 $route['login']['POST'] = 'Auth/LoginController/login';
+$route['register']['POST'] = 'Auth/RegisterController/register';
 $route['migrate'] = 'MigrationController/index';
 $route['logout']['GET'] = 'Auth/LoginController/logout';
 $route['user']['GET'] = 'UserController/index';
@@ -77,5 +79,11 @@ $route['product/table']['GET'] = 'ProductController/table';
 $route['default_controller'] = 'HomeController/index';
 $route['shop'] = 'HomeController/shop';
 $route['shop/(:any)'] = 'HomeController/detail/$1';
+
+//cart
+$route['cart'] = 'CartController/index';
+$route['all-cart'] = 'CartController/all';
+$route['cart/delete'] = 'CartController/delete';
+
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

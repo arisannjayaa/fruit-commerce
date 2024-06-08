@@ -1,9 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class User extends CI_Model
+class Cart extends CI_Model
 {
-	protected $table = 'users';
+	protected $table = 'carts';
 	public function __construct()
     {
         parent::__construct();
@@ -16,6 +16,32 @@ class User extends CI_Model
         return $query->result();
     }
 
+	public function findByUserId($user_id)
+	{
+		$select = "ci.id,
+				ci.cart_id,
+				ci.product_id,
+				ci.quantity,
+				ci.created_at,
+				ci.updated_at,
+				c.user_id,
+				p.title,
+				p.attachment,
+				p.slug,
+				p.description,
+				p.stock,
+				p.price";
+
+		$builder = $this->db
+			->select($select)
+			->from('cart_items ci')
+			->join('carts c', 'c.id = ci.cart_id')
+			->join('products p', 'p.id = ci.product_id')
+			->where('c.user_id', $user_id);
+
+		return $builder->get();
+	}
+
     public function find($id)
     {
         $query = $this->db->get_where($this->table, ['id' => $id]);
@@ -24,8 +50,7 @@ class User extends CI_Model
 
     public function create($data)
     {
-        $this->db->insert($this->table, $data);
-		return $this->db->insert_id();
+        return $this->db->insert($this->table, $data);
     }
 
     public function update($id, $data)
@@ -37,25 +62,17 @@ class User extends CI_Model
     public function delete($id)
     {
         $this->db->where('id', $id);
-        return $this->db->delete($this->table);
+        return $this->db->delete("cart_items");
     }
-
-	public function findByEmail($email)
-	{
-		return $this->db->get_where($this->table, ['email' => $email])->row_array();
-	}
 
 	public function datatable($keyword = null, $start = 0, $length = 0)
 	{
 		$builder = $this->db->select("*")->from($this->table);
 
-		$builder = $builder->where('role_id', 2);
 		if($keyword) {
 			$arrKeyword = explode(" ", $keyword);
 			for ($i=0; $i < count($arrKeyword); $i++) {
-				$builder = $builder->or_like('username', $arrKeyword[$i]);
-				$builder = $builder->or_like('email', $arrKeyword[$i]);
-				$builder = $builder->or_like('role_id', $arrKeyword[$i]);
+				$builder = $builder->or_like('title', $arrKeyword[$i]);
 			}
 		}
 
@@ -64,6 +81,13 @@ class User extends CI_Model
 		}
 
 		return $builder->get()->result();
+	}
+
+	public function findBySlug($slug)
+	{
+		$query = $this->db->select("*")->from($this->table);
+		$query->where('slug', $slug);
+		return $query->get()->row();
 	}
 }
 
