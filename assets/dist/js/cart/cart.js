@@ -1,21 +1,9 @@
 let allCartItemUrl = $("#all-cart-item-url").val();
-let total = 0;
 fetchCart();
-$("#total-price").html(formatRupiah(totalCount(), "IDR", false));
 $("#table").on("click", ".product-remove", function () {
 	let id = $(this).data("id");
 	let url = $("#delete-item-cart-url").val();
 	ajaxDelCustom(url, id);
-});
-
-$("#table").on("change", "#quantity", function () {
-	let quantity = $(this).val();
-	let price = $(".price").data("price");
-	let total = quantity * price;
-
-	$(".total").html(formatRupiah(total, "IDR", false));
-	$(".total").data("total", total);
-	$("#total-price").html(formatRupiah(totalCount(), "IDR", false));
 });
 
 $("#table").on("click", ".btn-increase", function () {
@@ -25,7 +13,15 @@ $("#table").on("click", ".btn-increase", function () {
 	let maxValue = parseInt(inputElement.prop("max"));
 	newValue = newValue <= maxValue ? newValue : maxValue;
 	inputElement.val(newValue);
-	inputElement.trigger("change");
+	let priceElement = $(this).closest("tr").find(".price")[0];
+	let totalElement = $(this).closest("tr").find(".total")[0];
+	let InputTotalElement = $(this).closest("tr").find("#total")[0];
+	let priceTotal = priceElement.getAttribute("data-price");
+	let subTotal = newValue * parseInt(priceTotal);
+	totalElement.innerHTML = formatRupiah(subTotal, "IDR", false);
+	InputTotalElement.value = subTotal
+	$(".total-price").html(formatRupiah(totalCount(), "IDR", false));
+	$("#total-price").val(totalCount());
 });
 
 $("#table").on("click", ".btn-decrease", function () {
@@ -34,20 +30,28 @@ $("#table").on("click", ".btn-decrease", function () {
 	let newValue = currentValue - 1;
 	newValue = newValue < 1 ? 1 : newValue;
 	inputElement.val(newValue);
-	inputElement.trigger("change");
+
+	let priceElement = $(this).closest("tr").find(".price")[0];
+	let totalElement = $(this).closest("tr").find(".total")[0];
+	let InputTotalElement = $(this).closest("tr").find("#total")[0];
+	let priceTotal = priceElement.getAttribute("data-price");
+	let subTotal = newValue * parseInt(priceTotal);
+	totalElement.innerHTML = formatRupiah(subTotal, "IDR", false);
+	InputTotalElement.value = subTotal
+	$(".total-price").html(formatRupiah(totalCount(), "IDR", false));
+	$("#total-price").val(totalCount());
 });
 
 function totalCount() {
-	let arrTotal = document.querySelectorAll(".total");
+	let arrTotal = document.querySelectorAll("#total");
+	let total = 0;
 	arrTotal.forEach(function (item) {
-		let totalPrice= item.getAttribute("data-total");
+		let totalPrice= item.getAttribute("value");
 		total += parseInt(totalPrice);
 	});
+
 	return total;
 }
-
-
-// $("#total-price").html(formatRupiah(total(), "IDR", false));
 
 function fetchCart() {
 	ajaxGet(allCartItemUrl).done(function (res) {
@@ -74,10 +78,13 @@ function fetchCart() {
 								</button>
 							</div>
 						</td>
-						<td id="total" data-total="${item.quantity * item.price}" class="total">${formatRupiah(item.quantity * item.price, "IDR", false)}</td>
+						<input type="hidden" id="total" value="${item.quantity * item.price}">
+						<td class="total">${formatRupiah(item.quantity * item.price, "IDR", false)}</td>
 						</tr>`;
 		});
 		$("tbody").append(html);
+		$(".total-price").html(formatRupiah(totalCount(), "IDR", false));
+		$("#total-price").val(totalCount());
 	});
 }
 

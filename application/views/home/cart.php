@@ -65,9 +65,10 @@
 			<div class="col-lg-4 mt-5 cart-wrap ftco-animate">
 				<div class="cart-total mb-3">
 					<h3>Cart Totals</h3>
-					<p class="d-flex total-price">
+					<p class="d-flex">
 						<span>Total</span>
-						<span id="total-price" data-total-price=""></span>
+						<input id="total-price" type="hidden" value="">
+						<h4 class="total-price"></h4>
 					</p>
 				</div>
 				<p><a href="checkout.html" class="btn btn-primary py-3 px-4">Proceed to Checkout</a></p>
