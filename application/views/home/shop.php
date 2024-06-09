@@ -78,7 +78,11 @@
 @endsection
 
 @section('url')
+<input type="hidden" id="all-cart-item-url" value="<?= base_url('all-cart') ?>">
+<input type="hidden" id="delete-item-cart-url" value="<?= base_url('cart/delete') ?>">
+<input type="hidden" id="update-url" value="<?= base_url('cart/update') ?>">
 @endsection
 
 @section('script')
+<script src="{{ base_url('assets/dist/js/cart/cart.js') }}"></script>
 @endsection

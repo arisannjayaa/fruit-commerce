@@ -58,7 +58,6 @@ class AuthService extends MY_Service{
 	{
 		try {
 			$user = $this->User->create($data);
-			$this->Cart->create(array('user_id' => $user));
 			$this->output->set_status_header(200);
 			echo json_encode(array('message' => "Registrasi berhasil, login ke sistem untuk melanjutkan.", 'redirect' => base_url('login')));
 			return;

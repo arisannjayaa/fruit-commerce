@@ -17,6 +17,7 @@ class CartController extends CI_Controller {
 			redirect(base_url('login'));
 		}
 
+//		dd($this->auth->user());
 		$this->auth->protect(2);
 		return view('home/cart');
     }
@@ -108,69 +109,9 @@ class CartController extends CI_Controller {
 		if (!$this->input->is_ajax_request()) {
 			exit('No direct script access allowed');
 		}
-		$old_attachment = $this->input->post('old_attachment');
 
-		$this->rules();
-
-		if ($this->form_validation->run() == FALSE) {
-			$this->output->set_status_header(400);
-			$errors = $this->form_validation->error_array();
-
-			$errorObj = [];
-			foreach ($errors as $key => $value) {
-				$errorObj[$key] = [[$value]];
-			}
-
-			echo json_encode(array('errors' => $errorObj));
-			return;
-		}
-
-		if ($_FILES['attachment']['name']) {
-			$path = 'uploads/products/';
-
-			if (!is_dir($path)) {
-				mkdir($path, 0777, TRUE);
-			}
-
-			$config['upload_path'] 		= './'.$path;
-			$config['allowed_types'] 	= 'jpg|png';
-			$config['max_filename']	 	= '255';
-			$config['encrypt_name'] 	= TRUE;
-			$config['max_size'] 		= 1024;
-			$this->load->library('upload', $config);
-
-			if (!$this->upload->do_upload("attachment")) {
-				$this->output->set_status_header(400);
-
-				echo json_encode(array('attachment' => "Terjadi error saat upload file"));
-				return;
-			}
-
-			$file_data 	= $this->upload->data();
-			$file_name 	= $path.$file_data['file_name'];
-			$arr_file 	= explode('.', $file_name);
-			$extension 	= end($arr_file);
-
-			if(file_exists('./' . $old_attachment)) {
-				unlink('./'.$old_attachment);
-			}
-		} else {
-			$file_name = $old_attachment;
-		}
-
-		$data = array(
-			'id' => $this->input->post('id'),
-			'title' => $this->input->post('title'),
-			'price' => $this->input->post('price'),
-			'attachment' => $file_name,
-			'description' => $this->input->post('description'),
-			'stock' => $this->input->post('stock'),
-			'slug' => slug($this->input->post('title')),
-			'created_by' => $this->auth->user()->id,
-			'category_id' => $this->input->post('category_id')
-		);
-
-		return $this->productService->update($data);
+		$data = $this->input->post();
+		return $this->cartService->update($data);
 	}
 
 	/**

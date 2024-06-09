@@ -84,6 +84,7 @@ $route['shop/(:any)'] = 'HomeController/detail/$1';
 $route['cart'] = 'CartController/index';
 $route['all-cart'] = 'CartController/all';
 $route['cart/delete'] = 'CartController/delete';
+$route['cart/update'] = 'CartController/update';
 
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

@@ -18,13 +18,8 @@ class Cart extends CI_Model
 
 	public function findByUserId($user_id)
 	{
-		$select = "ci.id,
-				ci.cart_id,
-				ci.product_id,
-				ci.quantity,
-				ci.created_at,
-				ci.updated_at,
-				c.user_id,
+//		dd($user_id);
+		$select = "c.*,
 				p.title,
 				p.attachment,
 				p.slug,
@@ -34,9 +29,8 @@ class Cart extends CI_Model
 
 		$builder = $this->db
 			->select($select)
-			->from('cart_items ci')
-			->join('carts c', 'c.id = ci.cart_id')
-			->join('products p', 'p.id = ci.product_id')
+			->from('carts c')
+			->join('products p', 'p.id = c.product_id')
 			->where('c.user_id', $user_id);
 
 		return $builder->get();
@@ -62,7 +56,7 @@ class Cart extends CI_Model
     public function delete($id)
     {
         $this->db->where('id', $id);
-        return $this->db->delete("cart_items");
+        return $this->db->delete($this->table);
     }
 
 	public function datatable($keyword = null, $start = 0, $length = 0)

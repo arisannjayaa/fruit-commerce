@@ -11,8 +11,11 @@ $("#table").on("click", ".btn-increase", function () {
 	let currentValue = parseInt(inputElement.val());
 	let newValue = currentValue + 1;
 	let maxValue = parseInt(inputElement.prop("max"));
+	let id = $(this).data("id");
+	console.log(id);
 	newValue = newValue <= maxValue ? newValue : maxValue;
 	inputElement.val(newValue);
+	updateQuantity(id, newValue);
 	let priceElement = $(this).closest("tr").find(".price")[0];
 	let totalElement = $(this).closest("tr").find(".total")[0];
 	let InputTotalElement = $(this).closest("tr").find("#total")[0];
@@ -28,9 +31,11 @@ $("#table").on("click", ".btn-decrease", function () {
 	let inputElement = $(this).closest("tr").find("input[type='number']");
 	let currentValue = parseInt(inputElement.val());
 	let newValue = currentValue - 1;
+	let id = $(this).data("id");
+	console.log(id);
 	newValue = newValue < 1 ? 1 : newValue;
 	inputElement.val(newValue);
-
+	updateQuantity(id, newValue);
 	let priceElement = $(this).closest("tr").find(".price")[0];
 	let totalElement = $(this).closest("tr").find(".total")[0];
 	let InputTotalElement = $(this).closest("tr").find("#total")[0];
@@ -69,11 +74,11 @@ function fetchCart() {
 						<td data-price="${item.price}" class="price">${formatRupiah(item.price, "IDR")}</td>
 						<td class="quantity">
 							<div class="d-flex align-items-center justify-content-center" style="gap: 10px">
-								<button class="btn btn-decrease" style="height: 30px !important;">
+								<button data-id="${item.id}" class="btn btn-decrease" style="height: 30px !important;">
 								<i class="ion-ios-remove"></i>
 								</button>
-								<input id="quantity" name="quantity" type="number" style="border: none; outline: none; background-color: transparent; appearance: textfield; text-align: center" min="1" max="${item.stock}" step="1" value="${item.quantity}">
-								<button class="btn btn-increase" style="height: 30px !important;">
+								<input  id="quantity" name="quantity" type="number" style="border: none; outline: none; background-color: transparent; appearance: textfield; text-align: center" min="1" max="${item.stock}" step="1" value="${item.quantity}">
+								<button data-id="${item.id}" class="btn btn-increase" style="height: 30px !important;">
 								<i class="ion-ios-add"></i>
 								</button>
 							</div>
@@ -85,7 +90,27 @@ function fetchCart() {
 		$("tbody").append(html);
 		$(".total-price").html(formatRupiah(totalCount(), "IDR", false));
 		$("#total-price").val(totalCount());
+		fetchTotalCart();
 	});
+}
+
+function fetchTotalCart() {
+	let countCart = 0;
+	ajaxGet(allCartItemUrl).done(function (res) {
+		data = res.data;
+		countCart = data.length;
+		$(".cart-count").html(countCart);
+	});
+
+}
+
+function updateQuantity(idCartItem, quantity) {
+	let url = $("#update-url").val();
+	let formData = new FormData();
+	formData.append('id', idCartItem);
+	formData.append('quantity', quantity);
+	console.log(url);
+	ajaxPost(url, formData);
 }
 
 function ajaxDelCustom(url, id, reload = false, typeNotification = 'snackbarSuccess', table = null, confirmSweetDelete = null) {
