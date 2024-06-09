@@ -18,7 +18,6 @@ class Cart extends CI_Model
 
 	public function findByUserId($user_id)
 	{
-//		dd($user_id);
 		$select = "c.*,
 				p.title,
 				p.attachment,
@@ -58,6 +57,26 @@ class Cart extends CI_Model
         $this->db->where('id', $id);
         return $this->db->delete($this->table);
     }
+
+	public function checkProduct($product_id, $user_id)
+	{
+		$select = "c.*,
+				p.title,
+				p.attachment,
+				p.slug,
+				p.description,
+				p.stock,
+				p.price";
+
+		$builder = $this->db
+			->select($select)
+			->from('carts c')
+			->join('products p', 'p.id = c.product_id')
+			->where('c.user_id', $user_id)
+			->where('c.product_id', $product_id);
+
+		return $builder->get()->row();
+	}
 
 	public function datatable($keyword = null, $start = 0, $length = 0)
 	{

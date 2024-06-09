@@ -1,9 +1,12 @@
 let allCartItemUrl = $("#all-cart-item-url").val();
+let userId = $("#user-id").val();
 fetchCart();
 $("#table").on("click", ".product-remove", function () {
 	let id = $(this).data("id");
 	let url = $("#delete-item-cart-url").val();
 	ajaxDelCustom(url, id, false, "snackbarSuccess");
+	fetchCart();
+	fetchTotalCart();
 });
 
 $("#table").on("click", ".btn-increase", function () {
@@ -45,6 +48,19 @@ $("#table").on("click", ".btn-decrease", function () {
 	InputTotalElement.value = subTotal
 	$(".total-price").html(formatRupiah(totalCount(), "IDR", false));
 	$("#total-price").val(totalCount());
+});
+
+$(".item-product").on('click', '.add-cart', function (){
+	let productId = $(this).data("id");
+	let formData = new FormData();
+	let url = $("#create-url").val()
+	formData.append("product_id", productId)
+	formData.append("user_id", userId)
+	formData.append("quantity", 1);
+	ajaxPost(url, formData).done(function (res) {
+		fetchTotalCart()
+		snackbarSuccess(res.message);
+	});
 });
 
 function totalCount() {
@@ -148,7 +164,7 @@ function ajaxDelCustom(url, id, reload = false, typeNotification = 'snackbarSucc
 						}
 
 						if (typeNotification == 'snackbarSuccess') {
-							sweetSuccess(res.message);
+							snackbarSuccess(res.message);
 							fetchCart();
 						}
 

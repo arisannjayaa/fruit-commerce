@@ -43,8 +43,7 @@ class Migration_Product extends CI_Migration
 				'constraint'        => '255'
 			],
 			'description' => [
-				'type'              => 'VARCHAR',
-				'constraint'        => '255',
+				'type'              => 'LONGTEXT',
 				'null'				=> true
 			],
 			'stock' => [
