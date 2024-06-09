@@ -39,12 +39,12 @@
 			@if(count($products) > 0)
 				@foreach($products as $product)
 			<div class="col-md-6 col-lg-3 ftco-animate">
-				<div class="product">
-					<a href="javascript:void()" class="img-prod"><img class="img-product" src="<?= base_url($product->attachment) ?>" alt="Colorlib Template">
+				<div class="product item-product">
+					<a href="javascript:void(0)" class="img-prod"><img class="img-product" src="<?= base_url($product->attachment) ?>" alt="Colorlib Template">
 						<div class="overlay"></div>
 					</a>
 					<div class="text py-3 pb-4 px-3 text-center">
-						<h3><a href="#">{{ $product->title }}</a></h3>
+						<h3><a href="javascript:void(0)">{{ $product->title }}</a></h3>
 						<div class="d-flex">
 							<div class="pricing">
 								<p class="price"><span>{{ formatToRupiah($product->price) }}</span></p>
@@ -55,7 +55,7 @@
 								<a href="<?= base_url('shop/' . $product->slug) ?>" class="add-to-cart d-flex justify-content-center align-items-center text-center">
 									<span><i class="ion-ios-menu"></i></span>
 								</a>
-								<a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1 add-cart">
+								<a href="javascript:void(0)" data-id="{{ $product->id }}" class="buy-now d-flex justify-content-center align-items-center mx-1 add-cart">
 									<span><i class="ion-ios-cart"></i></span>
 								</a>
 							</div>
@@ -78,7 +78,14 @@
 @endsection
 
 @section('url')
+<input type="hidden" id="all-cart-item-url" value="<?= base_url('all-cart') ?>">
+<input type="hidden" id="delete-item-cart-url" value="<?= base_url('cart/delete') ?>">
+<input type="hidden" id="update-url" value="<?= base_url('cart/update') ?>">
+<input type="hidden" id="create-url" value="<?= base_url('cart/create') ?>">
 @endsection
 
 @section('script')
+@if($this->auth->user())
+<script src="{{ base_url('assets/dist/js/cart/cart.js') }}"></script>
+@endif
 @endsection

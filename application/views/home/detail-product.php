@@ -30,7 +30,7 @@
 			<div class="col-lg-6 mb-5 ftco-animate">
 				<a href="images/product-1.jpg" class="image-popup"><img class="img-product" src="{{ base_url($product->attachment) }}" class="img-fluid" alt="Colorlib Template"></a>
 			</div>
-			<div class="col-lg-6 product-details pl-md-5 ftco-animate">
+			<div class="col-lg-6 product-details pl-md-5 ftco-animate item-product">
 				<h3>{{ $product->title }}</h3>
 				<div class="rating d-flex">
 					<p class="text-left">
@@ -41,7 +41,7 @@
 				<p>
 					{{ $product->description }}
 				</p>
-				<p><a href="javascript:void()" class="btn btn-black py-3 px-5 add-cart">Add to Cart</a></p>
+				<p><a href="javascript:void(0)" class="btn btn-black py-3 px-5 add-cart" data-id="{{ $product->id }}">Add to Cart</a></p>
 			</div>
 		</div>
 	</div>
@@ -49,7 +49,14 @@
 @endsection
 
 @section('url')
+<input type="hidden" id="all-cart-item-url" value="<?= base_url('all-cart') ?>">
+<input type="hidden" id="delete-item-cart-url" value="<?= base_url('cart/delete') ?>">
+<input type="hidden" id="update-url" value="<?= base_url('cart/update') ?>">
+<input type="hidden" id="create-url" value="<?= base_url('cart/create') ?>">
 @endsection
 
 @section('script')
+@if($this->auth->user())
+<script src="{{ base_url('assets/dist/js/cart/cart.js') }}"></script>
+@endif
 @endsection

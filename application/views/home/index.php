@@ -135,7 +135,7 @@
 		<div class="row">
 			@foreach($products as $product)
 				<div class="col-md-6 col-lg-3 ftco-animate">
-				<div class="product">
+				<div class="product item-product">
 					<a href="#" class="img-prod"><img class="img-fluid" src="<?= base_url('assets/home/') ?>images/product-1.jpg" alt="Colorlib Template">
 						<span class="status">30%</span>
 						<div class="overlay"></div>
@@ -152,7 +152,7 @@
 								<a href="<?= base_url('shop/' . $product->slug) ?>" class="add-to-cart d-flex justify-content-center align-items-center text-center">
 									<span><i class="ion-ios-menu"></i></span>
 								</a>
-								<a href="javascript:void(0)" class="buy-now d-flex justify-content-center align-items-center mx-1 add-cart">
+								<a href="javascript:void(0)" data-id="{{ $product->id }}" class="buy-now d-flex justify-content-center align-items-center mx-1 add-cart">
 									<span><i class="ion-ios-cart"></i></span>
 								</a>
 							</div>
@@ -318,8 +318,15 @@
 @endsection
 
 @section('url')
+<input type="hidden" id="all-cart-item-url" value="<?= base_url('all-cart') ?>">
+<input type="hidden" id="delete-item-cart-url" value="<?= base_url('cart/delete') ?>">
+<input type="hidden" id="update-url" value="<?= base_url('cart/update') ?>">
+<input type="hidden" id="create-url" value="<?= base_url('cart/create') ?>">
 @endsection
 
 @section('script')
+@if($this->auth->user())
+<script src="{{ base_url('assets/dist/js/cart/cart.js') }}"></script>
+@endif
 @endsection
 

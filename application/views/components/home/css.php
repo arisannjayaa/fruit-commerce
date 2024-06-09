@@ -16,3 +16,4 @@
 <link rel="stylesheet" href="<?= base_url('assets/home/') ?>css/flaticon.css">
 <link rel="stylesheet" href="<?= base_url('assets/home/') ?>css/icomoon.css">
 <link rel="stylesheet" href="<?= base_url('assets/home/') ?>css/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/yaza-putu/helpers@V2.0.4/libs/libs-core.min.css">

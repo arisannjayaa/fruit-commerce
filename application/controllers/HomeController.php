@@ -13,10 +13,10 @@ class HomeController extends CI_Controller {
 
     public function index()
     {
-	$data['categories'] = $this->Category->limit(4);
-	$data['products'] = $this->Product->limit(10);
+		$data['categories'] = $this->Category->limit(4);
+		$data['products'] = $this->Product->limit(10);
 
-	return view('home/index', $data);
+		return view('home/index', $data);
     }
 
 	public function shop()
