@@ -3,7 +3,7 @@ fetchCart();
 $("#table").on("click", ".product-remove", function () {
 	let id = $(this).data("id");
 	let url = $("#delete-item-cart-url").val();
-	ajaxDelCustom(url, id);
+	ajaxDelCustom(url, id, false, "snackbarSuccess");
 });
 
 $("#table").on("click", ".btn-increase", function () {
@@ -88,7 +88,7 @@ function fetchCart() {
 	});
 }
 
-function ajaxDelCustom(url, id,reload = false,typeNotification = 'snackbarSuccess', table = null, confirmSweetDelete = null) {
+function ajaxDelCustom(url, id, reload = false, typeNotification = 'snackbarSuccess', table = null, confirmSweetDelete = null) {
 	const title = confirmSweetDelete == null ? confirmSweetDeleteDefault.title : confirmSweetDelete.title;
 	const body = confirmSweetDelete == null ? confirmSweetDeleteDefault.body : confirmSweetDelete.body;
 	const buttonLabel = confirmSweetDelete == null ? confirmSweetDeleteDefault.buttonLabel : confirmSweetDelete.buttonLabel;
@@ -123,8 +123,8 @@ function ajaxDelCustom(url, id,reload = false,typeNotification = 'snackbarSucces
 						}
 
 						if (typeNotification == 'snackbarSuccess') {
+							sweetSuccess(res.message);
 							fetchCart();
-							snackbarSuccess(res.message);
 						}
 
 						if(table !== null)
