@@ -87,5 +87,8 @@ $route['cart/delete'] = 'CartController/delete';
 $route['cart/update'] = 'CartController/update';
 $route['cart/create'] = 'CartController/store';
 
+
+//midtrans
+$route['snap'] = 'Snap/index';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

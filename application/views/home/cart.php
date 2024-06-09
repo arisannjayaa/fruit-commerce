@@ -3,6 +3,9 @@
 @section('title', 'Cart')
 
 @section('style')
+<script type="text/javascript"
+		src="https://app.sandbox.midtrans.com/snap/snap.js"
+		data-client-key="SB-Mid-client-S09glAfzatzn3woa"></script>
 <style>
 	.img-product {
 		height: 500px;
@@ -40,6 +43,11 @@
 </div>
 
 <section class="ftco-section ftco-cart">
+	<form class="d-none" id="payment-form" method="post" action="<?=base_url('snap/finish')?>">
+		<input type="hidden" name="result_type" id="result-type" value=""></div>
+		<input type="hidden" name="result_data" id="result-data" value=""></div>
+		<input type="hidden" name="body" id="body" value=""></div>
+	</form>
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12 ftco-animate">
@@ -64,14 +72,14 @@
 		<div class="row justify-content-end">
 			<div class="col-lg-4 mt-5 cart-wrap ftco-animate">
 				<div class="cart-total mb-3">
-					<h3>Cart Totals</h3>
+					<h3>Ringkasan Belanja</h3>
 					<p class="d-flex">
 						<span>Total</span>
 						<input id="total-price" type="hidden" value="">
 						<h4 class="total-price"></h4>
 					</p>
 				</div>
-				<p><a href="checkout.html" class="btn btn-primary py-3 px-4">Proceed to Checkout</a></p>
+				<p><button id="pay-button" class="btn btn-primary py-3 px-4 checkout">Bayar</button></p>
 			</div>
 		</div>
 	</div>

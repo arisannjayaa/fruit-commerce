@@ -13,3 +13,12 @@ function formatToRupiah($amount) {
 	$formatted_amount = number_format($amount, 0, ',', '.');
 	return "Rp. " . $formatted_amount;
 }
+
+function genInvoice ($limit = 11) {
+	return 'HR'.date('y').'-'.strtoupper(substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, $limit));
+}
+
+function uid($limit = 9)
+{
+	return substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, $limit);
+}
