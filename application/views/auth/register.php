@@ -1,89 +1,87 @@
-<div class="main-wrapper">
-	<!-- ============================================================== -->
-	<!-- Preloader - style you can find in spinners.css -->
-	<!-- ============================================================== -->
-	<div class="preloader">
-		<div class="lds-ripple">
-			<div class="lds-pos"></div>
-			<div class="lds-pos"></div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Login</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Amatic+SC:400,700&display=swap" rel="stylesheet">
+	@include('components/home/css')
+	<!-- Helpers -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/yaza-putu/helpers@V2.0.4/libs/libs-core.min.css">
+</head>
+<body class="goto-here">
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-6 col-12 p-0 d-none d-lg-block">
+			<div style="background-image: url(<?= base_url('assets/home/images/about.jpg') ?>); height: 100%; width: 100%; background-size: cover; background-position: center center">
+			</div>
 		</div>
-	</div>
-	<!-- ============================================================== -->
-	<!-- Preloader - style you can find in spinners.css -->
-	<!-- ============================================================== -->
-	<!-- ============================================================== -->
-	<!-- Login box.scss -->
-	<!-- ============================================================== -->
-	<div class="auth-wrapper d-flex no-block justify-content-center align-items-center bg-dark">
-		<div class="auth-box bg-dark border-top border-secondary">
-			<div>
-				<div class="text-center p-t-20 p-b-20">
-					<span class="db"><img src="<?= base_url('') ?>assets/images/logo.png" alt="logo" /></span>
+		<div class="col-lg-6 col-12">
+			<div style="padding: 20px">
+				<button onclick="location.href='<?= base_url('') ?>'" class="btn btn-primary"><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-left"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M5 12l6 6" /><path d="M5 12l6 -6" /></svg></button>
+				<div class="form-wrap mt-3">
+					<h4>Register</h4>
+					<p>Selamat Datang di Portal Bu Jem Jem's Stall. Isi Detail Register Anda dan Mari Mulai Petualangan!</p>
+					<form id="form-register">
+						<div class="row">
+							<div class="col-lg-6">
+								<div class="mb-3">
+									<label for="first_name">Nama Depan</label>
+									<input type="text" class="form-control" name="first_name" id="first-name">
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="mb-3">
+									<label for="last_name">Nama Belakang</label>
+									<input type="text" class="form-control" name="last_name" id="last-name">
+								</div>
+							</div>
+							<div class="col-12">
+								<div class="mb-3">
+									<label for="email">Email</label>
+									<input type="email" class="form-control" name="email" id="email">
+								</div>
+							</div>
+							<div class="col-12">
+								<div class="mb-3">
+									<label for="username">Username</label>
+									<input type="text" class="form-control" name="username" id="username">
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="mb-3">
+									<label for="password">Password</label>
+									<input type="password" class="form-control" name="password" id="password">
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="mb-3">
+									<label for="confirm_password">Konfirmasi Password</label>
+									<input type="password" class="form-control" name="confirm_password" id="confirm_password">
+								</div>
+							</div>
+							<div class="col-12">
+								<div class="mb-3">
+									<div class="w-100">
+										<button type="submit" id="btn-register" class="btn btn-primary w-100">Register</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+					<div class="text-center">
+						<p>Sudah memiliki akun? <a href="<?= base_url('login') ?>">Login</a></p>
+					</div>
 				</div>
-				<!-- Form -->
-				<form class="form-horizontal m-t-20" action="<?= base_url('register') ?>" method="post">
-					<div class="row p-b-30">
-						<div class="col-12">
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text bg-success text-white" id="basic-addon1"><i class="ti-user"></i></span>
-								</div>
-								<input type="text" id="name" name="name" value="<?= set_value('name'); ?>" class="form-control form-control-lg" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" required>
-							</div>
-							<!-- email -->
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text bg-danger text-white" id="basic-addon1"><i class="ti-email"></i></span>
-								</div>
-								<input type="text" id="email" name="email" value="<?= set_value('email'); ?>" class=" form-control form-control-lg" placeholder="Email Address" aria-label="Username" aria-describedby="basic-addon1" required>
-							</div>
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text bg-warning text-white" id="basic-addon2"><i class="ti-pencil"></i></span>
-								</div>
-								<input type="password" id="password1" name="password1" class="form-control form-control-lg" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" required>
-							</div>
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text bg-info text-white" id="basic-addon2"><i class="ti-pencil"></i></span>
-								</div>
-								<input type="password" id="password2" name="password2" class="form-control form-control-lg" placeholder=" Confirm Password" aria-label="Password" aria-describedby="basic-addon1" required>
-							</div>
-
-						</div>
-					</div>
-					<div class="row border-top border-secondary">
-						<div class="col-12">
-							<div class="form-group">
-								<div class="p-t-20">
-									<button class="btn btn-block btn-lg btn-info" type="submit">Sign Up</button>
-									<a class="btn btn-block btn-lg btn-success" href="<?= base_url('') ?>">Already have an account? Login!</a>
-								</div>
-
-							</div>
-						</div>
-					</div>
-
-				</form>
 			</div>
 		</div>
 	</div>
-	<!-- ============================================================== -->
-	<!-- Login box.scss -->
-	<!-- ============================================================== -->
-	<!-- ============================================================== -->
-	<!-- Page wrapper scss in scafholding.scss -->
-	<!-- ============================================================== -->
-	<!-- ============================================================== -->
-	<!-- Page wrapper scss in scafholding.scss -->
-	<!-- ============================================================== -->
-	<!-- ============================================================== -->
-	<!-- Right Sidebar -->
-	<!-- ============================================================== -->
-	<!-- ============================================================== -->
-	<!-- Right Sidebar -->
-	<!-- ============================================================== -->
 </div>
-<!-- ============================================================== -->
-<!-- All Required js -->
-<!-- ============================================================== -->
+<input type="hidden" id="register-url" value="<?= base_url('register') ?>">
+@include('components/script')
+<script src="<?= base_url('assets/') ?>dist/js/register.js" defer></script>
+</body>
+</html>

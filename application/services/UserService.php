@@ -29,16 +29,18 @@ class UserService extends MY_Service{
 						echo json_encode(array('message' => "Autentikasi berhasil diterima", 'redirect' => base_url('dashboard')));
 						return;
 					} else {
-						redirect(base_url(''));
+						$this->output->set_status_header(200);
+						echo json_encode(array('message' => "Autentikasi berhasil diterima", 'redirect' => base_url('')));
+						return;
 					}
 				} else {
 					$this->output->set_status_header(400);
-					echo json_encode(array('message' => "Incorrect password!"));
+					echo json_encode(array('message' => "Email atau password salah!"));
 					return;
 				}
 			} else {
 				$this->output->set_status_header(400);
-				echo json_encode(array('message' => "Email not registered!"));
+				echo json_encode(array('message' => "Email belum terdaftar!"));
 				return;
 			}
 		} catch (Exception $exception) {
