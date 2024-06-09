@@ -1,63 +1,60 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-	<title>Login</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-	<link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800&display=swap" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i&display=swap" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Amatic+SC:400,700&display=swap" rel="stylesheet">
-	@include('components/home/css')
-	<!-- Helpers -->
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/yaza-putu/helpers@V2.0.4/libs/libs-core.min.css">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>Login</title>
+	@include('components/css')
 </head>
-<body class="goto-here">
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-lg-8 col-12 p-0 d-none d-lg-block">
-			<div style="background-image: url(<?= base_url('assets/home/images/about.jpg') ?>); height: 100vh; width: 100%; background-size: cover;">
+
+<body class=" d-flex flex-column">
+	<script src="<?= base_url('assets/') ?>dist/js/demo-theme.min.js?1684106062"></script>
+	<div class="page page-center">
+		<div class="container container-tight py-4">
+			<div class="text-center mb-4">
+				<a href="." class="navbar-brand navbar-brand-autodark"><img
+						src="<?= base_url('assets/') ?>static/logo.svg" height="36" alt=""></a>
 			</div>
-		</div>
-		<div class="col-lg-4 col-12">
-			<div style="padding: 20px">
-				<button onclick="location.href='<?= base_url('') ?>'" class="btn btn-primary"><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-left"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M5 12l6 6" /><path d="M5 12l6 -6" /></svg></button>
-				<div class="form-wrap mt-3">
-					<h4>Login</h4>
-					<p>Selamat Datang di Portal Bu Jem Jem's Stall. Isi Detail Login Anda dan Mari Mulai Petualangan!</p>
+			<div class="card card-md">
+				<div class="card-body">
+					<h2 class="h2 text-center mb-4">Login to your account</h2>
 					<form id="form-login">
-						<div class="row">
-							<div class="col-12">
-								<div class="mb-3">
-									<label for="email">Email</label>
-									<input type="email" class="form-control" name="email" id="email">
-								</div>
-							</div>
-							<div class="col-12">
-								<div class="mb-3">
-									<label for="password">Password</label>
-									<input type="password" class="form-control" name="password" id="password">
-								</div>
-							</div>
-							<div class="col-12">
-								<div class="mb-3">
-									<div class="w-100">
-										<button type="submit" id="btn-login" class="btn btn-primary w-100">Login</button>
-									</div>
-								</div>
-							</div>
+						<div class="mb-3">
+							<label class="form-label">Email address</label>
+							<input type="email" class="form-control" placeholder="your@email.com" autocomplete="off"
+								name="email">
+						</div>
+						<div class="mb-3">
+							<label class="form-label">Password</label>
+							<input type="password" class="form-control" placeholder="your@email.com" autocomplete="off"
+								name="password">
+						</div>
+<!--						<div class="mb-2">-->
+<!--							<label class="form-check">-->
+<!--								<input type="checkbox" class="form-check-input" />-->
+<!--								<span class="form-check-label">Remember me on this device</span>-->
+<!--							</label>-->
+<!--						</div>-->
+						<div class="form-footer">
+							<button id="btn-login" type="submit" class="btn btn-primary w-100">Sign in</button>
 						</div>
 					</form>
-					<div class="text-center">
-						<p>Belum memiliki akun? <a href="<?= base_url('register') ?>">Buat akun</a></p>
-					</div>
 				</div>
+			</div>
+			<div class="text-center text-muted mt-3">
+				Don't have account yet? <a href="<?= base_url('assets/') ?>sign-up.html" tabindex="-1">Sign up</a>
 			</div>
 		</div>
 	</div>
-</div>
-<input type="hidden" id="login-url" value="<?= base_url('login') ?>">
-<script src="<?= base_url('assets/') ?>dist/js/login.js" defer></script>
-@include('components/script')
+	<!-- Libs JS -->
+	<!-- Tabler Core -->
+	<input type="hidden" id="login-url" value="<?= base_url('login') ?>">
+	@include('components/script')
+	<script src="<?= base_url('assets/') ?>dist/js/login.js" defer></script>
+	<script src="<?= base_url('assets/') ?>dist/js/tabler.min.js?1684106062" defer></script>
+	<script src="<?= base_url('assets/') ?>dist/js/demo.min.js?1684106062" defer></script>
 </body>
+
 </html>

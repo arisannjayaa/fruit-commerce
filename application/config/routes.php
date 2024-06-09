@@ -50,10 +50,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 $route['login']['GET'] = 'Auth/LoginController/index';
-$route['register']['GET'] = 'Auth/RegisterController/index';
 $route['dashboard']['GET'] = 'DashboardController/index';
 $route['login']['POST'] = 'Auth/LoginController/login';
-$route['register']['POST'] = 'Auth/RegisterController/register';
 $route['migrate'] = 'MigrationController/index';
 $route['logout']['GET'] = 'Auth/LoginController/logout';
 $route['user']['GET'] = 'UserController/index';
@@ -62,30 +60,5 @@ $route['user/update'] = 'UserController/update';
 $route['user/delete'] = 'UserController/delete';
 $route['user/edit/(:any)'] = 'UserController/edit/$1';
 $route['user/table']['GET'] = 'UserController/table';
-$route['category']['GET'] = 'CategoryController/index';
-$route['category/store'] = 'CategoryController/store';
-$route['category/update'] = 'CategoryController/update';
-$route['category/delete'] = 'CategoryController/delete';
-$route['category/edit/(:any)'] = 'CategoryController/edit/$1';
-$route['category/table']['GET'] = 'CategoryController/table';
-$route['product']['GET'] = 'ProductController/index';
-$route['product/store'] = 'ProductController/store';
-$route['product/update'] = 'ProductController/update';
-$route['product/delete'] = 'ProductController/delete';
-$route['product/edit/(:any)'] = 'ProductController/edit/$1';
-$route['product/table']['GET'] = 'ProductController/table';
-
-//home
-$route['default_controller'] = 'HomeController/index';
-$route['shop'] = 'HomeController/shop';
-$route['shop/(:any)'] = 'HomeController/detail/$1';
-
-//cart
-$route['cart'] = 'CartController/index';
-$route['all-cart'] = 'CartController/all';
-$route['cart/delete'] = 'CartController/delete';
-$route['cart/update'] = 'CartController/update';
-$route['cart/create'] = 'CartController/store';
-
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

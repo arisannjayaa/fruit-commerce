@@ -35,12 +35,6 @@ class Migration_Roles extends CI_Migration
 			'created_at' => date('Y-m-d H:i:s'),
 			'updated_at' => date('Y-m-d H:i:s'),
         ]);
-
-		$this->db->insert($this->tableName, [
-			'role'   => 'member',
-			'created_at' => date('Y-m-d H:i:s'),
-			'updated_at' => date('Y-m-d H:i:s'),
-		]);
         
         //Inserting two rows
         // $data = [

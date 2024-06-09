@@ -15,23 +15,6 @@ class Migration_Users extends CI_Migration
                 'unsigned'          => TRUE,
                 'auto_increment'    => TRUE
             ],
-			'attachment' => [
-				'type'              => 'VARCHAR',
-				'constraint'        => '255'
-			],
-			'first_name' => [
-				'type'              => 'VARCHAR',
-				'constraint'        => '255'
-			],
-			'last_name' => [
-				'type'              => 'VARCHAR',
-				'constraint'        => '255',
-				'null'				=> true
-			],
-			'telephone' => [
-				'type'              => 'VARCHAR',
-				'constraint'        => '255'
-			],
             'username' => [
                 'type'              => 'VARCHAR',
                 'constraint'        => '255'
@@ -62,30 +45,13 @@ class Migration_Users extends CI_Migration
         // Buat tabel users
         $this->dbforge->create_table($this->tableName);
 		$this->db->insert($this->tableName, [
-            'attachment'   => 'uploads/profile/default.jpg',
-            'first_name'   => 'Admin',
-            'last_name'   => null,
             'username'   => 'admin',
-			'telephone' => '081778899221',
 			'password'   => password_hash('Password1', PASSWORD_BCRYPT),
 			'role_id'    => 1,
 			'email'      => 'admin@mail.com',
 			'created_at' => date('Y-m-d H:i:s'),
 			'updated_at' => date('Y-m-d H:i:s'),
         ]);
-
-		$this->db->insert($this->tableName, [
-			'attachment'   => 'uploads/profile/default.jpg',
-			'first_name'   => 'Member',
-			'last_name'   => null,
-			'username'   => 'member',
-			'telephone' => '081778899241',
-			'password'   => password_hash('Password1', PASSWORD_BCRYPT),
-			'role_id'    => 2,
-			'email'      => 'member@mail.com',
-			'created_at' => date('Y-m-d H:i:s'),
-			'updated_at' => date('Y-m-d H:i:s'),
-		]);
     }
 
     public function down()

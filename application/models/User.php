@@ -24,8 +24,7 @@ class User extends CI_Model
 
     public function create($data)
     {
-        $this->db->insert($this->table, $data);
-		return $this->db->insert_id();
+        return $this->db->insert($this->table, $data);
     }
 
     public function update($id, $data)
