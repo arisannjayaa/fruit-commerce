@@ -1,6 +1,7 @@
 let allCartItemUrl = $("#all-cart-item-url").val();
 let userId = $("#user-id").val();
 fetchCart();
+
 $("#table").on("click", ".product-remove", function () {
 	let id = $(this).data("id");
 	let url = $("#delete-item-cart-url").val();
@@ -104,6 +105,7 @@ function fetchCart() {
 						</tr>`;
 		});
 		$("tbody").append(html);
+		$("#body").val(JSON.stringify(res.data));
 		$(".total-price").html(formatRupiah(totalCount(), "IDR", false));
 		$("#total-price").val(totalCount());
 		fetchTotalCart();
