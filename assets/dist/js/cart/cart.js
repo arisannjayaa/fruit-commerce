@@ -2,57 +2,6 @@ let allCartItemUrl = $("#all-cart-item-url").val();
 let userId = $("#user-id").val();
 fetchCart();
 
-$('#pay-button').click(function (event) {
-	event.preventDefault();
-	$.ajax({
-		type: 'POST',
-		data: {
-			result_data : $("#result-data").val(),
-			result_type : $("#result-type").val(),
-			body : $("#body").val(),
-			gross_amount: $("#total-price").val(),
-		},
-		url: BASE_URL + 'snap/token',
-		cache: false,
-
-		success: function(data) {
-			//location = data;
-
-			console.log('token = '+data);
-
-			var resultType = document.getElementById('result-type');
-			var resultData = document.getElementById('result-data');
-
-			function changeResult(type,data){
-				$("#result-type").val(type);
-				$("#result-data").val(JSON.stringify(data));
-				//resultType.innerHTML = type;
-				//resultData.innerHTML = JSON.stringify(data);
-			}
-
-			snap.pay(data, {
-
-				onSuccess: function(result){
-					changeResult('success', result);
-					console.log(result.status_message);
-					console.log(result);
-					$("#payment-form").submit();
-				},
-				onPending: function(result){
-					changeResult('pending', result);
-					console.log(result.status_message);
-					$("#payment-form").submit();
-				},
-				onError: function(result){
-					changeResult('error', result);
-					console.log(result.status_message);
-					$("#payment-form").submit();
-				}
-			});
-		}
-	});
-});
-
 $("#table").on("click", ".product-remove", function () {
 	let id = $(this).data("id");
 	let url = $("#delete-item-cart-url").val();
@@ -80,7 +29,6 @@ $("#table").on("click", ".btn-increase", function () {
 	InputTotalElement.value = subTotal
 	$(".total-price").html(formatRupiah(totalCount(), "IDR", false));
 	$("#total-price").val(totalCount());
-	fetchCart();
 });
 
 $("#table").on("click", ".btn-decrease", function () {
@@ -101,7 +49,6 @@ $("#table").on("click", ".btn-decrease", function () {
 	InputTotalElement.value = subTotal
 	$(".total-price").html(formatRupiah(totalCount(), "IDR", false));
 	$("#total-price").val(totalCount());
-	fetchCart();
 });
 
 $(".item-product").on('click', '.add-cart', function (){

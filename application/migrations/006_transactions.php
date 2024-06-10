@@ -36,28 +36,29 @@ class Migration_Transactions extends CI_Migration
 			],
 			'status_code' => [
 				'type'              => 'VARCHAR',
-				'constraint'        => '255'
+				'constraint'        => '255',
+				'null'				=> true
 			],
 			'payment_type' => [
 				'type' 				=> 'VARCHAR',
-				'constraint'        => '255'
+				'constraint'        => '255',
+				'null'				=> true
 			],
 			'bank' => [
 				'type' 				=> 'VARCHAR',
 				'constraint'        => '255',
+				'null'				=> true
 			],
 			'va_number' => [
 				'type' 				=> 'VARCHAR',
 				'constraint'        => '255',
+				'null'				=> true
 			],
 			'pdf_url' => [
 				'type' 				=> 'VARCHAR',
 				'constraint'        => '255',
+				'null'				=> true
 			],
-			'finish_redirect_url' => [
-				'type' 				=> 'VARCHAR',
-				'constraint'        => '255',
-			]
         ]);
 
         $this->dbforge->add_key('id', TRUE);

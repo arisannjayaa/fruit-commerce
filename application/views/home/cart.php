@@ -43,10 +43,11 @@
 </div>
 
 <section class="ftco-section ftco-cart">
-	<form class="d-none" id="payment-form" method="post" action="<?=base_url('snap/finish')?>">
+	<form class="d-none" id="payment-form">
 		<input type="hidden" name="result_type" id="result-type" value=""></div>
 		<input type="hidden" name="result_data" id="result-data" value=""></div>
 		<input type="hidden" name="body" id="body" value=""></div>
+		<input type="hidden" name="invoice" id="invoice" value="<?= genInvoice() ?>"></div>
 	</form>
 	<div class="container">
 		<div class="row">
@@ -90,8 +91,11 @@
 	<input type="hidden" id="all-cart-item-url" value="<?= base_url('all-cart') ?>">
 	<input type="hidden" id="delete-item-cart-url" value="<?= base_url('cart/delete') ?>">
 	<input type="hidden" id="update-url" value="<?= base_url('cart/update') ?>">
+	<input type="hidden" id="snap-token-url" value="<?= base_url('snap/token') ?>">
+	<input type="hidden" id="snap-finish-url" value="<?= base_url('snap/finish') ?>">
 @endsection
 
 @section('script')
 <script src="{{ base_url('assets/dist/js/cart/cart.js') }}"></script>
+<script src="{{ base_url('assets/dist/js/cart/checkout.js') }}"></script>
 @endsection

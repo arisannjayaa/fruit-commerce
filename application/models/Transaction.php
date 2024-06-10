@@ -1,9 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Cart extends CI_Model
+class Transaction extends CI_Model
 {
-	protected $table = 'carts';
+	protected $table = 'transactions';
 	public function __construct()
     {
         parent::__construct();
@@ -57,13 +57,6 @@ class Cart extends CI_Model
         $this->db->where('id', $id);
         return $this->db->delete($this->table);
     }
-
-	public function deleteByUserProduct($user_id, $product_id)
-	{
-		$this->db->where('user_id', $user_id);
-		$this->db->where('product_id', $product_id);
-		return $this->db->delete($this->table);
-	}
 
 	public function checkProduct($product_id, $user_id)
 	{

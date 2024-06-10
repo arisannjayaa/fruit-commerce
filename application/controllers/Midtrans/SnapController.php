@@ -1,24 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Snap extends CI_Controller {
-
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -  
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in 
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see http://codeigniter.com/user_guide/general/urls.html
-	 */
-
-
+class SnapController extends CI_Controller {
 	public function __construct()
     {
         parent::__construct();
@@ -27,6 +9,7 @@ class Snap extends CI_Controller {
 		$this->midtrans->config($params);
 		$this->load->helper('url');
 		$this->load->helper('custom');
+		$this->load->service('TransactionService', 'transactionService');
     }
 
     public function index()
@@ -36,6 +19,10 @@ class Snap extends CI_Controller {
 
     public function token()
     {
+		if (!$this->input->is_ajax_request()) {
+			exit('No direct script access allowed');
+		}
+
 		$data = json_decode($this->input->post('body'));
 		$arrProduct = [];
 		foreach ($data as $item) {
@@ -48,7 +35,6 @@ class Snap extends CI_Controller {
 		  'gross_amount' => $this->input->post('gross_amount'), // no decimal allowed for creditcard
 		);
 
-		// Optional
 		$item_details = $arrProduct;
 
 		// Optional
@@ -109,9 +95,25 @@ class Snap extends CI_Controller {
 
     public function finish()
     {
+		if (!$this->input->is_ajax_request()) {
+			exit('No direct script access allowed');
+		}
+
     	$result = json_decode($this->input->post('result_data'));
-    	echo 'RESULT <br><pre>';
-    	var_dump($result);
-    	echo '</pre>' ;
+
+		$data = array(
+			'user_id' => $this->auth->user()->id,
+			'order_id' => $result->order_id,
+			'products' => $this->input->post('body'),
+			'gross_amount' => $result->gross_amount,
+			'status_code' => $result->status_code,
+			'payment_type' => $result->payment_type,
+			'bank' => $result->va_numbers[0]->bank ?? null,
+			'va_number' => $result->va_number ?? null,
+			'pdf_url' => $result->pdf_url ?? null,
+			'transaction_time' => date('Y-m-d H:i:s')
+		);
+
+		$this->transactionService->create($data, $result);
     }
 }

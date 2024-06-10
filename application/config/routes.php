@@ -89,6 +89,10 @@ $route['cart/create'] = 'CartController/store';
 
 
 //midtrans
-$route['snap'] = 'Snap/index';
+$route['snap'] = 'Midtrans/SnapController/index';
+$route['snap/token'] = 'Midtrans/SnapController/token';
+$route['snap/finish'] = 'Midtrans/SnapController/finish';
+$route['notification'] = 'Midtrans/Notification/index';
+
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
