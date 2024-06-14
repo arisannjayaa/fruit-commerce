@@ -2,50 +2,44 @@ let allCartItemUrl = $("#all-cart-item-url").val();
 let userId = $("#user-id").val();
 fetchCart();
 
-$("#table").on("click", ".product-remove", function () {
+$(document).on('click', '.product-remove', function () {
 	let id = $(this).data("id");
 	let url = $("#delete-item-cart-url").val();
 	ajaxDelCustom(url, id, false, "snackbarSuccess");
-	fetchCart();
-	fetchTotalCart();
 });
 
-$("#table").on("click", ".btn-increase", function () {
-	let inputElement = $(this).closest("tr").find("input[type='number']");
+$(document).on("click", ".btn-increase", function () {
+	let inputElement = $(this).closest("#product").find("input[type='number']");
 	let currentValue = parseInt(inputElement.val());
 	let newValue = currentValue + 1;
 	let maxValue = parseInt(inputElement.prop("max"));
 	let id = $(this).data("id");
-	console.log(id);
 	newValue = newValue <= maxValue ? newValue : maxValue;
 	inputElement.val(newValue);
 	updateQuantity(id, newValue);
-	let priceElement = $(this).closest("tr").find(".price")[0];
-	let totalElement = $(this).closest("tr").find(".total")[0];
-	let InputTotalElement = $(this).closest("tr").find("#total")[0];
+	let priceElement = $(this).closest("#product").find(".price")[0];
+	let InputTotalElement = $(this).closest("#product").find("#total")[0];
 	let priceTotal = priceElement.getAttribute("data-price");
 	let subTotal = newValue * parseInt(priceTotal);
-	totalElement.innerHTML = formatRupiah(subTotal, "IDR", false);
 	InputTotalElement.value = subTotal
 	$(".total-price").html(formatRupiah(totalCount(), "IDR", false));
 	$("#total-price").val(totalCount());
 });
 
-$("#table").on("click", ".btn-decrease", function () {
-	let inputElement = $(this).closest("tr").find("input[type='number']");
+
+
+$(document).on("click", ".btn-decrease", function () {
+	let inputElement = $(this).closest("#product").find("input[type='number']");
 	let currentValue = parseInt(inputElement.val());
 	let newValue = currentValue - 1;
 	let id = $(this).data("id");
-	console.log(id);
 	newValue = newValue < 1 ? 1 : newValue;
 	inputElement.val(newValue);
 	updateQuantity(id, newValue);
-	let priceElement = $(this).closest("tr").find(".price")[0];
-	let totalElement = $(this).closest("tr").find(".total")[0];
-	let InputTotalElement = $(this).closest("tr").find("#total")[0];
+	let priceElement = $(this).closest("#product").find(".price")[0];
+	let InputTotalElement = $(this).closest("#product").find("#total")[0];
 	let priceTotal = priceElement.getAttribute("data-price");
 	let subTotal = newValue * parseInt(priceTotal);
-	totalElement.innerHTML = formatRupiah(subTotal, "IDR", false);
 	InputTotalElement.value = subTotal
 	$(".total-price").html(formatRupiah(totalCount(), "IDR", false));
 	$("#total-price").val(totalCount());
@@ -64,6 +58,25 @@ $(".item-product").on('click', '.add-cart', function (){
 	});
 });
 
+$(document).on('blur', '.quantity', function () {
+	let id = $(this).data("id");
+	let newValue = parseInt($(this).val());
+	let maxValue = parseInt($(this).attr('max'));
+	let minValue = parseInt($(this).attr('min'));
+
+	if (newValue > maxValue) {
+		$(this).val(maxValue);
+		newValue = maxValue;
+	}
+
+	if (newValue <= 0) {
+		newValue = minValue;
+		$(this).val(minValue);
+	}
+
+	updateQuantity(id, newValue);
+});
+
 function totalCount() {
 	let arrTotal = document.querySelectorAll("#total");
 	let total = 0;
@@ -79,32 +92,48 @@ function fetchCart() {
 	ajaxGet(allCartItemUrl).done(function (res) {
 		let html = '';
 		data = res.data;
-		$("tbody").empty();
+		$("#product-container").empty();
+		if (data.length == 0) {
+			html += `<div id="product">
+					<div class="card">
+						<div class="card-body">
+							<span>Belum ada produk yang di masukkan ke dalam keranjang</span>
+						</div>
+					</div>
+				</div>`;
+		}
 		data.forEach(function (item) {
-			html += `<tr id="product" class="text-center">
-						<td class="product-remove" data-id="${item.id}"><a><span class="ion-ios-close"></span></a></td>
-						<td class="image-prod"><div class="img" style="background-image:url(${item.attachment});"></div></td>
-						<td class="product-name">
-						<h3>${item.title}</h3>
-						<p>${ subStr(item.description, 80) }</p>
-						</td>
-						<td data-price="${item.price}" class="price">${formatRupiah(item.price, "IDR")}</td>
-						<td class="quantity">
-							<div class="d-flex align-items-center justify-content-center" style="gap: 10px">
-								<button data-id="${item.id}" class="btn btn-decrease" style="height: 30px !important;">
-								<i class="ion-ios-remove"></i>
-								</button>
-								<input  id="quantity" name="quantity" type="number" style="border: none; outline: none; background-color: transparent; appearance: textfield; text-align: center" min="1" max="${item.stock}" step="1" value="${item.quantity}">
-								<button data-id="${item.id}" class="btn btn-increase" style="height: 30px !important;">
-								<i class="ion-ios-add"></i>
-								</button>
+			let attachment = item.attachment != null ? BASE_URL + item.attachment : BASE_URL + 'assets/home/images/image_5.jpg';
+			html += `<div id="product" class="mb-3">
+					<div class="card">
+						<div class="card-body">
+							<div class="d-flex" style="gap: 10px">
+								<img width="80" height="80" style="object-fit: cover; border-radius: 7px" src="${attachment}" alt="">
+								<div class="d-flex flex-column justify-content-between flex-grow-1 flex-shrink-1">
+									<div class="d-flex justify-content-between flex-grow-1 flex-shrink-1">
+										<a href="#" class="product-name">${item.title}</a>
+										<span data-price="${item.price}" class="price">${ formatRupiah(item.price, "IDR", false) }</span>
+										<input type="hidden" id="total" value="${item.quantity * item.price}">
+									</div>
+									<div class="d-flex justify-content-end flex-grow-1 flex-shrink-1 align-items-center" style="gap: 10px">
+										<button data-id="${item.id}" id="btn-remove" class="btn btn-trash product-remove" style="height: 30px !important;"><i class="ion-ios-trash"></i></button>
+										<div class="control" style="width: auto">
+											<button data-id="${item.id}" class="btn btn-decrease" style="height: 30px !important;">
+												<i class="ion-ios-remove"></i>
+											</button>
+											<input data-id="${item.id}" class="quantity" id="quantity" name="quantity" type="number" style="border: none; outline: none; background-color: transparent; appearance: textfield; text-align: center; width: 50px" min="1" max="${item.stock}" step="1" value="${item.quantity}">
+											<button data-id="${item.id}" class="btn btn-increase" style="height: 30px !important;">
+												<i class="ion-ios-add"></i>
+											</button>
+										</div>
+									</div>
+								</div>
 							</div>
-						</td>
-						<input type="hidden" id="total" value="${item.quantity * item.price}">
-						<td class="total">${formatRupiah(item.quantity * item.price, "IDR", false)}</td>
-						</tr>`;
+						</div>
+					</div>
+				</div>`;
 		});
-		$("tbody").append(html);
+		$("#product-container").append(html);
 		$("#body").val(JSON.stringify(res.data));
 		$(".total-price").html(formatRupiah(totalCount(), "IDR", false));
 		$("#total-price").val(totalCount());
@@ -119,7 +148,6 @@ function fetchTotalCart() {
 		countCart = data.length;
 		$(".cart-count").html(countCart);
 	});
-
 }
 
 function updateQuantity(idCartItem, quantity) {
@@ -127,7 +155,6 @@ function updateQuantity(idCartItem, quantity) {
 	let formData = new FormData();
 	formData.append('id', idCartItem);
 	formData.append('quantity', quantity);
-	console.log(url);
 	ajaxPost(url, formData);
 }
 
@@ -168,6 +195,7 @@ function ajaxDelCustom(url, id, reload = false, typeNotification = 'snackbarSucc
 						if (typeNotification == 'snackbarSuccess') {
 							snackbarSuccess(res.message);
 							fetchCart();
+							fetchTotalCart();
 						}
 
 						if(table !== null)

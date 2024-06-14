@@ -5,7 +5,7 @@
 @section('style')
 <script type="text/javascript"
 		src="https://app.sandbox.midtrans.com/snap/snap.js"
-		data-client-key="SB-Mid-client-S09glAfzatzn3woa"></script>
+		data-client-key="SB-Mid-client-S09glAfzatzn3woa" xmlns="http://www.w3.org/1999/html"></script>
 <style>
 	.img-product {
 		height: 500px;
@@ -22,8 +22,8 @@
 		-moz-appearance: textfield;
 	}
 
-	.btn-decrease, .btn-increase {
-		width: 30px;
+	.btn-decrease, .btn-increase, .btn-trash {
+		width: 30px !important;
 		height: 30px !important;
 		border-radius: 10px;
 	}
@@ -51,36 +51,23 @@
 	</form>
 	<div class="container">
 		<div class="row">
-			<div class="col-md-12 ftco-animate">
-				<div class="cart-list">
-					<table id="table" class="table">
-						<thead class="thead-primary">
-						<tr class="text-center">
-							<th>&nbsp;</th>
-							<th>&nbsp;</th>
-							<th>Product name</th>
-							<th>Price</th>
-							<th>Quantity</th>
-							<th>Total</th>
-						</tr>
-						</thead>
-						<tbody>
-						</tbody>
-					</table>
-				</div>
+			<div class="col-lg-8 col-12">
+				<div id="product-container"></div>
 			</div>
-		</div>
-		<div class="row justify-content-end">
-			<div class="col-lg-4 mt-5 cart-wrap ftco-animate">
-				<div class="cart-total mb-3">
-					<h3>Ringkasan Belanja</h3>
-					<p class="d-flex">
-						<span>Total</span>
-						<input id="total-price" type="hidden" value="">
-						<h4 class="total-price"></h4>
-					</p>
+			<div class="col-lg-4 col-12">
+				<div id="total-container">
+					<div class="card">
+						<div class="card-body">
+							<span class="h6 mb-3 d-block">Ringkasan Belanja</span>
+							<div class="d-flex justify-content-between align-items-center mb-3">
+								<span>Total</span>
+								<input id="total-price" type="hidden" value="">
+								<h6 class="total-price">100</h6>
+							</div>
+							<button id="pay-button" class="btn btn-primary w-100 text-white">Bayar</button>
+						</div>
+					</div>
 				</div>
-				<p><button id="pay-button" class="btn btn-primary py-3 px-4 checkout">Bayar</button></p>
 			</div>
 		</div>
 	</div>
