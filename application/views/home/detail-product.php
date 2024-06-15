@@ -28,7 +28,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-6 mb-5 ftco-animate">
-				<a href="images/product-1.jpg" class="image-popup"><img class="img-product" src="{{ base_url($product->attachment) }}" class="img-fluid" alt="Colorlib Template"></a>
+				<a href="images/product-1.jpg" class="image-popup"><img class="img-product" src="{{ base_url($product->attachment ?? 'assets/home/images/image_5.jpg') }}" class="img-fluid" alt="Colorlib Template"></a>
 			</div>
 			<div class="col-lg-6 product-details pl-md-5 ftco-animate item-product">
 				<h3>{{ $product->title }}</h3>
@@ -58,5 +58,12 @@
 @section('script')
 @if($this->auth->user())
 <script src="{{ base_url('assets/dist/js/cart/cart.js') }}"></script>
+@endif
+@if(!$this->auth->user())
+<script>
+	$(".item-product").on('click', '.add-cart', function (){
+		location.href = BASE_URL + 'login';
+	});
+</script>
 @endif
 @endsection

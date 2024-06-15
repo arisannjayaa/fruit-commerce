@@ -136,8 +136,7 @@
 			@foreach($products as $product)
 				<div class="col-md-6 col-lg-3 ftco-animate">
 				<div class="product item-product">
-					<a href="#" class="img-prod"><img class="img-fluid" src="<?= base_url('assets/home/') ?>images/product-1.jpg" alt="Colorlib Template">
-						<span class="status">30%</span>
+					<a href="{{ base_url('shop/' . $product->slug) }}" class="img-prod"><img class="img-fluid" src="<?= base_url('assets/home/') ?>images/product-1.jpg" alt="Colorlib Template">
 						<div class="overlay"></div>
 					</a>
 					<div class="text py-3 pb-4 px-3 text-center">
@@ -149,9 +148,6 @@
 						</div>
 						<div class="bottom-area d-flex px-3">
 							<div class="m-auto d-flex">
-								<a href="<?= base_url('shop/' . $product->slug) ?>" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-									<span><i class="ion-ios-menu"></i></span>
-								</a>
 								<a href="javascript:void(0)" data-id="{{ $product->id }}" class="buy-now d-flex justify-content-center align-items-center mx-1 add-cart">
 									<span><i class="ion-ios-cart"></i></span>
 								</a>
@@ -327,6 +323,13 @@
 @section('script')
 @if($this->auth->user())
 <script src="{{ base_url('assets/dist/js/cart/cart.js') }}"></script>
+@endif
+@if(!$this->auth->user())
+<script>
+	$(".item-product").on('click', '.add-cart', function (){
+		location.href = BASE_URL + 'login';
+	});
+</script>
 @endif
 @endsection
 

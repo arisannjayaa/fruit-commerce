@@ -50,7 +50,7 @@ class CartService extends MY_Service{
 			if ($cartItem != null) {
 				if ($cartItem->quantity >= $cartItem->stock) {
 					$this->output->set_status_header(401);
-					echo json_encode(array('success' => false, 'code' => 401, 'message' => "Data product melebihi stock yang tersedia!"));
+					echo json_encode(array('success' => false, 'code' => 401, 'message' => "Data produk melebihi stock yang tersedia!"));
 					return;
 				}
 
