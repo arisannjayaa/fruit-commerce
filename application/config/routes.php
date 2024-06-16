@@ -88,10 +88,12 @@ $route['product/edit/(:any)'] = 'ProductController/edit/$1';
 $route['product/table']['GET'] = 'ProductController/table';
 
 //order management
-$route['order']['GET'] = 'TransactionController/order';
-$route['order-table']['GET'] = 'TransactionController/order_table';
-$route['payment']['GET'] = 'TransactionController/payment';
-$route['payment-table']['GET'] = 'TransactionController/payment_table';
+$route['transaction/order']['GET'] = 'Transaction/OrderController/index';
+$route['transaction/order/store'] = 'Transaction/OrderController/store';
+$route['transaction/order/update'] = 'Transaction/OrderController/update';
+$route['transaction/order/delete'] = 'Transaction/OrderController/delete';
+$route['transaction/order/edit/(:any)'] = 'Transaction/OrderController/edit/$1';
+$route['transaction/order/table']['GET'] = 'Transaction/OrderController/table';
 
 //home
 $route['default_controller'] = 'HomeController/index';

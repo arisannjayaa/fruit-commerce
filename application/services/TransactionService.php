@@ -72,4 +72,21 @@ class TransactionService extends MY_Service{
 			show_error('Terjadi kesalahan', 500);
 		}
 	}
+
+	public function order_table()
+	{
+		$param['draw'] = isset($_REQUEST['draw']) ? $_REQUEST['draw'] : '';
+		$start = isset($_REQUEST['start']) ? $_REQUEST['start'] : '';
+		$length = isset($_REQUEST['length']) ? $_REQUEST['length'] : '';
+		$search = isset($_REQUEST['search']['value']) ? $_REQUEST['search']['value'] : '';
+		$data = $this->Transaction->order_table($search, $start, $length);
+		$total_count = $this->Transaction->order_table($search);
+
+		echo json_encode([
+			'draw' => intval($param['draw']),
+			'recordsTotal' => count($total_count),
+			'recordsFiltered' => count($total_count),
+			'data' => $data
+		]);
+	}
 }

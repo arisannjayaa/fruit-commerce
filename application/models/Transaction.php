@@ -89,14 +89,14 @@ class Transaction extends CI_Model
 		return $builder->get()->row();
 	}
 
-	public function datatable($keyword = null, $start = 0, $length = 0)
+	public function order_table($keyword = null, $start = 0, $length = 0)
 	{
 		$builder = $this->db->select("*")->from($this->table);
 
 		if($keyword) {
 			$arrKeyword = explode(" ", $keyword);
 			for ($i=0; $i < count($arrKeyword); $i++) {
-				$builder = $builder->or_like('title', $arrKeyword[$i]);
+				$builder = $builder->or_like('order_id', $arrKeyword[$i]);
 			}
 		}
 
@@ -105,13 +105,6 @@ class Transaction extends CI_Model
 		}
 
 		return $builder->get()->result();
-	}
-
-	public function findBySlug($slug)
-	{
-		$query = $this->db->select("*")->from($this->table);
-		$query->where('slug', $slug);
-		return $query->get()->row();
 	}
 }
 
