@@ -22,6 +22,7 @@
 			$product = json_decode($transaction->products);
 			$status = $transaction->status_code == '201' ? 'Pending' : 'Selesai';
 			$date = new DateTime($transaction->transaction_time);
+			$other = count($product) - 1;
 			$total = 0;
 		?>
 			<div class="card mb-3">
@@ -32,10 +33,18 @@
 						<span class="d-lg-block d-none cursor-pointer">{{ $transaction->order_id }}</span>
 					</div>
 					<div class="d-flex justify-content-between flex-wrap">
-						<div class="product col-lg-8 col-12" style="padding: 0">
+						<div class="products col-lg-8 col-12" style="padding: 0">
 							<div class="d-flex" style="gap: 10px">
 								<img class="img-product" style="object-fit: cover; border-radius: 7px" src="<?= base_url('assets/home/images/image_5.jpg') ?>" alt="Colorlib Template">
-								<span data-id="{{ $transaction->order_id }}" class="detail" href="javascript:void(0)">{{ $product[0]->title }}</span>
+								<div class="title">
+									<span data-id="{{ $transaction->order_id }}" class="detail" href="javascript:void(0)">{{ $product[0]->title }}</span>
+
+									<span class="d-block">{{ $product[0]->quantity . ' Barang x ' . formatToRupiah($product[0]->price)  }} </span>
+
+									@if ($other > 0)
+									<a style="cursor: pointer" data-id="{{ $transaction->order_id }}" class="d-block detail">+ {{ $other }} produk lainnya</a>
+									@endif
+								</div>
 							</div>
 						</div>
 						<div class="d-flex flex-column col-lg-4 col-12 align-items-lg-end align-items-start" style="padding: 0">
