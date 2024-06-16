@@ -1,6 +1,10 @@
 $('#pay-button').click(function (event) {
 	ajaxGet(allCartItemUrl).done(function (res) {
 		$("#body").val(JSON.stringify(res.data));
+		if (res.data.length == 0) {
+			new sweetError('Keranjang anda masih kosong!');
+			return false;
+		}
 	});
 
 	event.preventDefault();
