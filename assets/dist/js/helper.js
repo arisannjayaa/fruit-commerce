@@ -152,3 +152,25 @@ function subStr(string, length) {
 		return string;
 	}
 }
+
+function convertDate(datetime) {
+	const timestamp = datetime; // Contoh timestamp
+
+// Membuat objek Date dari timestamp
+	const date = new Date(timestamp);
+
+// Opsi untuk memformat tanggal
+	const optionsDate = { day: '2-digit', month: 'long', year: 'numeric' };
+// Opsi untuk memformat waktu
+	const optionsTime = { hour: '2-digit', minute: '2-digit' };
+
+// Mengambil bagian tanggal dalam format yang diinginkan
+	const formattedDate = date.toLocaleDateString('id-ID', optionsDate);
+// Mengambil bagian waktu dalam format yang diinginkan
+	const formattedTime = date.toLocaleTimeString('id-ID', optionsTime);
+
+// Menggabungkan tanggal dan waktu dengan format yang diinginkan
+	const formattedDateTime = `${formattedDate}, ${formattedTime}`;
+
+	return formattedDateTime;
+}

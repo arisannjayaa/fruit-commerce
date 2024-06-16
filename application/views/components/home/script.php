@@ -16,6 +16,5 @@
 <script src="<?= base_url('assets/home/') ?>js/main.js"></script>
 
 <!-- Helpers -->
-<script src="https://cdn.jsdelivr.net/gh/yaza-putu/helpers@V2.0.4/libs/libs-core.min.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/yaza-putu/helpers@V2.0.4/helpers.min.js"></script>
+
 <script src="<?= base_url('assets/dist/js/helper.js') ?>"></script>

@@ -82,6 +82,8 @@
 @endsection
 
 @section('script')
+<script src="https://cdn.jsdelivr.net/gh/yaza-putu/helpers@V2.0.4/libs/libs-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/yaza-putu/helpers@V2.0.4/helpers.min.js"></script>
 @if($this->auth->user())
 <script src="{{ base_url('assets/dist/js/cart/cart.js') }}"></script>
 @endif

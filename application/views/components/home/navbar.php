@@ -12,10 +12,13 @@
 			<li class="nav-item <?= $this->uri->uri_string() == "contact" ? "active" : "" ?>"><a href="contact.html" class="nav-link">Contact</a></li>
 			<li class="nav-item cta cta-colored <?= $this->uri->uri_string() == "cart" ? "active" : "" ?>"><a href="<?= base_url('cart') ?>" class="nav-link"><span class="icon-shopping_cart"></span>[<span class="cart-count">0</span>]</a></li>
 			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Akun</a>
+				<a class="nav-link dropdown-toggle" href="javascript:void(0)" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Akun</a>
 				<div class="dropdown-menu" aria-labelledby="dropdown04">
 					@if($this->auth->isAdmin())
 						<a class="dropdown-item" href="<?= base_url('dashboard') ?>">Dashboard</a>
+					@endif
+					@if($this->auth->isMember())
+						<a class="dropdown-item" href="<?= base_url('order-list') ?>">Pembelian</a>
 					@endif
 					@if(!$this->auth->check())
 						<a class="dropdown-item" href="<?= base_url('login') ?>">Login</a>
