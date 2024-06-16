@@ -33,7 +33,6 @@ class Transaction extends CI_Model
 				u.first_name,
 				u.last_name,
 				u.email,
-				u.email,
 				u.telephone,
 				";
 
@@ -48,8 +47,20 @@ class Transaction extends CI_Model
 
     public function find($id)
     {
-        $query = $this->db->get_where($this->table, ['id' => $id]);
-        return $query->row();
+		$select = "t.*,
+				u.first_name,
+				u.last_name,
+				u.email,
+				u.telephone,
+				";
+
+		$builder = $this->db
+			->select($select)
+			->from('transactions t')
+			->join('users u', 'u.id = t.user_id')
+			->where('t.id', $id);
+
+		return $builder->get();
     }
 
     public function create($data)
@@ -89,29 +100,30 @@ class Transaction extends CI_Model
 		return $builder->get()->row();
 	}
 
-	public function datatable($keyword = null, $start = 0, $length = 0)
+	public function order_table($keyword = null, $start = 0, $length = 0, $data = null)
 	{
 		$builder = $this->db->select("*")->from($this->table);
 
 		if($keyword) {
 			$arrKeyword = explode(" ", $keyword);
 			for ($i=0; $i < count($arrKeyword); $i++) {
-				$builder = $builder->or_like('title', $arrKeyword[$i]);
+				$builder = $builder->or_like('order_id', $arrKeyword[$i]);
 			}
 		}
+
+		if ($data) {
+			if (isset($data['start']) && isset($data['end'])) {
+				$builder = $builder->where('created_at >=', $data['start']);
+				$builder = $builder->where('created_at <=', $data['end']);
+			}
+		}
+
 
 		if($start != 0 || $length != 0) {
 			$builder = $builder->limit($length, $start);
 		}
 
 		return $builder->get()->result();
-	}
-
-	public function findBySlug($slug)
-	{
-		$query = $this->db->select("*")->from($this->table);
-		$query->where('slug', $slug);
-		return $query->get()->row();
 	}
 }
 
