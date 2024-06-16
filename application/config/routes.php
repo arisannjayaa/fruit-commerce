@@ -92,7 +92,7 @@ $route['transaction/order']['GET'] = 'Transaction/OrderController/index';
 $route['transaction/order/store'] = 'Transaction/OrderController/store';
 $route['transaction/order/update'] = 'Transaction/OrderController/update';
 $route['transaction/order/delete'] = 'Transaction/OrderController/delete';
-$route['transaction/order/edit/(:any)'] = 'Transaction/OrderController/edit/$1';
+$route['transaction/order/detail/(:any)'] = 'Transaction/OrderController/detail/$1';
 $route['transaction/order/table']['GET'] = 'Transaction/OrderController/table';
 
 //home

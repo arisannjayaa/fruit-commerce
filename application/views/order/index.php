@@ -29,8 +29,8 @@
 @section('content')
 <div class="row row-cards">
 	<div class="d-flex" style="gap: 10px">
-		<input type="text" class="form-control w-auto" name="daterange" value="01/01/2018 - 01/15/2018" />
-		<button type="button" id="btn-add" class="btn mb-2 h-100 w-auto" data-bs-toggle="modal">
+		<input type="text" class="form-control w-auto" id="dates" name="dates" value="" />
+		<button type="button" id="btn-filter" class="btn mb-2 h-100 w-auto" data-bs-toggle="modal">
 			Filter
 		</button>
 	</div>
@@ -54,6 +54,7 @@
 		</div>
 	</div>
 </div>
+@include('order/modal')
 @endsection
 
 @section('url')
@@ -61,11 +62,10 @@
 <input type="hidden" id="create-url" value="{{ base_url('transaction/order/store') }}">
 <input type="hidden" id="update-url" value="{{ base_url('transaction/order/update') }}">
 <input type="hidden" id="delete-url" value="{{ base_url('transaction/order/delete') }}">
-<input type="hidden" id="edit-url" value="{{ base_url('transaction/order/edit/:id') }}">
+<input type="hidden" id="edit-url" value="{{ base_url('transaction/order/detail/:id') }}">
 @endsection
 
 @section('script')
 <script src="{{ base_url('assets/dist/js/transaction/order.js') }}"></script>
-
 @endsection
 

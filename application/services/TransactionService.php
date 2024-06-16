@@ -73,20 +73,26 @@ class TransactionService extends MY_Service{
 		}
 	}
 
-	public function order_table()
+	public function order_table($data)
 	{
+
+		$data['start'] = date('Y-m-d', strtotime($data['start'])).' 00:00:00';
+		$data['end'] = date('Y-m-d', strtotime($data['end'])).' 23:59:59';
+
 		$param['draw'] = isset($_REQUEST['draw']) ? $_REQUEST['draw'] : '';
 		$start = isset($_REQUEST['start']) ? $_REQUEST['start'] : '';
 		$length = isset($_REQUEST['length']) ? $_REQUEST['length'] : '';
 		$search = isset($_REQUEST['search']['value']) ? $_REQUEST['search']['value'] : '';
-		$data = $this->Transaction->order_table($search, $start, $length);
+		$query = $this->Transaction->order_table($search, $start, $length, $data);
 		$total_count = $this->Transaction->order_table($search);
 
 		echo json_encode([
 			'draw' => intval($param['draw']),
 			'recordsTotal' => count($total_count),
 			'recordsFiltered' => count($total_count),
-			'data' => $data
+			'data' => $query
 		]);
 	}
+
+
 }
