@@ -1,0 +1,91 @@
+$(document).on('click', '.detail', function () {
+	let id = $(this).data("id");
+	let url = $("#detail-url").val();
+	url = url.replace(":id", id);
+
+	$.ajax({
+		url: url,
+		method: "GET",
+		success: function(res) {
+			let response = JSON.parse(res);
+			let products = JSON.parse(response.data.products);
+			let html = '';
+
+			$(".modal-title").empty().append("Detail Transaksi");
+			$("#invoice-id").html(response.data.order_id);
+			$("#status").html(response.data.status_code);
+			$("#payment-type").html(response.data.payment_type);
+			$("#date-transaction").html(convertDate(response.data.created_at));
+			$("#gross-amount").html(formatRupiah(response.data.gross_amount,"IDR", false));
+			$("#total-shop").html(formatRupiah(response.data.gross_amount,"IDR", false));
+
+			let htmlFirst = `<div class="card mb-2">
+						<div class="card-body">
+							<div class="d-flex justify-content-between">
+								<div class="d-flex" style="gap: 10px">
+									<img height="50" width="50" style="object-fit: cover; border-radius: 7px" src="${products[0].attachment != null ? BASE_URL + products[0].attachment : BASE_URL + 'assets/home/images/image_5.jpg'}" alt="">
+									<div>
+										<span class="d-block" href="javascript:void(0)">${products[0].title}</span>
+										<span class="d-block">${products[0].quantity + ' x ' + formatRupiah(products[0].price, "IDR", false)}</span>
+									</div>
+								</div>
+								<div class="d-flex flex-column align-items-lg-end align-items-start">
+									<span>Total Harga</span>
+									<span>${formatRupiah(products[0].price * products[0].quantity,"IDR", false)}</span>
+								</div>
+							</div>
+						</div>
+					</div>`;
+
+			$(".first-product").html(htmlFirst);
+			console.log(products);
+			products.shift();
+
+			products.forEach(function (item) {
+				let attachment = item.attachment != null ? BASE_URL + item.attachment : BASE_URL + 'assets/home/images/image_5.jpg';
+				console.log(attachment);
+				html += `<div class="card mb-2">
+						<div class="card-body">
+							<div class="d-flex justify-content-between">
+								<div class="d-flex" style="gap: 10px">
+									<img height="50" width="50" style="object-fit: cover; border-radius: 7px" src="${attachment}" alt="">
+									<div>
+										<span href="javascript:void(0)" class="d-block">${item.title}</span>
+										<span class="d-block">${item.quantity + ' x ' + formatRupiah(item.price, "IDR", false)}</span>
+									</div>
+								</div>
+								<div class="d-flex flex-column align-items-lg-end align-items-start">
+									<span>Total Harga</span>
+									<span>${formatRupiah(item.price * item.quantity,"IDR", false)}</span>
+								</div>
+							</div>
+						</div>
+					</div>`;
+			});
+
+			$("#collapse-product").html(html);
+
+			if (products.length > 0) {
+				let collapseBtn = `<a role="button" aria-expanded="false" aria-controls="collapseExample" id="btn-collapse-product">
+					Lihat semua produk
+					</a>`
+				$("#collapse-container").html(collapseBtn);
+			}
+
+
+			$("#modal-transaction").modal("show");
+
+			$("#btn-collapse-product").click(function () {
+				$("#collapse-product").toggle();
+			});
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			$("#result").html("Terjadi kesalahan: " + textStatus);
+		}
+	});
+});
+
+$('#modal-transaction').on('hidden.bs.modal', function (event) {
+	$("#collapse-product").empty();
+	$("#collapse-container").empty();
+})

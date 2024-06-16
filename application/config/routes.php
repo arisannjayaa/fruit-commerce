@@ -49,31 +49,49 @@ defined('BASEPATH') or exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['login']['GET'] = 'Auth/LoginController/index';
+
+//authentication
 $route['register']['GET'] = 'Auth/RegisterController/index';
-$route['dashboard']['GET'] = 'DashboardController/index';
+$route['login']['GET'] = 'Auth/LoginController/index';
 $route['login']['POST'] = 'Auth/LoginController/login';
 $route['register']['POST'] = 'Auth/RegisterController/register';
-$route['migrate'] = 'MigrationController/index';
 $route['logout']['GET'] = 'Auth/LoginController/logout';
+
+// migration
+$route['migrate'] = 'MigrationController/index';
+
+// dashboard
+$route['dashboard']['GET'] = 'DashboardController/index';
+
+// user crud
 $route['user']['GET'] = 'UserController/index';
 $route['user/store'] = 'UserController/store';
 $route['user/update'] = 'UserController/update';
 $route['user/delete'] = 'UserController/delete';
 $route['user/edit/(:any)'] = 'UserController/edit/$1';
 $route['user/table']['GET'] = 'UserController/table';
+
+// category crud
 $route['category']['GET'] = 'CategoryController/index';
 $route['category/store'] = 'CategoryController/store';
 $route['category/update'] = 'CategoryController/update';
 $route['category/delete'] = 'CategoryController/delete';
 $route['category/edit/(:any)'] = 'CategoryController/edit/$1';
 $route['category/table']['GET'] = 'CategoryController/table';
+
+// product crud
 $route['product']['GET'] = 'ProductController/index';
 $route['product/store'] = 'ProductController/store';
 $route['product/update'] = 'ProductController/update';
 $route['product/delete'] = 'ProductController/delete';
 $route['product/edit/(:any)'] = 'ProductController/edit/$1';
 $route['product/table']['GET'] = 'ProductController/table';
+
+//order management
+$route['order']['GET'] = 'TransactionController/order';
+$route['order-table']['GET'] = 'TransactionController/order_table';
+$route['payment']['GET'] = 'TransactionController/payment';
+$route['payment-table']['GET'] = 'TransactionController/payment_table';
 
 //home
 $route['default_controller'] = 'HomeController/index';
@@ -93,6 +111,10 @@ $route['snap'] = 'Midtrans/SnapController/index';
 $route['snap/token'] = 'Midtrans/SnapController/token';
 $route['snap/finish'] = 'Midtrans/SnapController/finish';
 $route['notification'] = 'Midtrans/Notification/index';
+
+//order-list
+$route['order-list'] = 'OrderController/index';
+$route['order-list/(:any)'] = 'OrderController/detail/$1';
 
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

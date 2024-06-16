@@ -94,6 +94,21 @@ class Auth {
 		return false;
 	}
 
+	public function isMember()
+	{
+		if ($this->check()) {
+			$get = $this->CI->user->find($this->CI->session->id);
+
+			if ($get->role_id == 2) {
+				return true;
+			}
+
+			return false;
+		}
+
+		return false;
+	}
+
 	/**
 	 * Keluar dari sesi.
 	 *

@@ -63,7 +63,6 @@ $("#payment-form").submit(function (e) {
 
 	// send data
 	ajaxPost(url, formData).done(function (res) {
-		console.log(res);
 		fetchCart();
 		notifySuccess(res.message);
 	});

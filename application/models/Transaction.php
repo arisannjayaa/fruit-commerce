@@ -18,20 +18,31 @@ class Transaction extends CI_Model
 
 	public function findByUserId($user_id)
 	{
-		$select = "c.*,
-				p.title,
-				p.attachment,
-				p.slug,
-				p.description,
-				p.stock,
-				p.price";
+		$builder = $this->db
+			->select('*')
+			->from('transactions t')
+			->join('users u', 'u.id = t.user_id')
+			->where('t.user_id', $user_id);
+
+		return $builder->get();
+	}
+
+	public function findByUserOrderId($user_id, $order_id)
+	{
+		$select = "t.*,
+				u.first_name,
+				u.last_name,
+				u.email,
+				u.email,
+				u.telephone,
+				";
 
 		$builder = $this->db
 			->select($select)
-			->from('carts c')
-			->join('products p', 'p.id = c.product_id')
-			->where('c.user_id', $user_id);
-
+			->from('transactions t')
+			->join('users u', 'u.id = t.user_id')
+			->where('t.user_id', $user_id)
+			->where('t.order_id', $order_id);
 		return $builder->get();
 	}
 

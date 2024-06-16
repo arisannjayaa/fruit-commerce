@@ -83,6 +83,8 @@
 @endsection
 
 @section('script')
+<script src="https://cdn.jsdelivr.net/gh/yaza-putu/helpers@V2.0.4/libs/libs-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/yaza-putu/helpers@V2.0.4/helpers.min.js"></script>
 <script src="{{ base_url('assets/dist/js/cart/cart.js') }}"></script>
 <script src="{{ base_url('assets/dist/js/cart/checkout.js') }}"></script>
 @endsection
