@@ -37,7 +37,7 @@
 							<div class="d-flex" style="gap: 10px">
 								<img class="img-product" style="object-fit: cover; border-radius: 7px" src="<?= base_url('assets/home/images/image_5.jpg') ?>" alt="Colorlib Template">
 								<div class="title">
-									<span data-id="{{ $transaction->order_id }}" class="detail" href="javascript:void(0)">{{ $product[0]->title }}</span>
+									<span style="cursor:pointer;" data-id="{{ $transaction->order_id }}" class="detail" href="javascript:void(0)">{{ $product[0]->title }}</span>
 
 									<span class="d-block">{{ $product[0]->quantity . ' Barang x ' . formatToRupiah($product[0]->price)  }} </span>
 

@@ -1,3 +1,4 @@
+fetchTotalCart();
 $(document).on('click', '.detail', function () {
 	let id = $(this).data("id");
 	let url = $("#detail-url").val();
@@ -38,12 +39,10 @@ $(document).on('click', '.detail', function () {
 					</div>`;
 
 			$(".first-product").html(htmlFirst);
-			console.log(products);
 			products.shift();
 
 			products.forEach(function (item) {
 				let attachment = item.attachment != null ? BASE_URL + item.attachment : BASE_URL + 'assets/home/images/image_5.jpg';
-				console.log(attachment);
 				html += `<div class="card mb-2">
 						<div class="card-body">
 							<div class="d-flex justify-content-between">
@@ -66,7 +65,7 @@ $(document).on('click', '.detail', function () {
 			$("#collapse-product").html(html);
 
 			if (products.length > 0) {
-				let collapseBtn = `<a role="button" aria-expanded="false" aria-controls="collapseExample" id="btn-collapse-product">
+				let collapseBtn = `<a role="button" style="cursor:pointer;" aria-expanded="false" aria-controls="collapseExample" id="btn-collapse-product">
 					Lihat semua produk
 					</a>`
 				$("#collapse-container").html(collapseBtn);
@@ -88,4 +87,24 @@ $(document).on('click', '.detail', function () {
 $('#modal-transaction').on('hidden.bs.modal', function (event) {
 	$("#collapse-product").empty();
 	$("#collapse-container").empty();
-})
+});
+
+fetchTotalCart();
+
+function fetchTotalCart() {
+	let countCart = 0;
+
+	$.ajax({
+		url: BASE_URL + 'all-cart',
+		method: "GET",
+		success: function(res) {
+			let response = JSON.parse(res);
+			let data = response.data;
+			countCart = data.length;
+			$(".cart-count").html(countCart);
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			alert('Server error');
+		}
+	});
+}

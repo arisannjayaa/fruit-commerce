@@ -27,7 +27,7 @@
 					<h6>Detail Produk</h6>
 					<div style="overflow-y: auto; max-height: 400px;">
 						<div class="first-product"></div>
-						<div class="product collapse" id="collapse-product"></div>
+						<div class="collapse" id="collapse-product"></div>
 					</div>
 					<div id="collapse-container" class="my-2"></div>
 				</div>
