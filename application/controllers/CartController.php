@@ -28,7 +28,7 @@ class CartController extends CI_Controller {
 		}
 
 		if (!$this->input->is_ajax_request()) {
-			exit('No direct script access allowed');
+			show_error("Anda tidak memiliki izin untuk mengakses sumber daya ini.", 403, "Akses Ditolak");
 		}
 
 		return $this->cartService->findByUserId($this->auth->user()->id);
@@ -37,7 +37,7 @@ class CartController extends CI_Controller {
 	public function store()
 	{
 		if (!$this->input->is_ajax_request()) {
-			exit('No direct script access allowed');
+			show_error("Anda tidak memiliki izin untuk mengakses sumber daya ini.", 403, "Akses Ditolak");
 		}
 
 		$data = $this->input->post();
@@ -51,7 +51,7 @@ class CartController extends CI_Controller {
 	public function update()
 	{
 		if (!$this->input->is_ajax_request()) {
-			exit('No direct script access allowed');
+			show_error("Anda tidak memiliki izin untuk mengakses sumber daya ini.", 403, "Akses Ditolak");
 		}
 
 		$data = $this->input->post();

@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<meta charset="utf-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
 	<meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-	<title>Error <?= $status_code ?></title>
+	<title>Page 404</title>
 	<!-- CSS files -->
 	<!-- CSS files -->
 	<link href="<?= base_url('assets/') ?>dist/css/tabler.min.css?1684106062" rel="stylesheet" />
@@ -29,10 +29,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="page page-center">
 	<div class="container-tight py-4">
 		<div class="empty">
-			<div class="empty-header"><?= $status_code ?></div>
-			<p class="empty-title"><?= $heading ?></p>
+			<div class="empty-header">404</div>
+			<p class="empty-title">Halaman Tidak Ditemukan</p>
 			<p class="empty-subtitle text-muted">
-				<?= $message ?>
+				Sumber daya yang diminta tidak dapat ditemukan di server ini.
 			</p>
 			<div class="empty-action">
 				<a href="<?= base_url('') ?>" class="btn btn-primary">

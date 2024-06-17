@@ -142,12 +142,11 @@ class Auth {
 		   if (!empty($hakAksesId)) {
 			   	 if (is_array($hakAksesId)) {
 			   	 	if (!in_array($this->user()->role_id, $hakAksesId)) {
-						$this->CI->session->set_flashdata('warning', 'Anda tidak dapat mengakses halaman ini.');
-						return /** @scrutinizer ignore-call */ redirect(array_key_exists('HTTP_REFERER', $_SERVER) ? $_SERVER['HTTP_REFERER'] : /** @scrutinizer ignore-call */base_url('/'));
+						return show_error("Anda tidak diizinkan untuk mengakses sumber daya ini.", 401, "Akses Tidak Diizinkan");
 					} 
 			   	 } else {
 					if ($this->user()->role_id != $hakAksesId) {
-						return show_404();
+						return show_error("Anda tidak diizinkan untuk mengakses sumber daya ini.", 401, "Akses Tidak Diizinkan");
 					} 
 				}
 			}

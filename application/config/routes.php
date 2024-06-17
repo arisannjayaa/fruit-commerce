@@ -118,5 +118,5 @@ $route['notification'] = 'Midtrans/Notification/index';
 $route['order-list'] = 'OrderController/index';
 $route['order-list/(:any)'] = 'OrderController/detail/$1';
 
-$route['404_override'] = '';
+$route['404_override'] = 'ErrorController/error_404';
 $route['translate_uri_dashes'] = FALSE;

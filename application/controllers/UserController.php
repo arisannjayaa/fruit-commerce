@@ -26,8 +26,10 @@ class UserController extends CI_Controller {
 		}
 
 		if (!$this->input->is_ajax_request()) {
-			exit('No direct script access allowed');
+			show_error("Anda tidak memiliki izin untuk mengakses sumber daya ini.", 403, "Akses Ditolak");
 		}
+
+		$this->auth->protect(1);
 
 		return $this->userService->table();
 	}
@@ -35,8 +37,10 @@ class UserController extends CI_Controller {
 	public function store()
 	{
 		if (!$this->input->is_ajax_request()) {
-			exit('No direct script access allowed');
+			show_error("Anda tidak memiliki izin untuk mengakses sumber daya ini.", 403, "Akses Ditolak");
 		}
+
+		$this->auth->protect(1);
 
 		$this->rules();
 		if ($this->form_validation->run() == FALSE) {
@@ -69,8 +73,10 @@ class UserController extends CI_Controller {
 	public function edit($id)
 	{
 		if (!$this->input->is_ajax_request()) {
-			exit('No direct script access allowed');
+			show_error("Anda tidak memiliki izin untuk mengakses sumber daya ini.", 403, "Akses Ditolak");
 		}
+
+		$this->auth->protect(1);
 
 		$this->output->set_status_header(200);
 		echo json_encode(array('success' => true, 'code' => 200, 'data' => $this->User->find($id)));
@@ -83,8 +89,10 @@ class UserController extends CI_Controller {
 	public function update()
 	{
 		if (!$this->input->is_ajax_request()) {
-			exit('No direct script access allowed');
+			show_error("Anda tidak memiliki izin untuk mengakses sumber daya ini.", 403, "Akses Ditolak");
 		}
+
+		$this->auth->protect(1);
 
 		$this->rules();
 
@@ -118,8 +126,10 @@ class UserController extends CI_Controller {
 	public function delete()
 	{
 		if (!$this->input->is_ajax_request()) {
-			exit('No direct script access allowed');
+			show_error("Anda tidak memiliki izin untuk mengakses sumber daya ini.", 403, "Akses Ditolak");
 		}
+
+		$this->auth->protect(1);
 
 		$id = $this->input->post('id');
 		return $this->userService->delete($id);

@@ -28,7 +28,7 @@ class OrderController extends CI_Controller {
 		}
 
 		if (!$this->input->is_ajax_request()) {
-			exit('No direct script access allowed');
+			show_error("Anda tidak memiliki izin untuk mengakses sumber daya ini.", 403, "Akses Ditolak");
 		}
 
 		$this->auth->protect(2);
