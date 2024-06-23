@@ -34,10 +34,10 @@
 			<div class="nav-item dropdown">
 				<a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown"
 					aria-label="Open user menu">
-					<span class="avatar avatar-sm" style="background-image: url(./static/avatars/000m.jpg)"></span>
+					<span class="avatar avatar-sm" style="background-image: url(<?= base_url('assets/dist/img/face.png') ?>)"></span>
 					<div class="d-none d-xl-block ps-2">
-						<div><?= $this->session->username  ?></div>
-						<div class="mt-1 small text-muted"><?= $this->session->role_id == 1 ? 'Administrator' : 'User' ?></div>
+						<div><?= ucfirst($this->session->username)  ?></div>
+						<div class="mt-1 small text-muted"><?= $this->session->role_id == 1 ? 'Administrator' : 'Member' ?></div>
 					</div>
 				</a>
 				<div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
