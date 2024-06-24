@@ -125,6 +125,36 @@ class Transaction extends CI_Model
 
 		return $builder->get()->result();
 	}
+
+	public function payment_table($keyword = null, $start = 0, $length = 0, $data = null)
+	{
+		$builder = $this->db->select("*")->from($this->table);
+
+		if($keyword) {
+			$arrKeyword = explode(" ", $keyword);
+			for ($i=0; $i < count($arrKeyword); $i++) {
+				$builder = $builder->or_like('order_id', $arrKeyword[$i]);
+			}
+		}
+
+		if ($data) {
+			if (isset($data['start']) && isset($data['end'])) {
+				$builder = $builder->where('created_at >=', $data['start']);
+				$builder = $builder->where('created_at <=', $data['end']);
+			}
+
+			if (isset($data['status'])) {
+				$builder = $builder->where('status_code', $data['status']);
+			}
+		}
+
+
+		if($start != 0 || $length != 0) {
+			$builder = $builder->limit($length, $start);
+		}
+
+		return $builder->get()->result();
+	}
 }
 
 

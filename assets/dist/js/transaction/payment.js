@@ -30,6 +30,10 @@ $("#table").DataTable({
 				d.date_start = dates[0];
 				d.date_end = dates[1];
 			}
+			if($("#status").val() != "") {
+				let status = $("#status").val();
+				d.status = status;
+			}
 		}
 	},
 	columns: [
@@ -42,6 +46,11 @@ $("#table").DataTable({
 				return `<span class="badge bg-success">${formatRupiah(data, "IDR", false)}</span>`
 		}},
 		{ data: 'payment_type', name: 'payment_type', className: 'text-nowrap', orderable: false, searchable: false},
+		{ data: 'status_code', name: 'status_code', className: 'text-nowrap', orderable: false, searchable: false,
+			render: function (data, type, row, meta) {
+				return `<span class="badge ${badgeStatusCode(row.status_code)}">${convertStatusCode(row.status_code)}</span>`;
+			}
+		},
 		{ data: null, className: 'text-nowrap', orderable: false, searchable: false,
 			render: function (data, type, row, meta) {
 				return `<a href="javascript:void(0)" data-id="${row.id}" class="btn btn-warning btn-sm detail">Detail</a>`;
@@ -50,48 +59,16 @@ $("#table").DataTable({
 	]
 });
 
-$('#btn-add').click(function () {
-	$("#form-category")[0].reset();
-	$("#modal-category").modal('show');
-
-	$('.modal-title').empty().append('Tambah Kategori');
-});
-
-$("#form-category").submit(function (e) {
-	e.preventDefault();
-
-	let id = $("#id").val();
-	let formData = new FormData(this);
-	let btn = "#btn-submit";
-	let table = "#table";
-	let form = "#form-category";
-	let modal = "#modal-category";
-
-	if (id !== "") {
-		var url = $("#update-url").val();
-	} else {
-		var url = $("#create-url").val();
-	}
-
-	// send data
-	ajaxPost(url, formData, btn).done(function (res) {
-		notifySuccess(res.message);
-		reloadTable(table);
-		$(modal).modal("hide");
-		$(form)[0].reset();
-	});
-});
-
 $("#table").on("click", ".detail", function () {
 	let id = $(this).data("id");
-	let url = $("#edit-url").val();
+	let url = $("#detail-url").val();
 	url = url.replace(":id", id);
 
 	ajaxGet(url).done(function (res) {
 		let html = '';
 		let no = 1;
 		let products = JSON.parse(res.data.products);
-		console.log(res);
+
 		$(".modal-title").empty().append("Detail Pemesanan");
 		$("#invoice").html(res.data.order_id);
 		$("#fullname").html(res.data.first_name);
@@ -126,17 +103,4 @@ $("#table").on("click", ".detail", function () {
 		$("#order-detail").html(html);
 		$("#modal-order").modal("show");
 	});
-});
-
-
-$("#table").on("click", ".delete", function () {
-	let id = $(this).data("id");
-	let url = $("#delete-url").val();
-	let table = "#table";
-
-	ajaxDel(url, id, false, 'notifySuccess', table);
-});
-
-$('#modal-category').on('hidden.bs.modal', function () {
-	resetValidation();
 });

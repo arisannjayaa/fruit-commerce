@@ -27,4 +27,31 @@ class PaymentController extends CI_Controller
 
 		return view('payment/index');
 	}
+
+	public function table()
+	{
+		if (!$this->auth->check()) {
+			redirect(base_url('login'));
+		}
+
+		if (!$this->input->is_ajax_request()) {
+			show_error("Anda tidak memiliki izin untuk mengakses sumber daya ini.", 403, "Akses Ditolak");
+		}
+
+		$this->auth->protect(1);
+
+		if(@$this->input->get('date_start') != "") {
+			$data['start'] = $this->input->get('date_start');
+		}
+
+		if(@$this->input->get('date_start') != "") {
+			$data['end'] = $this->input->get('date_end');
+		}
+
+		if(@$this->input->get('status') != "") {
+			$data['status'] = $this->input->get('status');
+		}
+
+		return $this->transactionService->payment_table($data);
+	}
 }

@@ -44,7 +44,6 @@
 						<th>No</th>
 						<th>Invoice</th>
 						<th>Total</th>
-						<th>Tipe Pembayaran</th>
 						<th>Aksi</th>
 					</tr>
 					</thead>
@@ -59,10 +58,7 @@
 
 @section('url')
 <input type="hidden" id="table-url" value="{{ base_url('transaction/order/table') }}">
-<input type="hidden" id="create-url" value="{{ base_url('transaction/order/store') }}">
-<input type="hidden" id="update-url" value="{{ base_url('transaction/order/update') }}">
-<input type="hidden" id="delete-url" value="{{ base_url('transaction/order/delete') }}">
-<input type="hidden" id="edit-url" value="{{ base_url('transaction/order/detail/:id') }}">
+<input type="hidden" id="detail-url" value="{{ base_url('transaction/order/detail/:id') }}">
 @endsection
 
 @section('script')

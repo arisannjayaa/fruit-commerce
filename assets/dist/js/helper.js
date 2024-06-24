@@ -154,23 +154,39 @@ function subStr(string, length) {
 }
 
 function convertDate(datetime) {
-	const timestamp = datetime; // Contoh timestamp
-
-// Membuat objek Date dari timestamp
+	const timestamp = datetime;
 	const date = new Date(timestamp);
-
-// Opsi untuk memformat tanggal
 	const optionsDate = { day: '2-digit', month: 'long', year: 'numeric' };
-// Opsi untuk memformat waktu
 	const optionsTime = { hour: '2-digit', minute: '2-digit' };
-
-// Mengambil bagian tanggal dalam format yang diinginkan
 	const formattedDate = date.toLocaleDateString('id-ID', optionsDate);
-// Mengambil bagian waktu dalam format yang diinginkan
 	const formattedTime = date.toLocaleTimeString('id-ID', optionsTime);
-
-// Menggabungkan tanggal dan waktu dengan format yang diinginkan
 	const formattedDateTime = `${formattedDate}, ${formattedTime}`;
-
+	
 	return formattedDateTime;
+}
+
+function convertStatusCode(status_code) {
+	let status = '';
+	if (status_code == '407') {
+		status = 'Expired';
+	} else if (status_code == '201') {
+		status = 'Pending';
+	} else {
+		status = 'Berhasil'
+	}
+
+	return status;
+}
+
+function badgeStatusCode(status_code) {
+	let badge = '';
+	if (status_code == '407') {
+		badge = 'bg-danger';
+	} else if (status_code == '201') {
+		badge = 'bg-warning';
+	} else {
+		badge = 'bg-success'
+	}
+
+	return badge;
 }

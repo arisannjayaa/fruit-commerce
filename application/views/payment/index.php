@@ -30,6 +30,12 @@
 <div class="row row-cards">
 	<div class="d-flex" style="gap: 10px">
 		<input type="text" class="form-control w-auto" id="dates" name="dates" value="" />
+		<select name="status" id="status" class="form-control w-auto">
+			<option value="">Semua</option>
+			<option value="201">Pending</option>
+			<option value="407">Expired</option>
+			<option value="200">Berhasil</option>
+		</select>
 		<button type="button" id="btn-filter" class="btn mb-2 h-100 w-auto" data-bs-toggle="modal">
 			Filter
 		</button>
@@ -44,7 +50,8 @@
 						<th>No</th>
 						<th>Invoice</th>
 						<th>Total</th>
-						<th>Tipe Pembayaran</th>
+						<th>Tipe</th>
+						<th>Status</th>
 						<th>Aksi</th>
 					</tr>
 					</thead>
@@ -54,15 +61,12 @@
 		</div>
 	</div>
 </div>
-@include('order/modal')
+@include('payment/modal')
 @endsection
 
 @section('url')
 <input type="hidden" id="table-url" value="{{ base_url('transaction/payment/table') }}">
-<input type="hidden" id="create-url" value="{{ base_url('transaction/payment/store') }}">
-<input type="hidden" id="update-url" value="{{ base_url('transaction/payment/update') }}">
-<input type="hidden" id="delete-url" value="{{ base_url('transaction/payment/delete') }}">
-<input type="hidden" id="edit-url" value="{{ base_url('transaction/payment/detail/:id') }}">
+<input type="hidden" id="detail-url" value="{{ base_url('transaction/order/detail/:id') }}">
 @endsection
 
 @section('script')
