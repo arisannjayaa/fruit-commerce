@@ -95,13 +95,18 @@ $route['transaction/order/delete'] = 'Transaction/OrderController/delete';
 $route['transaction/order/detail/(:any)'] = 'Transaction/OrderController/detail/$1';
 $route['transaction/order/table']['GET'] = 'Transaction/OrderController/table';
 
-//order management
+//payment management
 $route['transaction/payment']['GET'] = 'Transaction/PaymentController/index';
-$route['transaction/payment/store'] = 'Transaction/PaymentController/store';
-$route['transaction/payment/update'] = 'Transaction/PaymentController/update';
-$route['transaction/payment/delete'] = 'Transaction/PaymentController/delete';
 $route['transaction/payment/detail/(:any)'] = 'Transaction/PaymentController/detail/$1';
 $route['transaction/payment/table']['GET'] = 'Transaction/PaymentController/table';
+
+// report
+$route['report']['GET'] = 'ReportController/index';
+$route['report/table']['GET'] = 'ReportController/table';
+
+// export
+$route['report/export']['GET'] = 'ReportController/export';
+
 
 //home
 $route['default_controller'] = 'HomeController/index';
@@ -114,7 +119,6 @@ $route['all-cart'] = 'CartController/all';
 $route['cart/delete'] = 'CartController/delete';
 $route['cart/update'] = 'CartController/update';
 $route['cart/create'] = 'CartController/store';
-
 
 //midtrans
 $route['snap'] = 'Midtrans/SnapController/index';

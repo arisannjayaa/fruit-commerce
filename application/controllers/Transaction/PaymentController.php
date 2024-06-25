@@ -44,7 +44,7 @@ class PaymentController extends CI_Controller
 			$data['start'] = $this->input->get('date_start');
 		}
 
-		if(@$this->input->get('date_start') != "") {
+		if(@$this->input->get('date_end') != "") {
 			$data['end'] = $this->input->get('date_end');
 		}
 
@@ -52,6 +52,6 @@ class PaymentController extends CI_Controller
 			$data['status'] = $this->input->get('status');
 		}
 
-		return $this->transactionService->payment_table($data);
+		return $this->transactionService->table($data);
 	}
 }

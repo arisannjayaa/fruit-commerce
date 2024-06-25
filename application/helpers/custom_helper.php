@@ -22,3 +22,13 @@ function uid($limit = 9)
 {
 	return substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, $limit);
 }
+
+function formatDateId($date)
+{
+	$formatter = new IntlDateFormatter('id_ID', IntlDateFormatter::FULL, IntlDateFormatter::NONE);
+
+	$timestamp = strtotime($date);
+	$formattedDate = $formatter->format($timestamp);
+
+	return $formattedDate;
+}

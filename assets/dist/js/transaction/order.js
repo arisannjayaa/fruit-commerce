@@ -2,6 +2,7 @@ const tableUrl = $('#table-url').val();
 let table = $('#table');
 
 $('input[name="dates"]').daterangepicker({
+	autoApply: true,
 	timePicker: false,
 	startDate: moment(),
 	endDate: moment(),

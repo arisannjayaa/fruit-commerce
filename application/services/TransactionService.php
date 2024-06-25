@@ -73,28 +73,7 @@ class TransactionService extends MY_Service{
 		}
 	}
 
-	public function order_table($data)
-	{
-
-		$data['start'] = date('Y-m-d', strtotime($data['start'])).' 00:00:00';
-		$data['end'] = date('Y-m-d', strtotime($data['end'])).' 23:59:59';
-
-		$param['draw'] = isset($_REQUEST['draw']) ? $_REQUEST['draw'] : '';
-		$start = isset($_REQUEST['start']) ? $_REQUEST['start'] : '';
-		$length = isset($_REQUEST['length']) ? $_REQUEST['length'] : '';
-		$search = isset($_REQUEST['search']['value']) ? $_REQUEST['search']['value'] : '';
-		$query = $this->Transaction->order_table($search, $start, $length, $data);
-		$total_count = $this->Transaction->order_table($search);
-
-		echo json_encode([
-			'draw' => intval($param['draw']),
-			'recordsTotal' => count($total_count),
-			'recordsFiltered' => count($total_count),
-			'data' => $query
-		]);
-	}
-
-	public function payment_table($data)
+	public function table($data)
 	{
 		$data['start'] = date('Y-m-d', strtotime($data['start'])).' 00:00:00';
 		$data['end'] = date('Y-m-d', strtotime($data['end'])).' 23:59:59';
@@ -103,8 +82,8 @@ class TransactionService extends MY_Service{
 		$start = isset($_REQUEST['start']) ? $_REQUEST['start'] : '';
 		$length = isset($_REQUEST['length']) ? $_REQUEST['length'] : '';
 		$search = isset($_REQUEST['search']['value']) ? $_REQUEST['search']['value'] : '';
-		$query = $this->Transaction->payment_table($search, $start, $length, $data);
-		$total_count = $this->Transaction->payment_table($search);
+		$query = $this->Transaction->table($search, $start, $length, $data);
+		$total_count = $this->Transaction->table($search);
 
 		echo json_encode([
 			'draw' => intval($param['draw']),
