@@ -30,6 +30,10 @@ $("#table").DataTable({
 				d.date_start = dates[0];
 				d.date_end = dates[1];
 			}
+			if($("#status").val() != "") {
+				let status = $("#status").val();
+				d.status = status;
+			}
 		}
 	},
 	columns: [
@@ -41,6 +45,12 @@ $("#table").DataTable({
 		{ data: 'gross_amount', name: 'gross_amount', className: 'text-nowrap', orderable: false, searchable: false, render: function (data) {
 				return `<span class="badge bg-success">${formatRupiah(data, "IDR", false)}</span>`
 		}},
+		{ data: 'payment_type', name: 'payment_type', className: 'text-nowrap', orderable: false, searchable: false},
+		{ data: 'status_code', name: 'status_code', className: 'text-nowrap', orderable: false, searchable: false,
+			render: function (data, type, row, meta) {
+				return `<span class="badge ${badgeStatusCode(row.status_code)}">${convertStatusCode(row.status_code)}</span>`;
+			}
+		},
 		{ data: null, className: 'text-nowrap', orderable: false, searchable: false,
 			render: function (data, type, row, meta) {
 				return `<a href="javascript:void(0)" data-id="${row.id}" class="btn btn-warning btn-sm detail">Detail</a>`;
