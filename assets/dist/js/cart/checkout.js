@@ -22,10 +22,6 @@ $('#pay-button').click(function (event) {
 			cache: false,
 
 			success: function(data) {
-				//location = data;
-				console.log(data);
-				console.log('token = '+data);
-
 				var resultType = document.getElementById('result-type');
 				var resultData = document.getElementById('result-data');
 
@@ -38,20 +34,20 @@ $('#pay-button').click(function (event) {
 
 				snap.pay(data, {
 					onSuccess: function(result){
-						console.log(result);
+						// console.log(result);
 						changeResult('success', result);
-						console.log(result.status_message);
-						console.log(result);
+						// console.log(result.status_message);
+						// console.log(result);
 						$("#payment-form").submit();
 					},
 					onPending: function(result){
 						changeResult('pending', result);
-						console.log(result.status_message);
+						console.log(result);
 						$("#payment-form").submit();
 					},
 					onError: function(result){
 						changeResult('error', result);
-						console.log(result.status_message);
+						// console.log(result.status_message);
 						$("#payment-form").submit();
 					}
 				});
