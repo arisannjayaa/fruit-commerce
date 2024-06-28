@@ -1,12 +1,4 @@
 $('#pay-button').click(function (event) {
-	ajaxGet(allCartItemUrl).done(function (res) {
-		$("#body").val(JSON.stringify(res.data));
-		if (res.data.length == 0) {
-			new sweetError('Keranjang anda masih kosong!');
-			return false;
-		}
-	});
-
 	event.preventDefault();
 	let tokenUrl = $("#snap-token-url").val();
 	setTimeout(function () {
@@ -15,7 +7,6 @@ $('#pay-button').click(function (event) {
 			data: {
 				result_data : $("#result-data").val(),
 				result_type : $("#result-type").val(),
-				body : $("#body").val(),
 				gross_amount: $("#total-price").val(),
 			},
 			url: tokenUrl,

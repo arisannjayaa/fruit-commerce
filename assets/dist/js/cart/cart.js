@@ -134,7 +134,6 @@ function fetchCart() {
 				</div>`;
 		});
 		$("#product-container").append(html);
-		$("#body").val(JSON.stringify(res.data));
 		$(".total-price").html(formatRupiah(totalCount(), "IDR", false));
 		$("#total-price").val(totalCount());
 		fetchTotalCart();

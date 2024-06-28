@@ -47,8 +47,9 @@ class TransactionService extends MY_Service{
 	{
 		try {
 			$products = json_decode($data['products']);
+
 			foreach ($products as $product) {
-				$this->Cart->deleteByUserProduct($product->user_id, $product->product_id);
+				$this->Cart->deleteByUserProduct($product->user_id, $product->id);
 			}
 
 			$this->Transaction->create($data);

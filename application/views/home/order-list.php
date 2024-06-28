@@ -20,15 +20,16 @@
 		@foreach($transactions as $transaction)
 		<?php
 			$product = json_decode($transaction->products);
-			$status = $transaction->status_code == '201' ? 'Pending' : 'Selesai';
-			$date = new DateTime($transaction->transaction_time);
+			$captureResponse = json_decode($transaction->capture_payment_response);
+			$status = $captureResponse->transaction_status;
+			$date = new DateTime($transaction->created_at);
 			$other = count($product) - 1;
 			$total = 0;
 		?>
 			<div class="card mb-3">
 				<div class="card-body">
 					<div class="d-flex mb-3" style="gap: 10px">
-						<span class="badge {{ $status == 'Pending' ? 'bg-warning' : 'bg-success' }} text-white my-auto">{{ $status }}</span>
+						<span class="badge {{ $status == 'pending' ? 'bg-warning' : 'bg-success' }} text-white my-auto">{{ $status }}</span>
 						<span>{{ $date->format('d F Y') }}</span>
 						<span class="d-lg-block d-none cursor-pointer">{{ $transaction->order_id }}</span>
 					</div>
@@ -37,7 +38,7 @@
 							<div class="d-flex" style="gap: 10px">
 								<img class="img-product" style="object-fit: cover; border-radius: 7px" src="<?= base_url('assets/home/images/image_5.jpg') ?>" alt="Colorlib Template">
 								<div class="title">
-									<span style="cursor:pointer;" data-id="{{ $transaction->order_id }}" class="detail" href="javascript:void(0)">{{ $product[0]->title }}</span>
+									<span style="cursor:pointer;" data-id="{{ $transaction->order_id }}" class="detail" href="javascript:void(0)">{{ $product[0]->name }}</span>
 
 									<span class="d-block">{{ $product[0]->quantity . ' Barang x ' . formatToRupiah($product[0]->price)  }} </span>
 

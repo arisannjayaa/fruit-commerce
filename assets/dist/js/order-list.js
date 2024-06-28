@@ -10,11 +10,12 @@ $(document).on('click', '.detail', function () {
 		success: function(res) {
 			let response = JSON.parse(res);
 			let products = JSON.parse(response.data.products);
+			let captureResponse = JSON.parse(response.data.capture_payment_response);
 			let html = '';
 
 			$(".modal-title").empty().append("Detail Transaksi");
 			$("#invoice-id").html(response.data.order_id);
-			$("#status").html(response.data.status_code);
+			$("#status").html(captureResponse.transaction_status);
 			$("#payment-type").html(response.data.payment_type);
 			$("#date-transaction").html(convertDate(response.data.created_at));
 			$("#gross-amount").html(formatRupiah(response.data.gross_amount,"IDR", false));
@@ -26,7 +27,7 @@ $(document).on('click', '.detail', function () {
 								<div class="d-flex" style="gap: 10px">
 									<img height="50" width="50" style="object-fit: cover; border-radius: 7px" src="${products[0].attachment != null ? BASE_URL + products[0].attachment : BASE_URL + 'assets/home/images/image_5.jpg'}" alt="">
 									<div>
-										<span class="d-block" href="javascript:void(0)">${products[0].title}</span>
+										<span class="d-block" href="javascript:void(0)">${products[0].name}</span>
 										<span class="d-block">${products[0].quantity + ' x ' + formatRupiah(products[0].price, "IDR", false)}</span>
 									</div>
 								</div>
@@ -49,7 +50,7 @@ $(document).on('click', '.detail', function () {
 								<div class="d-flex" style="gap: 10px">
 									<img height="50" width="50" style="object-fit: cover; border-radius: 7px" src="${attachment}" alt="">
 									<div>
-										<span href="javascript:void(0)" class="d-block">${item.title}</span>
+										<span href="javascript:void(0)" class="d-block">${item.name}</span>
 										<span class="d-block">${item.quantity + ' x ' + formatRupiah(item.price, "IDR", false)}</span>
 									</div>
 								</div>

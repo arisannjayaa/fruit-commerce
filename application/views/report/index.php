@@ -40,10 +40,12 @@
 		</div>
 	</div>
 </div>
+@include('payment/modal')
 @endsection
 
 @section('url')
 <input type="hidden" id="table-url" value="{{ base_url('report/table') }}">
+<input type="hidden" id="detail-url" value="{{ base_url('transaction/order/detail/:id') }}">
 <input type="hidden" id="export-url" value="{{ base_url('report/export') }}">
 @endsection
 

@@ -131,16 +131,17 @@ class Transaction extends CI_Model
 
 	public function getReport($data = null)
 	{
-		$builder = $this->db->select("*")->from($this->table);
+		$builder = $this->db->select("*, users.first_name as first_name, users.last_name as last_name")->from($this->table);
+		$builder = $builder->join('users', 'users.id = transactions.user_id');
 
 		if ($data) {
 			if (isset($data['start']) && isset($data['end'])) {
-				$builder = $builder->where('created_at >=', $data['start']);
-				$builder = $builder->where('created_at <=', $data['end']);
+				$builder = $builder->where('transactions.created_at >=', $data['start']);
+				$builder = $builder->where('transactions.created_at <=', $data['end']);
 			}
 
 			if (isset($data['status'])) {
-				$builder = $builder->where('status_code', $data['status']);
+				$builder = $builder->where('transactions.status_code', $data['status']);
 			}
 		}
 

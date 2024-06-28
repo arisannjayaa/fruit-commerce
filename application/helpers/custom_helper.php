@@ -32,3 +32,38 @@ function formatDateId($date)
 
 	return $formattedDate;
 }
+
+function myEncrypt($data)
+{
+	$passphrase = '__@#bukanHanyaManusiacampAh';
+	$cipher = "AES-256-CBC";
+	$secreet_iv = 'thisTodTeli@#MinorHasTag$&=KlTy!';
+	$key = hash('sha256', $passphrase);
+	$iv = substr(hash('sha256',$secreet_iv), 0, 16);
+	$options = 0;
+
+	$ciphertext = openssl_encrypt($data, $cipher, $key, $options, $iv);
+
+	return base64_encode($ciphertext);
+}
+
+function myDecrypt($data)
+{
+	$passphrase = '__@#bukanHanyaManusiacampAh';
+	$cipher = "AES-256-CBC";
+	$secreet_iv = 'thisTodTeli@#MinorHasTag$&=KlTy!';
+	$key = hash('sha256', $passphrase);
+	$iv = substr(hash('sha256',$secreet_iv), 0, 16);
+	$options = 0;
+
+	$decode = openssl_decrypt(base64_decode($data), $cipher, $key, $options, $iv);
+
+	return $decode ? $decode : 'Wrong Data';
+}
+
+function expiredTime($init_time)
+{
+	$expiration_time = strtotime($init_time . ' +24 hours');
+	$formatted_expiration_time = date('Y-m-d H:i:s O', $expiration_time);
+	return $formatted_expiration_time;
+}

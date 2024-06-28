@@ -62,7 +62,7 @@ $("#table").on("click", ".detail", function () {
 
 		$(".modal-title").empty().append("Detail Pemesanan");
 		$("#invoice").html(res.data.order_id);
-		$("#fullname").html(res.data.first_name);
+		$("#fullname").html(res.data.first_name + ' ' + res.data.last_name);
 		$("#email").html(res.data.email);
 		$("#telephone").html(res.data.telephone);
 
@@ -70,7 +70,7 @@ $("#table").on("click", ".detail", function () {
 			html += `<tr>
 						<td class="text-center">${no}</td>
 						<td>
-						<p class="strong mb-1">${item.title}</p>
+						<p class="strong mb-1">${item.name}</p>
 						<div class="text-muted">${subStr(item.description, 50)}</div>
 						</td>
 						<td class="text-center">

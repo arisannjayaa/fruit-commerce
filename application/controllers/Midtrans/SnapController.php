@@ -1,6 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class SnapController extends CI_Controller {
+
 	public function __construct()
     {
         parent::__construct();
@@ -10,6 +11,7 @@ class SnapController extends CI_Controller {
 		$this->load->helper('url');
 		$this->load->helper('custom');
 		$this->load->service('TransactionService', 'transactionService');
+		$this->load->model('Cart');
     }
 
     public function index()
@@ -23,10 +25,11 @@ class SnapController extends CI_Controller {
 			exit('No direct script access allowed');
 		}
 
-		$data = json_decode($this->input->post('body'));
+		$data = $this->Cart->findByUserId($this->auth->user()->id)->result();
+
 		$arrProduct = [];
 		foreach ($data as $item) {
-			$arrProduct[] = ['id' => $item->id, 'price' => $item->price, 'quantity' => $item->quantity, 'name' => $item->title];
+			$arrProduct[] = ['id' => $item->product_id, 'price' => $item->price, 'quantity' => $item->quantity, 'name' => $item->title, 'user_id' => $item->user_id, 'description' => $item->description];
 		}
 
 		// Required
@@ -75,8 +78,8 @@ class SnapController extends CI_Controller {
         $time = time();
         $custom_expiry = array(
             'start_time' => date("Y-m-d H:i:s O", $time),
-            'unit' => 'minute',
-            'duration'  => 1
+            'unit' => 'hour',
+            'duration'  => 24
         );
         
         $transaction_data = array(
@@ -86,6 +89,9 @@ class SnapController extends CI_Controller {
             'credit_card'        => $credit_card,
             'expiry'             => $custom_expiry
         );
+
+		$encoded_data = myEncrypt(json_encode($transaction_data));
+		$this->session->set_userdata('captureRequest', $encoded_data);
 
 		error_log(json_encode($transaction_data));
 		$snapToken = $this->midtrans->getSnapToken($transaction_data);
@@ -98,20 +104,24 @@ class SnapController extends CI_Controller {
 		if (!$this->input->is_ajax_request()) {
 			exit('No direct script access allowed');
 		}
-
-    	$result = json_decode($this->input->post('result_data'));
+		$captureRequest = myDecrypt($this->session->userdata('captureRequest'));
+		$captureResponse = $this->input->post('result_data');
+		$decodeCaptureRequest = json_decode($captureRequest);
+		$products = json_encode($decodeCaptureRequest->item_details);
+    	$result = json_decode($captureResponse);
+		$expired = expiredTime($decodeCaptureRequest->expiry->start_time);
 
 		$data = array(
 			'user_id' => $this->auth->user()->id,
 			'order_id' => $result->order_id,
-			'products' => $this->input->post('body'),
+			'products' => $products,
 			'gross_amount' => $result->gross_amount,
 			'status_code' => $result->status_code,
 			'payment_type' => $result->payment_type,
 			'bank' => $result->va_numbers[0]->bank ?? null,
-			'va_number' => $result->va_number ?? null,
-			'pdf_url' => $result->pdf_url ?? null,
-			'transaction_time' => date('Y-m-d H:i:s')
+			'capture_payment_request' => $captureRequest,
+			'capture_payment_response' => $captureResponse,
+			'expired_time' => $expired
 		);
 
 		$this->transactionService->create($data, $result);

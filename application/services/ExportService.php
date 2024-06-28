@@ -31,7 +31,7 @@ class ExportService extends MY_Service{
 
 			$sheet->setCellValue('A2', 'Tanggal: ' . formatDateId($data['start']) . ' - ' . formatDateId($data['end']));
 
-			$sheet->mergeCells('A2:G2');
+			$sheet->mergeCells('A2:H2');
 
 			$sheet->getStyle('A2')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
 			$sheet->getStyle('A2')->getFont()->setBold(false)->setSize(12);
@@ -43,21 +43,24 @@ class ExportService extends MY_Service{
 			$sheet->setCellValue('E4', 'Status Pembayaran');
 			$sheet->setCellValue('F4', 'Bank');
 			$sheet->setCellValue('G4', 'Tanggal Transaksi');
+			$sheet->setCellValue('H4', 'Total Bayar');
 
-			foreach (range('A', 'G') as $columnID) {
+			foreach (range('A', 'H') as $columnID) {
 				$sheet->getColumnDimension($columnID)->setAutoSize(true);
 			}
 
 			$no = 1;
 			$cell = 5;
 			foreach ($transactions as $transaction) {
+				$captureResponse = json_decode($transaction->capture_payment_response);
 				$sheet->setCellValue('A' . $cell, $no);
 				$sheet->setCellValue('B' . $cell, $transaction->order_id);
-				$sheet->setCellValue('C' . $cell, $transaction->user_id);
+				$sheet->setCellValue('C' . $cell, $transaction->first_name . ' ' . $transaction->last_name);
 				$sheet->setCellValue('D' . $cell, $transaction->payment_type);
-				$sheet->setCellValue('E' . $cell, $transaction->status_code);
+				$sheet->setCellValue('E' . $cell, $captureResponse->transaction_status);
 				$sheet->setCellValue('F' . $cell, $transaction->bank);
 				$sheet->setCellValue('G' . $cell, formatDateId($transaction->created_at));
+				$sheet->setCellValue('H' . $cell, $transaction->gross_amount);
 				$no++;
 				$cell++;
 			}
