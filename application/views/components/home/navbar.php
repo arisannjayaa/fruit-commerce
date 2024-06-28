@@ -19,6 +19,7 @@
 					@endif
 					@if($this->auth->isMember())
 						<a class="dropdown-item" href="<?= base_url('order-list') ?>">Pembelian</a>
+						<a class="dropdown-item" href="<?= base_url('user/settings') ?>">Pengaturan</a>
 					@endif
 					@if(!$this->auth->check())
 						<a class="dropdown-item" href="<?= base_url('login') ?>">Login</a>
