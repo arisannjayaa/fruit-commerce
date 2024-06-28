@@ -22,3 +22,48 @@ function uid($limit = 9)
 {
 	return substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, $limit);
 }
+
+function formatDateId($date)
+{
+	$formatter = new IntlDateFormatter('id_ID', IntlDateFormatter::FULL, IntlDateFormatter::NONE);
+
+	$timestamp = strtotime($date);
+	$formattedDate = $formatter->format($timestamp);
+
+	return $formattedDate;
+}
+
+function myEncrypt($data)
+{
+	$passphrase = '__@#bukanHanyaManusiacampAh';
+	$cipher = "AES-256-CBC";
+	$secreet_iv = 'thisTodTeli@#MinorHasTag$&=KlTy!';
+	$key = hash('sha256', $passphrase);
+	$iv = substr(hash('sha256',$secreet_iv), 0, 16);
+	$options = 0;
+
+	$ciphertext = openssl_encrypt($data, $cipher, $key, $options, $iv);
+
+	return base64_encode($ciphertext);
+}
+
+function myDecrypt($data)
+{
+	$passphrase = '__@#bukanHanyaManusiacampAh';
+	$cipher = "AES-256-CBC";
+	$secreet_iv = 'thisTodTeli@#MinorHasTag$&=KlTy!';
+	$key = hash('sha256', $passphrase);
+	$iv = substr(hash('sha256',$secreet_iv), 0, 16);
+	$options = 0;
+
+	$decode = openssl_decrypt(base64_decode($data), $cipher, $key, $options, $iv);
+
+	return $decode ? $decode : 'Wrong Data';
+}
+
+function expiredTime($init_time)
+{
+	$expiration_time = strtotime($init_time . ' +24 hours');
+	$formatted_expiration_time = date('Y-m-d H:i:s O', $expiration_time);
+	return $formatted_expiration_time;
+}

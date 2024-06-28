@@ -49,22 +49,18 @@ class Migration_Transactions extends CI_Migration
 				'constraint'        => '255',
 				'null'				=> true
 			],
-			'va_number' => [
-				'type' 				=> 'VARCHAR',
-				'constraint'        => '255',
-				'null'				=> true
+			'capture_payment_request' => [
+				'type'              => 'JSON',
 			],
-			'pdf_url' => [
-				'type' 				=> 'VARCHAR',
-				'constraint'        => '255',
-				'null'				=> true
+			'capture_payment_response' => [
+				'type'              => 'JSON',
 			],
         ]);
 
         $this->dbforge->add_key('id', TRUE);
-		$this->dbforge->add_field("updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP");
-		$this->dbforge->add_field("transaction_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP");
+        $this->dbforge->add_field("expired_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP");
         $this->dbforge->add_field("created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP");
+		$this->dbforge->add_field("updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP");
 		$this->dbforge->add_field('CONSTRAINT FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE');
 
         $this->dbforge->create_table($this->tableName);
@@ -72,7 +68,6 @@ class Migration_Transactions extends CI_Migration
 
     public function down()
     {
-        // Hapus tabel users
         $this->dbforge->drop_table($this->tableName);
     }
 }

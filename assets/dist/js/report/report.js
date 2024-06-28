@@ -11,8 +11,22 @@ $('input[name="dates"]').daterangepicker({
 	}
 });
 
-$("#btn-filter").click(function () {
+$("#dates").change(function () {
 	reloadTable(table);
+});
+
+$("#status").change(function () {
+	reloadTable(table);
+});
+
+$("#btn-export").click(() => {
+	let url = $("#export-url").val();
+	let dates = $("#dates").val();
+	let status = $("#status").val();
+	dates = dates.split(" - ");
+
+	url += `?date_start=${dates[0]}&date_end=${dates[1]}&status=${status}`;
+	location.href = url;
 });
 
 $("#table").DataTable({
@@ -105,3 +119,4 @@ $("#table").on("click", ".detail", function () {
 		$("#modal-order").modal("show");
 	});
 });
+

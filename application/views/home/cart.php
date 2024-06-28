@@ -46,7 +46,6 @@
 	<form class="d-none" id="payment-form">
 		<input type="hidden" name="result_type" id="result-type" value=""></div>
 		<input type="hidden" name="result_data" id="result-data" value=""></div>
-		<input type="hidden" name="body" id="body" value=""></div>
 		<input type="hidden" name="invoice" id="invoice" value="<?= genInvoice() ?>"></div>
 	</form>
 	<div class="container">

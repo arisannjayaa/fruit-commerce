@@ -40,11 +40,11 @@ class OrderController extends CI_Controller
 			$data['start'] = $this->input->get('date_start');
 		}
 
-		if(@$this->input->get('date_start') != "") {
+		if(@$this->input->get('date_end') != "") {
 			$data['end'] = $this->input->get('date_end');
 		}
 
-		return $this->transactionService->order_table($data);
+		return $this->transactionService->table($data);
 	}
 
 	public function detail($id)
