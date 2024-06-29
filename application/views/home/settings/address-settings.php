@@ -42,14 +42,21 @@
 				</button>
 				<div class="row">
 					<div class="col-12">
-						<div class="card address active">
+						@foreach($addresses as $address)
+						<div class="card address <?= $address->is_primary ? 'active' : '' ?> mb-3">
 							<div class="card-body">
-								<h6 data-testid="label">Label</h6>
-								<h6 data-testid="addressee">Addressee</h6>
-								<div data-testid="telephone">6289394904</div>
-								<span data-testid="address">Address</span>
+								<h6 data-testid="label"><?= $address->label ?></h6>
+								<h6 data-testid="addressee"><?= $address->addressee ?></h6>
+								<div data-testid="telephone"><?= $address->telephone ?></div>
+								<span data-testid="address"><?= $address->address ?></span>
+
+								<div class="mt-3">
+									<button data-id="<?= $address->id ?>" class="btn btn-primary edit">Edit</button>
+									<button data-id="<?= $address->id ?>" class="btn btn-danger delete">Hapus</button>
+								</div>
 							</div>
 						</div>
+						@endforeach
 					</div>
 				</div>
 			</div>
@@ -61,6 +68,7 @@
 
 @section('url')
 <input type="hidden" id="create-url" value="{{ base_url('user/settings/address/store') }}">
+<input type="hidden" id="total-rows" value="{{ $total }}">
 <input type="hidden" id="update-url" value="{{ base_url('user/settings/address/update') }}">
 <input type="hidden" id="delete-url" value="{{ base_url('user/settings/address/delete') }}">
 <input type="hidden" id="edit-url" value="{{ base_url('user/settings/address/edit/:id') }}">

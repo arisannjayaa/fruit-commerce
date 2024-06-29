@@ -135,6 +135,7 @@ $route['user/settings/address'] = 'AddressController/index';
 $route['user/settings/address/store'] = 'AddressController/store';
 $route['user/settings/address/update'] = 'AddressController/update';
 $route['user/settings/address/delete'] = 'AddressController/delete';
+$route['user/settings/address/total'] = 'AddressController/total';
 $route['user/settings/address/edit/(:any)'] = 'AddressController/edit/$1';
 
 $route['404_override'] = 'ErrorController/error_404';

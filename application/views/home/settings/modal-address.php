@@ -9,6 +9,7 @@
 					</button>
 				</div>
 				<div class="modal-body">
+					<input type="hidden" class="form-control" id="id" name="id">
 					<div class="form-group">
 						<label for="addressee">Nama Penerima</label>
 						<input type="text" class="form-control" id="addressee" name="addressee">
@@ -29,6 +30,12 @@
 					<div class="form-group">
 						<label for="postal_code">Kode POS</label>
 						<input type="text" class="form-control" id="postal_code" name="postal_code">
+					</div>
+					<div class="form-check" id="check-is-primary">
+						<input class="form-check-input" type="checkbox" value="true" id="is-primary" name="is_primary">
+						<label class="form-check-label" for="is-primary">
+							Jadikan Alamat Utama
+						</label>
 					</div>
 				</div>
 				<div class="modal-footer">

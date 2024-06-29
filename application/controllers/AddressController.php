@@ -7,6 +7,7 @@ class AddressController extends CI_Controller {
     {
         parent::__construct();
 		$this->load->service('AddressService', 'addressService');
+		$this->load->model('Address');
     }
 
     public function index()
@@ -16,7 +17,9 @@ class AddressController extends CI_Controller {
 		}
 
 		$this->auth->protect(2);
-		return view('home/settings/address-settings');
+		$data['addresses'] = $this->Address->findByUserId($this->auth->user()->id)->result();
+		$data['total'] = $this->Address->getCountRow($this->auth->user()->id);
+		return view('home/settings/address-settings', $data);
     }
 
 	public function store()
@@ -40,14 +43,18 @@ class AddressController extends CI_Controller {
 			echo json_encode(array('errors' => $errorObj));
 			return;
 		}
+
 		$data = array(
-			'username' => $this->input->post('username'),
-			'email' => $this->input->post('email'),
-			'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
-			'role_id' => 2,
+			'user_id' => $this->auth->user()->id,
+			'address' => $this->input->post('address'),
+			'label' => $this->input->post('label'),
+			'addressee' => $this->input->post('addressee'),
+			'telephone' => $this->input->post('telephone'),
+			'postal_code' => $this->input->post('postal_code'),
+			'is_primary' => $this->input->post('is_primary') ? true : false,
 		);
 
-		return $this->userService->create($data);
+		return $this->addressService->create($data);
 	}
 
 	/**
@@ -64,7 +71,7 @@ class AddressController extends CI_Controller {
 		$this->auth->protect(2);
 
 		$this->output->set_status_header(200);
-		echo json_encode(array('success' => true, 'code' => 200, 'data' => $this->User->find($id)));
+		echo json_encode(array('success' => true, 'code' => 200, 'data' => $this->Address->find($id)->row()));
 	}
 
 	/**
@@ -96,12 +103,16 @@ class AddressController extends CI_Controller {
 
 		$data = array(
 			'id' => $this->input->post('id'),
-			'username' => $this->input->post('username'),
-			'email' => $this->input->post('email'),
-			'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT)
+			'user_id' => $this->auth->user()->id,
+			'address' => $this->input->post('address'),
+			'label' => $this->input->post('label'),
+			'addressee' => $this->input->post('addressee'),
+			'telephone' => $this->input->post('telephone'),
+			'postal_code' => $this->input->post('postal_code'),
+			'is_primary' => $this->input->post('is_primary') ? true : false,
 		);
 
-		return $this->userService->update($data);
+		return $this->addressService->update($data);
 	}
 
 	/**
@@ -117,7 +128,7 @@ class AddressController extends CI_Controller {
 		$this->auth->protect(2);
 
 		$id = $this->input->post('id');
-		return $this->userService->delete($id);
+		return $this->addressService->delete($id);
 	}
 
 	public function rules()

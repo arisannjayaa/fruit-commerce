@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Migration_Transactions extends CI_Migration
+class Migration_Addresses extends CI_Migration
 {
     protected $tableName  = 'addresses';
 	public function __construct($config = array())

@@ -14,7 +14,7 @@ class MigrationController extends CI_Controller
     {
 		$this->drop_all_tables();
         $this->load->library('migration');
-        for($i = 1; $i <= 6; $i++) {
+        for($i = 1; $i <= 7; $i++) {
             if ($this->migration->version($i) === false) {
                 echo $this->migration->error_string();
             } else {
