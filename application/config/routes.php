@@ -107,7 +107,6 @@ $route['report/table']['GET'] = 'ReportController/table';
 // export
 $route['report/export']['GET'] = 'ReportController/export';
 
-
 //home
 $route['default_controller'] = 'HomeController/index';
 $route['shop'] = 'HomeController/shop';
@@ -129,6 +128,15 @@ $route['notification'] = 'Midtrans/Notification/index';
 //order-list
 $route['order-list'] = 'OrderController/index';
 $route['order-list/(:any)'] = 'OrderController/detail/$1';
+
+//user settings
+$route['user/settings'] = 'UserController/settings';
+$route['user/settings/address'] = 'AddressController/index';
+$route['user/settings/address/store'] = 'AddressController/store';
+$route['user/settings/address/update'] = 'AddressController/update';
+$route['user/settings/address/delete'] = 'AddressController/delete';
+$route['user/settings/address/total'] = 'AddressController/total';
+$route['user/settings/address/edit/(:any)'] = 'AddressController/edit/$1';
 
 $route['404_override'] = 'ErrorController/error_404';
 $route['translate_uri_dashes'] = FALSE;

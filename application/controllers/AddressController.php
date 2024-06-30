@@ -1,12 +1,13 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class UserController extends CI_Controller {
+class AddressController extends CI_Controller {
 
     public function __construct()
     {
         parent::__construct();
-		$this->load->service('UserService', 'userService');
+		$this->load->service('AddressService', 'addressService');
+		$this->load->model('Address');
     }
 
     public function index()
@@ -15,24 +16,11 @@ class UserController extends CI_Controller {
 			redirect(base_url('login'));
 		}
 
-		$this->auth->protect(1);
-		return view('user/index');
+		$this->auth->protect(2);
+		$data['addresses'] = $this->Address->findByUserId($this->auth->user()->id)->result();
+		$data['total'] = $this->Address->getCountRow($this->auth->user()->id);
+		return view('home/settings/address-settings', $data);
     }
-
-	public function table()
-	{
-		if (!$this->auth->check()) {
-			redirect(base_url('login'));
-		}
-
-		if (!$this->input->is_ajax_request()) {
-			show_error("Anda tidak memiliki izin untuk mengakses sumber daya ini.", 403, "Akses Ditolak");
-		}
-
-		$this->auth->protect(1);
-
-		return $this->userService->table();
-	}
 
 	public function store()
 	{
@@ -40,7 +28,7 @@ class UserController extends CI_Controller {
 			show_error("Anda tidak memiliki izin untuk mengakses sumber daya ini.", 403, "Akses Ditolak");
 		}
 
-		$this->auth->protect(1);
+		$this->auth->protect(2);
 
 		$this->rules();
 		if ($this->form_validation->run() == FALSE) {
@@ -55,14 +43,18 @@ class UserController extends CI_Controller {
 			echo json_encode(array('errors' => $errorObj));
 			return;
 		}
+
 		$data = array(
-			'username' => $this->input->post('username'),
-			'email' => $this->input->post('email'),
-			'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
-			'role_id' => 2,
+			'user_id' => $this->auth->user()->id,
+			'address' => $this->input->post('address'),
+			'label' => $this->input->post('label'),
+			'addressee' => $this->input->post('addressee'),
+			'telephone' => $this->input->post('telephone'),
+			'postal_code' => $this->input->post('postal_code'),
+			'is_primary' => $this->input->post('is_primary') ? true : false,
 		);
 
-		return $this->userService->create($data);
+		return $this->addressService->create($data);
 	}
 
 	/**
@@ -76,10 +68,10 @@ class UserController extends CI_Controller {
 			show_error("Anda tidak memiliki izin untuk mengakses sumber daya ini.", 403, "Akses Ditolak");
 		}
 
-		$this->auth->protect(1);
+		$this->auth->protect(2);
 
 		$this->output->set_status_header(200);
-		echo json_encode(array('success' => true, 'code' => 200, 'data' => $this->User->find($id)));
+		echo json_encode(array('success' => true, 'code' => 200, 'data' => $this->Address->find($id)->row()));
 	}
 
 	/**
@@ -92,7 +84,7 @@ class UserController extends CI_Controller {
 			show_error("Anda tidak memiliki izin untuk mengakses sumber daya ini.", 403, "Akses Ditolak");
 		}
 
-		$this->auth->protect(1);
+		$this->auth->protect(2);
 
 		$this->rules();
 
@@ -111,12 +103,16 @@ class UserController extends CI_Controller {
 
 		$data = array(
 			'id' => $this->input->post('id'),
-			'username' => $this->input->post('username'),
-			'email' => $this->input->post('email'),
-			'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT)
+			'user_id' => $this->auth->user()->id,
+			'address' => $this->input->post('address'),
+			'label' => $this->input->post('label'),
+			'addressee' => $this->input->post('addressee'),
+			'telephone' => $this->input->post('telephone'),
+			'postal_code' => $this->input->post('postal_code'),
+			'is_primary' => $this->input->post('is_primary') ? true : false,
 		);
 
-		return $this->userService->update($data);
+		return $this->addressService->update($data);
 	}
 
 	/**
@@ -129,26 +125,27 @@ class UserController extends CI_Controller {
 			show_error("Anda tidak memiliki izin untuk mengakses sumber daya ini.", 403, "Akses Ditolak");
 		}
 
-		$this->auth->protect(1);
+		$this->auth->protect(2);
 
 		$id = $this->input->post('id');
-		return $this->userService->delete($id);
-	}
-
-	public function settings()
-	{
-		return view('home/settings/settings');
+		return $this->addressService->delete($id);
 	}
 
 	public function rules()
 	{
-		$this->form_validation->set_rules('username', 'Username', 'required', array(
+		$this->form_validation->set_rules('address', 'Alamat', 'required', array(
 			'required' => '%s field tidak boleh kosong'
 		));
-		$this->form_validation->set_rules('email', 'Email', 'required', array(
+		$this->form_validation->set_rules('label', 'Label', 'required', array(
 			'required' => '%s field tidak boleh kosong',
 		));
-		$this->form_validation->set_rules('password', 'Password', 'required', array(
+		$this->form_validation->set_rules('postal_code', 'Kode Pos', 'required', array(
+			'required' => '%s field tidak boleh kosong',
+		));
+		$this->form_validation->set_rules('addressee', 'Penerima', 'required', array(
+			'required' => '%s field tidak boleh kosong',
+		));
+		$this->form_validation->set_rules('telephone', 'Telephone', 'required', array(
 			'required' => '%s field tidak boleh kosong',
 		));
 	}
