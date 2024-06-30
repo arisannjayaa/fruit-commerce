@@ -27,6 +27,18 @@ class Address extends CI_Model
 		return $builder->get();
 	}
 
+	public function findByIsPrimary($user_id)
+	{
+		$builder = $this->db
+			->select('a.*')
+			->from('addresses a')
+			->join('users u', 'u.id = a.user_id')
+			->where('a.user_id', $user_id)
+			->where('a.is_primary', 1);
+
+		return $builder->get();
+	}
+
     public function find($id)
     {
 		$select = "a.*,
