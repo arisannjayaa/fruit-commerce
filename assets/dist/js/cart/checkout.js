@@ -7,7 +7,6 @@ $('#pay-button').click(function (event) {
 			data: {
 				result_data : $("#result-data").val(),
 				result_type : $("#result-type").val(),
-				gross_amount: $("#total-price").val(),
 			},
 			url: tokenUrl,
 			cache: false,
@@ -54,7 +53,9 @@ $("#payment-form").submit(function (e) {
 
 	// send data
 	ajaxPost(url, formData).done(function (res) {
-		fetchCart();
 		notifySuccess(res.message);
+		setTimeout(() => {
+			location.href = BASE_URL;
+		}, 1000)
 	});
 });

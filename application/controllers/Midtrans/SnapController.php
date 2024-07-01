@@ -12,6 +12,7 @@ class SnapController extends CI_Controller {
 		$this->load->helper('custom');
 		$this->load->service('TransactionService', 'transactionService');
 		$this->load->model('Cart');
+		$this->load->model('Address');
     }
 
     public function index()
@@ -28,14 +29,18 @@ class SnapController extends CI_Controller {
 		$data = $this->Cart->findByUserId($this->auth->user()->id)->result();
 
 		$arrProduct = [];
+		$arrSubTotal = [];
 		foreach ($data as $item) {
 			$arrProduct[] = ['id' => $item->product_id, 'price' => $item->price, 'quantity' => $item->quantity, 'name' => $item->title, 'user_id' => $item->user_id, 'description' => $item->description];
+			array_push($arrSubTotal, $item->price * $item->quantity);
 		}
+
+		$grossAmount = array_sum($arrSubTotal);
 
 		// Required
 		$transaction_details = array(
 		  'order_id' => genInvoice(),
-		  'gross_amount' => $this->input->post('gross_amount'), // no decimal allowed for creditcard
+		  'gross_amount' => $grossAmount, // no decimal allowed for creditcard
 		);
 
 		$item_details = $arrProduct;
@@ -52,13 +57,14 @@ class SnapController extends CI_Controller {
 		);
 
 		// Optional
+		$address = $this->Address->findByIsPrimary($this->auth->user()->id)->row();
 		$shipping_address = array(
-		  'first_name'    => "Obet",
-		  'last_name'     => "Supriadi",
-		  'address'       => "Manggis 90",
-		  'city'          => "Jakarta",
-		  'postal_code'   => "16601",
-		  'phone'         => "08113366345",
+		  'first_name'    => $address->addressee,
+		  'last_name'     => "",
+		  'address'       => $address->address,
+		  'city'          => "Badung",
+		  'postal_code'   => $address->postal_code,
+		  'phone'         => $address->telephone,
 		  'country_code'  => 'IDN'
 		);
 
@@ -68,6 +74,7 @@ class SnapController extends CI_Controller {
 		  'last_name'     => $this->auth->user()->last_name,
 		  'email'         => $this->auth->user()->email,
 		  'phone'         => $this->auth->user()->telephone,
+		  'shipping_address'=> $shipping_address,
 		);
 
 		// Data yang akan dikirim untuk request redirect_url.
@@ -104,6 +111,7 @@ class SnapController extends CI_Controller {
 		if (!$this->input->is_ajax_request()) {
 			exit('No direct script access allowed');
 		}
+
 		$captureRequest = myDecrypt($this->session->userdata('captureRequest'));
 		$captureResponse = $this->input->post('result_data');
 		$decodeCaptureRequest = json_decode($captureRequest);

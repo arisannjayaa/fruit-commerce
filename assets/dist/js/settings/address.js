@@ -103,6 +103,43 @@ $(".delete").click(function () {
 	});
 });
 
+$(".set-primary").click(function () {
+	let id = $(this).data("id");
+	let url = $("#set-primary-url").val();
+
+	Swal.fire({
+		title: 'Apakah anda yakin?',
+		text: 'Ini akan menjadikan sebagai alamat utama anda',
+		type: "warning",
+		showCancelButton: true,
+		confirmButtonColor: '#82ae46',
+		confirmButtonText: 'Jadikan Alamat Utama',
+		cancelButtonText: 'Batal',
+	}).then((result) => {
+		console.log(result);
+		if (result.value) {
+			$.ajax({
+				type: 'POST',
+				url: url,
+				data: {'id': id},
+				dataType: 'json',
+				success: function (res) {
+					if (res.success == true) {
+						setTimeout(function () {
+							location.reload();
+						}, 500);
+					} else {
+						new sweetError(res.message);
+					}
+				},
+				error: function (res) {
+					new sweetError('There is an error');
+				}
+			});
+		}
+	});
+});
+
 function checkRows(total) {
 	if (total == 0) {
 		$("#check-is-primary").hide();

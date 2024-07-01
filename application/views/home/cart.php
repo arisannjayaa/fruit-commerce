@@ -27,6 +27,15 @@
 		height: 30px !important;
 		border-radius: 10px;
 	}
+
+	.ftco-cart button.btn-primary:hover {
+		color: #82ae46 !important;
+		border: 1px solid #82ae46 !important;
+	}
+
+	.ftco-cart button.btn-primary {
+		color: #fff !important;
+	}
 </style>
 @endsection
 
@@ -43,11 +52,6 @@
 </div>
 
 <section class="ftco-section ftco-cart">
-	<form class="d-none" id="payment-form">
-		<input type="hidden" name="result_type" id="result-type" value=""></div>
-		<input type="hidden" name="result_data" id="result-data" value=""></div>
-		<input type="hidden" name="invoice" id="invoice" value="<?= genInvoice() ?>"></div>
-	</form>
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-8 col-12">
@@ -61,9 +65,9 @@
 							<div class="d-flex justify-content-between align-items-center mb-3">
 								<span>Total</span>
 								<input id="total-price" type="hidden" value="">
-								<h6 class="total-price">100</h6>
+								<h6 class="total-price"></h6>
 							</div>
-							<button id="pay-button" class="btn btn-primary w-100 text-white">Bayar</button>
+							<button id="checkout-btn" class="btn btn-primary w-100">Beli</button>
 						</div>
 					</div>
 				</div>
@@ -85,5 +89,4 @@
 <script src="https://cdn.jsdelivr.net/gh/yaza-putu/helpers@V2.0.4/libs/libs-core.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/yaza-putu/helpers@V2.0.4/helpers.min.js"></script>
 <script src="{{ base_url('assets/dist/js/cart/cart.js') }}"></script>
-<script src="{{ base_url('assets/dist/js/cart/checkout.js') }}"></script>
 @endsection

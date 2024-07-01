@@ -58,13 +58,16 @@ class TransactionService extends MY_Service{
 
 			switch ($result->transaction_status) {
 				case "settlement":
-					$message =  "Transaksi sudah diterima dan pembayaran sudah dilakukan.";
+					$message =  "Transaksi telah berhasil dan dana telah masuk ke rekening penjual (merchant).";
 					break;
 				case "pending":
-					$message =  "Transaksi sudah diterima dan pembayaran masih tertunda, harap melakukan pembayaran secepatnya.";
+					$message =  "Transaksi sedang menunggu proses lebih lanjut.";
+					break;
+				case "expire":
+					$message =  "Transaksi kadaluwarsa karena waktu yang diberikan untuk menyelesaikan pembayaran telah habis.";
 					break;
 				default:
-					$message = "Hari tidak dikenali.";
+					$message = " Transaksi ditolak atau gagal. ";
 					break;
 			}
 

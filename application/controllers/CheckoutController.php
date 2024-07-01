@@ -21,7 +21,13 @@ class CheckoutController extends CI_Controller {
 		$this->auth->protect(2);
 
 		$data['address'] = $this->Address->findByIsPrimary($this->auth->user()->id)->row();
-		return view('home/checkout/index');
+		$data['carts'] = $this->Cart->findByUserId($this->auth->user()->id)->result();
+
+		if (count($data['carts']) == 0) {
+			redirect(base_url('cart'));
+		}
+
+		return view('home/checkout/index', $data);
     }
 }
 

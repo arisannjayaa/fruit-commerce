@@ -131,6 +131,18 @@ class AddressController extends CI_Controller {
 		return $this->addressService->delete($id);
 	}
 
+	public function setPrimary()
+	{
+		if (!$this->input->is_ajax_request()) {
+			show_error("Anda tidak memiliki izin untuk mengakses sumber daya ini.", 403, "Akses Ditolak");
+		}
+
+		$this->auth->protect(2);
+
+		$id = $this->input->post('id');
+		return $this->addressService->setPrimary($id);
+	}
+
 	public function rules()
 	{
 		$this->form_validation->set_rules('address', 'Alamat', 'required', array(

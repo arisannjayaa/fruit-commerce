@@ -70,4 +70,26 @@ class AddressService extends MY_Service{
 			show_error('Terjadi kesalahan', 500);
 		}
 	}
+
+	public function setPrimary($id)
+	{
+		try {
+			$query = $this->Address->find($id)->row();
+
+			if ($query->is_primary == 0) {
+				$this->Address->setPrimaryActive($id);
+				$this->Address->setPrimaryAddress($id);
+				$this->output->set_status_header(200);
+				echo json_encode(array('success' => true, 'code' => 200, 'message' => "Data berhasil diupdate"));
+				return;
+			}
+
+			$this->output->set_status_header(400);
+			echo json_encode(array('success' => true, 'code' => 400, 'message' => "Terjadi kesalahan server"));
+			return;
+
+		} catch (Exception $exception) {
+			show_error('Terjadi kesalahan', 500);
+		}
+	}
 }

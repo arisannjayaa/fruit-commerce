@@ -26,7 +26,19 @@ $(document).on("click", ".btn-increase", function () {
 	$("#total-price").val(totalCount());
 });
 
+$("#checkout-btn").click(function () {
+	let total = 0;
+	ajaxGet(allCartItemUrl).done(function (res) {
+		total = res.data.length;
 
+		if (total == 0) {
+			sweetError("Keranjang Masih Kosong!");
+			return;
+		}
+
+		location.href = BASE_URL + 'cart/checkout';
+	});
+})
 
 $(document).on("click", ".btn-decrease", function () {
 	let inputElement = $(this).closest("#product").find("input[type='number']");

@@ -89,6 +89,13 @@ class Address extends CI_Model
 		$this->db->update($this->table);
 	}
 
+	public function setPrimaryActive($id)
+	{
+		$this->db->set('is_primary', 1);
+		$this->db->where('id', $id);
+		$this->db->update($this->table);
+	}
+
 	public function setPrimaryAfterDelete()
 	{
 		$query = $this->db->get($this->table);

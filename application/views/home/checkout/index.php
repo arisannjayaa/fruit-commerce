@@ -1,6 +1,6 @@
 @extends('theme.home')
 
-@section('title', 'Cart')
+@section('title', 'Checkout')
 
 @section('style')
 <script type="text/javascript"
@@ -27,6 +27,19 @@
 		height: 30px !important;
 		border-radius: 10px;
 	}
+
+	.address.active {
+		border: 1px solid #82ae46 !important;
+	}
+
+	.ftco-cart button.btn-primary:hover {
+		color: #82ae46 !important;
+		border: 1px solid #82ae46 !important;
+	}
+
+	.ftco-cart button.btn-primary {
+		color: #fff !important;
+	}
 </style>
 @endsection
 
@@ -41,15 +54,15 @@
 		<h4>Checkout</h4>
 		<div class="row mb-3">
 			<div class="col-lg-4">
-				<div class="card">
+				<div class="card address <?= $address->is_primary ? 'active' : '' ?>">
 					<div class="card-body">
-						<div class="card address mb-3">
-							<div class="card-body">
-								<h6 data-testid="label"><?= $address->label ?></h6>
-								<h6 data-testid="addressee"><?= $address->addressee ?></h6>
-								<div data-testid="telephone"><?= $address->telephone ?></div>
-								<span data-testid="address"><?= $address->address ?></span>
-							</div>
+						<h6 data-testid="label"><?= $address->label ?></h6>
+						<h6 data-testid="addressee"><?= $address->addressee ?></h6>
+						<div data-testid="telephone"><?= $address->telephone ?></div>
+						<span data-testid="address"><?= $address->address ?></span>
+						<hr>
+						<div>
+							<a href="<?= base_url('user/settings/address') ?>">Ubah alamat</a>
 						</div>
 					</div>
 				</div>
@@ -57,7 +70,28 @@
 		</div>
 		<div class="row">
 			<div class="col-lg-8 col-12">
-				<div id="product-container"></div>
+				<div id="product-container">
+					@foreach($carts as $cart)
+					<div id="product" class="mb-3">
+						<div class="card">
+							<div class="card-body">
+								<div class="d-flex" style="gap: 10px">
+									<img width="80" height="80" style="object-fit: cover; border-radius: 7px" src="{{ $cart->attachment ?? base_url('assets/home/images/image_5.jpg') }}" alt="">
+									<div class="d-flex justify-content-between flex-grow-1 flex-shrink-1">
+										<div class="d-flex flex-column">
+											<a href="#" class="product-name">{{ $cart->title }}</a>
+											<span></span>
+											<span data-price="{{ $cart->title }}" class="price">{{ $cart->quantity . ' x ' . formatToRupiah($cart->price) }} </span>
+										</div>
+										<span data-total-price="{{ $cart->title }}" class="total-price">{{ formatToRupiah($cart->price * $cart->quantity) }} </span>
+										<input type="hidden" id="total" value="{{ formatToRupiah($cart->price * $cart->quantity) }}">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					@endforeach
+				</div>
 			</div>
 			<div class="col-lg-4 col-12">
 				<div id="total-container">
@@ -66,10 +100,10 @@
 							<span class="h6 mb-3 d-block">Ringkasan Belanja</span>
 							<div class="d-flex justify-content-between align-items-center mb-3">
 								<span>Total</span>
-								<input id="total-price" type="hidden" value="">
-								<h6 class="total-price">100</h6>
+								<input id="total-price" type="hidden" value="{{ $cart->price * $cart->quantity }}">
+								<h6 class="total-price">{{ formatToRupiah($cart->price * $cart->quantity) }}</h6>
 							</div>
-							<button id="pay-button" class="btn btn-primary w-100 text-white">Bayar</button>
+							<button id="pay-button" class="btn btn-primary w-100">Pilih Pembayaran</button>
 						</div>
 					</div>
 				</div>
@@ -90,6 +124,17 @@
 @section('script')
 <script src="https://cdn.jsdelivr.net/gh/yaza-putu/helpers@V2.0.4/libs/libs-core.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/yaza-putu/helpers@V2.0.4/helpers.min.js"></script>
-<script src="{{ base_url('assets/dist/js/cart/cart.js') }}"></script>
+<script>
+	fetchTotalCart();
+	function fetchTotalCart() {
+		let countCart = 0;
+		let url = $("#all-cart-item-url").val();
+		ajaxGet(url).done(function (res) {
+			let data = res.data;
+			countCart = data.length;
+			$(".cart-count").html(countCart);
+		});
+	}
+</script>
 <script src="{{ base_url('assets/dist/js/cart/checkout.js') }}"></script>
 @endsection
