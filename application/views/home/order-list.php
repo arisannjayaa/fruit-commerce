@@ -62,7 +62,14 @@
 		@else
 		<div class="card">
 			<div class="card-body">
-				<span>Belum ada transaksi pembelian</span>
+				<div class="d-flex align-items-center" style="gap: 10px;">
+					<img class="img-fluid" width="200" src="{{ base_url('assets/dist/img/undraw_empty_cart_co35.svg') }}" alt="">
+					<div>
+						<h6>Waduhh, kamu belum memiliki riwayat transaksi</h6>
+						<div class="mb-2">Yuk, lakukan transaksi dengan produk-produk impianmu!</div>
+						<a href="{{ base_url('shop') }}" class="btn btn-primary">Mulai Belanja</a>
+					</div>
+				</div>
 			</div>
 		</div>
 		@endif

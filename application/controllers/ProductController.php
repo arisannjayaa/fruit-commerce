@@ -48,8 +48,8 @@ class ProductController extends CI_Controller {
 		$this->rules();
 
 		if (empty($_FILES['attachment']['name'])) {
-			$this->form_validation->set_rules('attachment', 'Attachment', 'required', array(
-				'required' => 'The %s field tidak boleh kosong.',
+			$this->form_validation->set_rules('attachment', 'Lampiran', 'required', array(
+				'required' => '%s tidak boleh kosong.',
 			));
 		}
 
@@ -135,7 +135,7 @@ class ProductController extends CI_Controller {
 
 		$old_attachment = $this->input->post('old_attachment');
 
-		$this->rules();
+		$this->rules($this->input->post('id'));
 
 		if ($this->form_validation->run() == FALSE) {
 			$this->output->set_status_header(400);

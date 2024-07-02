@@ -53,6 +53,7 @@
 	<div class="container">
 		<button onclick="location.href='<?= base_url('cart') ?>'" class="btn btn-primary " style="width: 50px; height: 50px"><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-left"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M5 12l6 6" /><path d="M5 12l6 -6" /></svg></button>
 		<h4>Checkout</h4>
+		@if ($address)
 		<div class="row mb-3">
 			<div class="col-lg-4">
 				<div class="card address <?= $address->is_primary ? 'active' : '' ?>">
@@ -69,15 +70,24 @@
 				</div>
 			</div>
 		</div>
+		@endif
 		<div class="row">
 			<div class="col-lg-8 col-12">
-				<div id="product-container">
+				<div id="product-container" style="max-height: 500px !important; overflow-x: scroll !important;">
+					@php
+					$total = 0;
+					@endphp
 					@foreach($carts as $cart)
+					@php
+					$subtotal = $cart->price * $cart->quantity;
+					$total += $subtotal;
+					$attachment = $cart->attachment !== null ? base_url($cart->attachment) : base_url('assets/home/images/image_5.jpg');
+					@endphp
 					<div id="product" class="mb-3">
 						<div class="card">
 							<div class="card-body">
 								<div class="d-flex" style="gap: 10px">
-									<img width="80" height="80" style="object-fit: cover; border-radius: 7px" src="{{ base_url($cart->attachment) ?? base_url('assets/home/images/image_5.jpg') }}" alt="">
+									<img width="80" height="80" style="object-fit: cover; border-radius: 7px" src="{{ $attachment }}" alt="">
 									<div class="d-flex justify-content-between flex-grow-1 flex-shrink-1">
 										<div class="d-flex flex-column">
 											<a href="#" class="product-name">{{ $cart->title }}</a>
@@ -100,9 +110,9 @@
 						<div class="card-body">
 							<span class="h6 mb-3 d-block">Ringkasan Belanja</span>
 							<div class="d-flex justify-content-between align-items-center mb-3">
-								<span>Total</span>
+								<span>Total Harga ({{ count($carts) }} Barang)</span>
 								<input id="total-price" type="hidden" value="{{ $cart->price * $cart->quantity }}">
-								<h6 class="total-price">{{ formatToRupiah($cart->price * $cart->quantity) }}</h6>
+								<h6 class="total-price">{{ formatToRupiah($total) }}</h6>
 							</div>
 							<button id="pay-button" class="btn btn-primary w-100">Pilih Pembayaran</button>
 						</div>
@@ -120,6 +130,7 @@
 <input type="hidden" id="update-url" value="<?= base_url('cart/update') ?>">
 <input type="hidden" id="snap-token-url" value="<?= base_url('snap/token') ?>">
 <input type="hidden" id="snap-finish-url" value="<?= base_url('snap/finish') ?>">
+<input type="hidden" id="address-bool" value="{{ $address ? 1 : 0 }}">
 @endsection
 
 @section('script')

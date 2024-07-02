@@ -55,7 +55,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-8 col-12">
-				<div id="product-container"></div>
+				<div id="product-container" style="max-height: 500px !important; overflow-x: scroll !important;"></div>
 			</div>
 			<div class="col-lg-4 col-12">
 				<div id="total-container">

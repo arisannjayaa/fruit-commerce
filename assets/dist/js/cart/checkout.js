@@ -3,6 +3,15 @@ let loadingElement = `<div class="d-flex justify-content-center">
 									<span class="sr-only">Loading...</span>
 								  </div>
 							  </div>`;
+
+if ($("#address-bool").val() == 0) {
+	notifyError("Anda belum membuat alamat lokasi pengiriman");
+	setTimeout(() => {
+		location.href = BASE_URL + 'user/settings/address';
+	},1500);
+}
+
+
 $('#pay-button').click(function (event) {
 	event.preventDefault();
 	$("#pay-button").empty().append(loadingElement);

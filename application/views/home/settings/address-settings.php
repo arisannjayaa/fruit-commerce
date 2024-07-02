@@ -44,19 +44,21 @@
 				<div class="row">
 					<div class="col-12">
 						@foreach($addresses as $address)
-						<div class="card address <?= $address->is_primary ? 'active' : '' ?> mb-3">
-							<div class="card-body">
-								<h6 data-testid="label"><?= $address->label ?></h6>
-								<h6 data-testid="addressee"><?= $address->addressee ?></h6>
-								<div data-testid="telephone"><?= $address->telephone ?></div>
-								<span data-testid="address"><?= $address->address ?></span>
+						<div style="max-height: 500px !important; overflow-x: scroll !important;">
+							<div class="card address <?= $address->is_primary ? 'active' : '' ?> mb-3">
+								<div class="card-body">
+									<h6 data-testid="label"><?= $address->label ?></h6>
+									<h6 data-testid="addressee"><?= $address->addressee ?></h6>
+									<div data-testid="telephone"><?= $address->telephone ?></div>
+									<span data-testid="address"><?= $address->address ?></span>
 
-								<div class="mt-3">
-									@if ($address->is_primary != 1)
-									<button data-id="<?= $address->id ?>" class="btn btn-primary set-primary">Jadikan alamat utama</button>
-									@endif
-									<button data-id="<?= $address->id ?>" class="btn btn-secondary edit"><i class="bi bi-pen-fill"></i></button>
-									<button data-id="<?= $address->id ?>" class="btn btn-danger delete"><i class="bi bi-trash-fill"></i></button>
+									<div class="mt-3">
+										@if ($address->is_primary != 1)
+										<button data-id="<?= $address->id ?>" class="btn btn-primary set-primary">Jadikan alamat utama</button>
+										@endif
+										<button data-id="<?= $address->id ?>" class="btn btn-secondary edit"><i class="bi bi-pen-fill"></i></button>
+										<button data-id="<?= $address->id ?>" class="btn btn-danger delete"><i class="bi bi-trash-fill"></i></button>
+									</div>
 								</div>
 							</div>
 						</div>

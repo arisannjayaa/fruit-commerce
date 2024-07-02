@@ -51,7 +51,16 @@ class ProductService extends MY_Service{
 	public function delete($id)
 	{
 		try {
-			$this->Product->delete($id);
+			$product = $this->Product->find($id);
+
+			if ($product) {
+				$this->Product->delete($product->id);
+
+				if(file_exists('./' . $product->attachment)) {
+					unlink('./'.$product->attachment);
+				}
+			}
+
 			$this->output->set_status_header(200);
 			echo json_encode(array('success' => true, 'code' => 200, 'message' => "Data produk berhasil dihapus"));
 		} catch (Exception $exception) {
