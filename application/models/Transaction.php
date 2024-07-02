@@ -126,6 +126,8 @@ class Transaction extends CI_Model
 			$builder = $builder->limit($length, $start);
 		}
 
+		$builder = $builder->order_by('created_at', 'desc');
+
 		return $builder->get()->result();
 	}
 
@@ -146,6 +148,16 @@ class Transaction extends CI_Model
 		}
 
 		return $builder->get()->result();
+	}
+
+	public function updateProduct()
+	{
+		
+	}
+
+	public function restoreProduct()
+	{
+		
 	}
 }
 

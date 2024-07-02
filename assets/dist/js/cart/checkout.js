@@ -1,5 +1,11 @@
+let loadingElement = `<div class="d-flex justify-content-center">
+								  <div class="spinner-border" role="status">
+									<span class="sr-only">Loading...</span>
+								  </div>
+							  </div>`;
 $('#pay-button').click(function (event) {
 	event.preventDefault();
+	$("#pay-button").empty().append(loadingElement);
 	let tokenUrl = $("#snap-token-url").val();
 	setTimeout(function () {
 		$.ajax({
@@ -12,6 +18,7 @@ $('#pay-button').click(function (event) {
 			cache: false,
 
 			success: function(data) {
+				$("#pay-button").empty().append("Pilih Pembayaran");
 				var resultType = document.getElementById('result-type');
 				var resultData = document.getElementById('result-data');
 
@@ -32,7 +39,6 @@ $('#pay-button').click(function (event) {
 					},
 					onPending: function(result){
 						changeResult('pending', result);
-						console.log(result);
 						$("#payment-form").submit();
 					},
 					onError: function(result){

@@ -12,8 +12,9 @@ class Product extends CI_Model
 
     public function all()
     {
-        $query = $this->db->get($this->table);
-        return $query->result();
+		$builder = $this->db->select("*")->from($this->table);
+		$builder = $builder->order_by('updated_at', 'desc');
+        return $builder->get()->result();
     }
 
     public function find($id)
@@ -53,6 +54,8 @@ class Product extends CI_Model
 		if($start != 0 || $length != 0) {
 			$builder = $builder->limit($length, $start);
 		}
+
+		$builder = $builder->order_by('updated_at', 'desc');
 
 		return $builder->get()->result();
 	}

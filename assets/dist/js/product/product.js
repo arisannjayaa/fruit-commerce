@@ -35,7 +35,7 @@ $("#table").DataTable({
 
 $('#btn-add').click(function () {
 	$('#attachment , .dropify-wrapper').remove();
-	let html = `<input type="file" id="attachment" name="attachment" class="dropify" data-max-file-size="1M" data-allowed-file-extensions="jpg png" data-default-file='' />`;
+	let html = `<input type="file" id="attachment" name="attachment" class="dropify" data-max-file-size="1M" data-allowed-file-extensions="jpg jpeg png" data-default-file='' />`;
 	$('.custom-file').append(html);
 	$('.dropify').dropify();
 
@@ -98,7 +98,7 @@ $("#table").on("click", ".edit", function () {
 
 		$('#attachment , .dropify-wrapper').remove();
 
-		let html = `<input type="file" id="attachment" name="attachment" class="dropify" data-max-file-size="1M" data-allowed-file-extensions="jpg png" value="${res.data.attachment}" data-default-file='${BASE_URL + res.data.attachment}' />
+		let html = `<input type="file" id="attachment" name="attachment" class="dropify" data-max-file-size="1M" data-allowed-file-extensions="jpg jpeg png" value="${res.data.attachment}" data-default-file='${BASE_URL + res.data.attachment}' />
 			<input type="hidden" name="old_attachment" id="old-attachment" value="${res.data.attachment}">`;
 		$('.custom-file').append(html);
 		$('.dropify').dropify();

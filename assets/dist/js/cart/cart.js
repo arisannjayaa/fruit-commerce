@@ -1,5 +1,10 @@
 let allCartItemUrl = $("#all-cart-item-url").val();
 let userId = $("#user-id").val();
+let loadingElement = `<div class="d-flex justify-content-center">
+								  <div class="spinner-border" role="status" style="color: #82ae46;">
+									<span class="sr-only">Loading...</span>
+								  </div>
+							  </div>`;
 fetchCart();
 
 $(document).on('click', '.product-remove', function () {
@@ -21,9 +26,14 @@ $(document).on("click", ".btn-increase", function () {
 	let InputTotalElement = $(this).closest("#product").find("#total")[0];
 	let priceTotal = priceElement.getAttribute("data-price");
 	let subTotal = newValue * parseInt(priceTotal);
-	InputTotalElement.value = subTotal
-	$(".total-price").html(formatRupiah(totalCount(), "IDR", false));
-	$("#total-price").val(totalCount());
+	InputTotalElement.value = subTotal;
+
+	$(".total-price").html(loadingElement);
+
+	setTimeout(() => {
+		$(".total-price").html(formatRupiah(totalCount(), "IDR", false));
+		$("#total-price").val(totalCount());
+	}, 500);
 });
 
 $("#checkout-btn").click(function () {
@@ -52,9 +62,14 @@ $(document).on("click", ".btn-decrease", function () {
 	let InputTotalElement = $(this).closest("#product").find("#total")[0];
 	let priceTotal = priceElement.getAttribute("data-price");
 	let subTotal = newValue * parseInt(priceTotal);
-	InputTotalElement.value = subTotal
-	$(".total-price").html(formatRupiah(totalCount(), "IDR", false));
-	$("#total-price").val(totalCount());
+	InputTotalElement.value = subTotal;
+
+	$(".total-price").html(loadingElement);
+
+	setTimeout(() => {
+		$(".total-price").html(formatRupiah(totalCount(), "IDR", false));
+		$("#total-price").val(totalCount());
+	}, 500);
 });
 
 $(".item-product").on('click', '.add-cart', function (){
@@ -104,16 +119,26 @@ function fetchCart() {
 	ajaxGet(allCartItemUrl).done(function (res) {
 		let html = '';
 		data = res.data;
-		$("#product-container").empty();
+
+		$("#product-container").html(loadingElement);
+
 		if (data.length == 0) {
 			html += `<div id="product">
 					<div class="card">
 						<div class="card-body">
-							<span>Belum ada produk yang di masukkan ke dalam keranjang</span>
+							<div class="d-flex align-items-center" style="gap: 10px;">
+								<img class="img-fluid" width="200" src="${BASE_URL + 'assets/dist/img/undraw_empty_cart_co35.svg'}" alt="">
+								<div>	
+									<h6>Waduhh, keranjang belanjaanmu masih kosong</h6>
+									<div class="mb-2">Yuk, isi dengan produk-produk impianmu!</div>
+									<a href="${BASE_URL + 'shop'}" class="btn btn-primary">Mulai Belanja</a>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>`;
 		}
+
 		data.forEach(function (item) {
 			let attachment = item.attachment != null ? BASE_URL + item.attachment : BASE_URL + 'assets/home/images/image_5.jpg';
 			html += `<div id="product" class="mb-3">
@@ -145,10 +170,18 @@ function fetchCart() {
 					</div>
 				</div>`;
 		});
-		$("#product-container").append(html);
-		$(".total-price").html(formatRupiah(totalCount(), "IDR", false));
-		$("#total-price").val(totalCount());
-		fetchTotalCart();
+
+		$(".total-price").html(loadingElement);
+
+		setTimeout(() => {
+			$("#product-container").empty();
+			$("#product-container").append(html);
+
+			$(".total-price").html(formatRupiah(totalCount(), "IDR", false));
+			$("#total-price").val(totalCount());
+			fetchTotalCart();
+		}, 500);
+
 	});
 }
 

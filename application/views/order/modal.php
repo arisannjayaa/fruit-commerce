@@ -12,6 +12,12 @@
 						<address>
 							<div id="email">Email</div>
 							<div id="telephone">Telephone</div>
+							<div>
+								<span id="address">Address</span> <br>
+								<span id="state">State</span>,
+								<span id="city">City</span> <br>
+								<span id="postal-code">Postal Code</span>
+							</div>
 						</address>
 					</div>
 					<div class="col-12 my-5">

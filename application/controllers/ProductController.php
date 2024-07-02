@@ -98,7 +98,7 @@ class ProductController extends CI_Controller {
 			'stock' => $this->input->post('stock'),
 			'slug' => slug($this->input->post('title')),
 			'created_by' => $this->auth->user()->id,
-			'category_id' => $this->input->post('category_id')
+			'category_id' => $this->input->post('category_id'),
 		);
 
 		return $this->productService->create($data);
@@ -158,10 +158,10 @@ class ProductController extends CI_Controller {
 			}
 
 			$config['upload_path'] 		= './'.$path;
-			$config['allowed_types'] 	= 'jpg|png';
+			$config['allowed_types'] 	= 'jpg|jpeg|png';
 			$config['max_filename']	 	= '255';
 			$config['encrypt_name'] 	= TRUE;
-			$config['max_size'] 		= 1024;
+			$config['max_size'] 		= 2024;
 			$this->load->library('upload', $config);
 
 			if (!$this->upload->do_upload("attachment")) {
@@ -192,7 +192,8 @@ class ProductController extends CI_Controller {
 			'stock' => $this->input->post('stock'),
 			'slug' => slug($this->input->post('title')),
 			'created_by' => $this->auth->user()->id,
-			'category_id' => $this->input->post('category_id')
+			'category_id' => $this->input->post('category_id'),
+			'updated_at' => date('Y-m-d H:i:s'),
 		);
 
 		return $this->productService->update($data);

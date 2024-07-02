@@ -109,6 +109,7 @@ class CategoryController extends CI_Controller {
 		$data = array(
 			'id' => $this->input->post('id'),
 			'name' => $this->input->post('name'),
+			'updated_at' => date('Y-m-d H:i:s'),
 		);
 
 		return $this->categoryService->update($data);

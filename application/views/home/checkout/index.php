@@ -51,6 +51,7 @@
 		<input type="hidden" name="invoice" id="invoice" value="<?= genInvoice() ?>"></div>
 	</form>
 	<div class="container">
+		<button onclick="location.href='<?= base_url('cart') ?>'" class="btn btn-primary " style="width: 50px; height: 50px"><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-left"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M5 12l6 6" /><path d="M5 12l6 -6" /></svg></button>
 		<h4>Checkout</h4>
 		<div class="row mb-3">
 			<div class="col-lg-4">
@@ -76,7 +77,7 @@
 						<div class="card">
 							<div class="card-body">
 								<div class="d-flex" style="gap: 10px">
-									<img width="80" height="80" style="object-fit: cover; border-radius: 7px" src="{{ $cart->attachment ?? base_url('assets/home/images/image_5.jpg') }}" alt="">
+									<img width="80" height="80" style="object-fit: cover; border-radius: 7px" src="{{ base_url($cart->attachment) ?? base_url('assets/home/images/image_5.jpg') }}" alt="">
 									<div class="d-flex justify-content-between flex-grow-1 flex-shrink-1">
 										<div class="d-flex flex-column">
 											<a href="#" class="product-name">{{ $cart->title }}</a>
