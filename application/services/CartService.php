@@ -47,6 +47,8 @@ class CartService extends MY_Service{
 	{
 		try {
 			$cartItem = $this->Cart->checkProduct($data['product_id'], $data['user_id']);
+			$totalCart = $this->Cart->findByUserId($this->auth->user()->id)->result();
+
 			if ($cartItem != null) {
 				if ($cartItem->quantity >= $cartItem->stock) {
 					$this->output->set_status_header(401);
@@ -63,13 +65,19 @@ class CartService extends MY_Service{
 
 				$this->Cart->update($id_update, $update);
 				$this->output->set_status_header(200);
-				echo json_encode(array('success' => true, 'code' => 200, 'message' => "Data cart berhasil ditambahkan"));
+				echo json_encode(array('success' => true, 'code' => 200, 'message' => "Data keranjang berhasil ditambahkan"));
+				return;
+			}
+
+			if (count($totalCart) == 5) {
+				$this->output->set_status_header(400);
+				echo json_encode(array('status' => "OK", 'code' => 200, 'message' => "Tidak dapat menyimpan data keranjang lebih dari 5"));
 				return;
 			}
 
 			$this->Cart->create($data);
 			$this->output->set_status_header(200);
-			echo json_encode(array('success' => true, 'code' => 200, 'message' => "Data cart berhasil ditambahkan"));
+			echo json_encode(array('success' => true, 'code' => 200, 'message' => "Data keranjang berhasil ditambahkan"));
 		} catch (Exception $exception) {
 			show_error('Terjadi kesalahan', 500);
 		}

@@ -54,29 +54,29 @@ class RegisterController extends CI_Controller {
 	public function rules()
 	{
 		$this->form_validation->set_rules('first_name', 'Nama Depan', 'required|trim', array(
-			'required' => '%s field tidak boleh kosong'
+			'required' => '%s tidak boleh kosong'
 		));
 		$this->form_validation->set_rules('last_name', 'Nama Belakang', 'required|trim', array(
-			'required' => '%s field tidak boleh kosong'
+			'required' => '%s tidak boleh kosong'
 		));
 		$this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email|is_unique[users.email]', array(
-			'required' => '%s field tidak boleh kosong',
-			'valid_email'=> '%s field harus valid',
+			'required' => '%s tidak boleh kosong',
+			'valid_email'=> '%s harus valid',
 			'is_unique' => '%s sudah digunakan!'
 		));
 		$this->form_validation->set_rules('username', 'Username', 'required|trim|is_unique[users.username]', array(
-			'required' => '%s field tidak boleh kosong',
-			'valid_email'=> '%s field harus valid',
+			'required' => '%s tidak boleh kosong',
+			'valid_email'=> '%s harus valid',
 			'is_unique' => '%s sudah digunakan!'
 		));
 		$this->form_validation->set_rules('password', 'Password', 'required|trim|min_length[3]|matches[confirm_password]', array(
-			'required' => '%s field tidak boleh kosong',
-			'min_length' => '%s field setidaknya memiliki panjang 3 karakter',
-			'matches' => '%s field tidak match'
+			'required' => '%s tidak boleh kosong',
+			'min_length' => '%s setidaknya memiliki panjang 3 karakter',
+			'matches' => '%s tidak match'
 		));
 		$this->form_validation->set_rules('confirm_password', 'Konfirmasi Password', 'required|trim|matches[password]',array(
-			'required' => '%s field tidak boleh kosong',
-			'matches' => '%s field tidak match'
+			'required' => '%s tidak boleh kosong',
+			'matches' => '%s tidak match'
 		));
 	}
 }

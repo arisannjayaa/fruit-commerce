@@ -91,7 +91,7 @@ class CategoryController extends CI_Controller {
 
 		$this->auth->protect(1);
 
-		$this->rules();
+		$this->rules($this->input->post('id'));
 
 		if ($this->form_validation->run() == FALSE) {
 			$this->output->set_status_header(400);
@@ -131,10 +131,14 @@ class CategoryController extends CI_Controller {
 		return $this->categoryService->delete($id);
 	}
 
-	public function rules()
+	public function rules($id = null)
 	{
-		$this->form_validation->set_rules('name', 'Kategori', 'required', array(
-			'required' => '%s field tidak boleh kosong'
+		$rules = array(
+			'name' => $id == null ? 'required|is_unique[categories.name]' : 'required',
+		);
+		$this->form_validation->set_rules('name', 'Kategori', $rules['name'], array(
+			'required' => '%s tidak boleh kosong',
+			'is_unique' => '%s harus berisi nilai unik'
 		));
 	}
 }

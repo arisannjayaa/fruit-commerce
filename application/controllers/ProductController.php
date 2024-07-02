@@ -215,21 +215,26 @@ class ProductController extends CI_Controller {
 		return $this->productService->delete($id);
 	}
 
-	public function rules()
+	public function rules($id = null)
 	{
-		$this->form_validation->set_rules('title', 'Judul', 'required', array(
-			'required' => '%s field tidak boleh kosong'
+		$rules = array(
+			'title' => $id == null ? 'required|is_unique[products.title]' : 'required',
+		);
+
+		$this->form_validation->set_rules('title', 'Judul', $rules['title'], array(
+			'required' => '%s tidak boleh kosong',
+			'is_unique' => '%s harus berisi nilai unik'
 		));
 		$this->form_validation->set_rules('category_id', 'Kategori', 'required', array(
-			'required' => '%s field tidak boleh kosong'
+			'required' => '%s tidak boleh kosong'
 		));
 		$this->form_validation->set_rules('stock', 'Stok', 'required|numeric', array(
-			'required' => '%s field tidak boleh kosong',
-			'numeric' => '%s field harus berupa angka',
+			'required' => '%s tidak boleh kosong',
+			'numeric' => '%s harus berupa angka',
 		));
 		$this->form_validation->set_rules('price', 'Harga', 'required|numeric', array(
-			'required' => '%s field tidak boleh kosong',
-			'numeric' => '%s field harus berupa angka',
+			'required' => '%s tidak boleh kosong',
+			'numeric' => '%s harus berupa angka',
 		));
 	}
 }
