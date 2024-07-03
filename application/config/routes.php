@@ -143,5 +143,8 @@ $route['user/settings/address/edit/(:any)'] = 'AddressController/edit/$1';
 $route['cart/checkout']['GET'] = 'CheckoutController/index';
 $route['cart/checkout']['POST'] = 'CheckoutController/checkout';
 
+// notifications
+$route['notifications']['GET'] = 'NotificationController/all';
+
 $route['404_override'] = 'ErrorController/error_404';
 $route['translate_uri_dashes'] = FALSE;

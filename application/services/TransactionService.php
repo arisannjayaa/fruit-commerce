@@ -1,10 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+require 'vendor/autoload.php';
 class TransactionService extends MY_Service{
 	public function __construct() {
 		$this->load->model('Cart');
 		$this->load->model('Transaction');
+		$this->load->model('Notification');
 	}
 
 	public function findByUserId($user_id)
@@ -46,6 +47,7 @@ class TransactionService extends MY_Service{
 	public function create($data, $result)
 	{
 		try {
+			$this->db->trans_begin();
 			$products = json_decode($data['products']);
 
 			foreach ($products as $product) {
@@ -55,25 +57,55 @@ class TransactionService extends MY_Service{
 			$this->Transaction->create($data);
 			$this->output->set_status_header(200);
 			$message = "";
+			$status = "";
 
 			switch ($result->transaction_status) {
 				case "settlement":
+					$status = "Berhasil";
 					$message =  "Transaksi telah berhasil dan dana telah masuk ke rekening penjual (merchant).";
 					break;
 				case "pending":
+					$status = "Pending";
 					$message =  "Transaksi sedang menunggu proses lebih lanjut.";
 					break;
 				case "expire":
+					$status = "Kedaluarsa";
 					$message =  "Transaksi kadaluwarsa karena waktu yang diberikan untuk menyelesaikan pembayaran telah habis.";
 					break;
 				default:
+					$status = "Ditolak";
 					$message = " Transaksi ditolak atau gagal. ";
 					break;
 			}
 
+			$options = array(
+				'cluster' => 'ap1',
+				'useTLS' => true
+			);
+
+			$pusher = new Pusher\Pusher(
+				'127db0c2612c670ab73d',
+				'00310ca89193537c89b1',
+				'1828273',
+				$options
+			);
+
+			$dataPusher['message'] = 'OK';
+			$pusher->trigger('my-channel', 'my-event', $dataPusher);
+
+			$this->Notification->create(array(
+				'user_id' => $this->auth->user()->id,
+				'title' => 'Transaksi ' . $status,
+				'message' => 'Pengguna atas nama ' . $this->auth->user()->first_name . ' melakukan transaksi. ' . $message
+			));
+
 			echo json_encode(array('success' => true, 'code' => 200, 'message' => $message));
+			$this->db->trans_commit();
+			return;
 		} catch (Exception $exception) {
+			$this->db->trans_rollback();
 			show_error('Terjadi kesalahan', 500);
+			return;
 		}
 	}
 

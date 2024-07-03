@@ -190,3 +190,24 @@ function badgeStatusCode(status_code) {
 
 	return badge;
 }
+
+function showBlockUI2(message = "Please wait a moment ...") {
+	$.blockUI({
+		message: message,
+		css: {
+			'z-index': 10002,
+			border: 'none',
+			padding: '15px',
+			backgroundColor: '#000',
+			'-webkit-border-radius': '10px',
+			'-moz-border-radius': '10px',
+			opacity: .5,
+			color: '#fff',
+		}
+	});
+}
+
+// hided block UI
+function hideBlockUI2() {
+	$.unblockUI();
+}

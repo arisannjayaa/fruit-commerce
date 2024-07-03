@@ -16,7 +16,6 @@ $('#pay-button').click(function (event) {
 	event.preventDefault();
 	$("#pay-button").empty().append(loadingElement);
 	let tokenUrl = $("#snap-token-url").val();
-	setTimeout(function () {
 		$.ajax({
 			type: 'POST',
 			data: {
@@ -25,7 +24,6 @@ $('#pay-button').click(function (event) {
 			},
 			url: tokenUrl,
 			cache: false,
-
 			success: function(data) {
 				$("#pay-button").empty().append("Pilih Pembayaran");
 				var resultType = document.getElementById('result-type');
@@ -58,7 +56,6 @@ $('#pay-button').click(function (event) {
 				});
 			}
 		});
-	},500);
 });
 
 $("#payment-form").submit(function (e) {
