@@ -11,6 +11,7 @@ class SnapController extends CI_Controller {
 		$this->load->helper('url');
 		$this->load->helper('custom');
 		$this->load->service('TransactionService', 'transactionService');
+		$this->load->service('ProductService', 'productService');
 		$this->load->model('Cart');
 		$this->load->model('Address');
     }
@@ -27,6 +28,12 @@ class SnapController extends CI_Controller {
 		}
 
 		$data = $this->Cart->findByUserId($this->auth->user()->id)->result();
+
+		if ($this->productService->checkStock($data) == false) {
+			$this->output->set_status_header(400);
+			echo json_encode(array('success' => false, 'code' => 400, 'message' => "Terdapat Stok Produk Yang Sudah Habis", 'redirect' => base_url('cart')));
+			return;
+		}
 
 		$arrProduct = [];
 		$arrSubTotal = [];

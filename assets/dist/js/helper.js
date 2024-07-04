@@ -191,23 +191,26 @@ function badgeStatusCode(status_code) {
 	return badge;
 }
 
-function showBlockUI2(message = "Please wait a moment ...") {
-	$.blockUI({
-		message: message,
-		css: {
-			'z-index': 10002,
-			border: 'none',
-			padding: '15px',
-			backgroundColor: '#000',
-			'-webkit-border-radius': '10px',
-			'-moz-border-radius': '10px',
-			opacity: .5,
-			color: '#fff',
-		}
-	});
-}
+function countDown(expiry_date) {
+	$("#title").html('Pembayaran Harus Selesai Dalam');
+	const targetDate = new Date(expiry_date);
+	const now = new Date();
 
-// hided block UI
-function hideBlockUI2() {
-	$.unblockUI();
+	const difference = targetDate.getTime() - now.getTime();
+
+	if (difference <= 0) {
+		$("#title").html('Pembayaran sudah waktunya atau melewati batas.');
+		return;
+	}
+
+	let second = Math.floor(difference / 1000);
+	let minute = Math.floor(second / 60);
+	let hour = Math.floor(minute / 60);
+	let day = Math.floor(hour / 24);
+
+	hour %= 24;
+	minute %= 60;
+	second %= 60;
+
+	$("#countdown").html(`${hour} Jam, ${minute} Menit, ${second} Detik`);
 }

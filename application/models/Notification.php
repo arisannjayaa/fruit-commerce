@@ -23,6 +23,13 @@ class Notification extends CI_Model
 		$this->db->insert($this->table, $data);
 		return $this->db->insert_id();
 	}
+
+	public function read($id, $data)
+	{
+		$query = $this->db->where('id', $id);
+		$query = $query->update($this->table, $data);
+		return $query;
+	}
 }
 
 

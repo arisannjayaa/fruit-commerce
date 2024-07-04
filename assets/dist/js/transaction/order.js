@@ -39,6 +39,11 @@ $("#table").DataTable({
 			}
 		},
 		{ data: 'order_id', name: 'order_id', className: 'text-nowrap'},
+		{ data: 'status_code', name: 'status_code', className: 'text-nowrap', orderable: false, searchable: false,
+			render: function (data, type, row, meta) {
+				return `<span class="badge ${badgeStatusCode(row.status_code)}">${convertStatusCode(row.status_code)}</span>`;
+			}
+		},
 		{ data: 'gross_amount', name: 'gross_amount', className: 'text-nowrap', orderable: false, searchable: false, render: function (data) {
 				return `<span class="badge bg-success">${formatRupiah(data, "IDR", false)}</span>`
 		}},
@@ -70,6 +75,8 @@ $("#table").on("click", ".detail", function () {
 		$("#state").html("Indonesia");
 		$("#city").html(captureRequest.customer_details.shipping_address.city);
 		$("#postal-code").html(captureRequest.customer_details.shipping_address.postal_code);
+		$("#status").html(`<span
+			class="badge ${badgeStatusCode(res.data.status)}">${convertStatusCode(res.data.status)}</span>`);
 
 		products.forEach(function (item) {
 			html += `<tr>

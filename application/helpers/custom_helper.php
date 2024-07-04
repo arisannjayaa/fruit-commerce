@@ -44,7 +44,7 @@ function myEncrypt($data)
 
 	$ciphertext = openssl_encrypt($data, $cipher, $key, $options, $iv);
 
-	return base64_encode($ciphertext);
+	return rtrim(base64_encode($ciphertext), '=');
 }
 
 function myDecrypt($data)

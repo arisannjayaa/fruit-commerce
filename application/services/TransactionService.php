@@ -78,6 +78,13 @@ class TransactionService extends MY_Service{
 					break;
 			}
 
+			$this->Notification->create(array(
+				'user_id' => $this->auth->user()->id,
+				'title' => $this->auth->user()->first_name . ' Membeli ' . count($products) . ' Produk.',
+				'message' => 'Pengguna atas nama ' . $this->auth->user()->first_name . ' melakukan transaksi. ' . $message,
+				'url' => base_url('transaction/order')
+			));
+
 			$options = array(
 				'cluster' => 'ap1',
 				'useTLS' => true
@@ -92,14 +99,9 @@ class TransactionService extends MY_Service{
 
 			$dataPusher['message'] = 'OK';
 			$pusher->trigger('my-channel', 'my-event', $dataPusher);
+			$invoice = myEncrypt($data['order_id']);
 
-			$this->Notification->create(array(
-				'user_id' => $this->auth->user()->id,
-				'title' => 'Transaksi ' . $status,
-				'message' => 'Pengguna atas nama ' . $this->auth->user()->first_name . ' melakukan transaksi. ' . $message
-			));
-
-			echo json_encode(array('success' => true, 'code' => 200, 'message' => $message));
+			echo json_encode(array('success' => true, 'code' => 200, 'message' => $message, 'redirect' => base_url('payment/' . $invoice)));
 			$this->db->trans_commit();
 			return;
 		} catch (Exception $exception) {

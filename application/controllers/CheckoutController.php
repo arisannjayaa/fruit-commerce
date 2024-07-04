@@ -9,6 +9,7 @@ class CheckoutController extends CI_Controller {
 		$this->load->helper('custom');
 		$this->load->model('Cart');
 		$this->load->model('Address');
+		$this->load->model('Transaction');
 		$this->load->service('CartService', 'cartService');
     }
 
@@ -29,6 +30,19 @@ class CheckoutController extends CI_Controller {
 
 		return view('home/checkout/index', $data);
     }
+
+	public function payment($id)
+	{
+		$orderId = myDecrypt($id);
+		$transaction = $this->Transaction->findByUserOrderId($this->auth->user()->id, $orderId)->row();
+
+		if (!$transaction) {
+			show_error("Sumber daya yang diminta tidak dapat ditemukan di server ini.", 404, "Halaman Tidak Ditemukan");
+		}
+
+		$data['transaction'] = $transaction;
+		return view('home/payment/payment', $data);
+	}
 }
 
 /* End of file DashboardController.php and path \application\controllers\DashboardController.php */

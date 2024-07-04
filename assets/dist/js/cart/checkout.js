@@ -14,7 +14,21 @@ if ($("#address-bool").val() == 0) {
 
 $('#pay-button').click(function (event) {
 	event.preventDefault();
-	$("#pay-button").empty().append(loadingElement);
+
+	$.blockUI({
+		message: loadingElement,
+		css: {
+			'z-index': 10002,
+			border: 'none',
+			padding: '15px',
+			backgroundColor: '#000',
+			'-webkit-border-radius': '10px',
+			'-moz-border-radius': '10px',
+			opacity: .5,
+			color: '#fff',
+		}
+	});
+
 	let tokenUrl = $("#snap-token-url").val();
 		$.ajax({
 			type: 'POST',
@@ -25,7 +39,6 @@ $('#pay-button').click(function (event) {
 			url: tokenUrl,
 			cache: false,
 			success: function(data) {
-				$("#pay-button").empty().append("Pilih Pembayaran");
 				var resultType = document.getElementById('result-type');
 				var resultData = document.getElementById('result-data');
 
@@ -54,6 +67,20 @@ $('#pay-button').click(function (event) {
 						$("#payment-form").submit();
 					}
 				});
+			},
+			error: function (res) {
+				let response = JSON.parse(res.responseText);
+
+				if (res.status == 400) {
+					$.unblockUI();
+					sweetError(response.message);
+					setTimeout(() => {
+						location.href = response.redirect;
+					}, 1500);
+				}
+			},
+			complete: function () {
+				$.unblockUI();
 			}
 		});
 });
@@ -63,11 +90,42 @@ $("#payment-form").submit(function (e) {
 	let url = $("#snap-finish-url").val();
 	let formData = new FormData(this);
 
+	$.blockUI({
+		message: loadingElement,
+		css: {
+			'z-index': 10002,
+			border: 'none',
+			padding: '15px',
+			backgroundColor: '#000',
+			'-webkit-border-radius': '10px',
+			'-moz-border-radius': '10px',
+			opacity: .5,
+			color: '#fff',
+		}
+	});
 	// send data
-	ajaxPost(url, formData).done(function (res) {
-		notifySuccess(res.message);
-		setTimeout(() => {
-			location.href = BASE_URL;
-		}, 1000)
+	$.ajax({
+		type: 'POST',
+		data: formData,
+		url: url,
+		contentType: false,
+		processData: false,
+		cache: false,
+		success: function(res) {
+			let response = JSON.parse(res);
+			console.log(response);
+			notifySuccess(response.message);
+			setTimeout(() => {
+				location.href = response.redirect;
+			}, 1500);
+		},
+		error: function () {
+			sweetError('Terjadi Kesalahan Server');
+		},
+		complete: function () {
+			$("#pay-button").empty().append("Berhasil");
+			$("#pay-button").prop("disabled", false);
+			$.unblockUI();
+		}
 	});
 });

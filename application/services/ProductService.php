@@ -67,4 +67,15 @@ class ProductService extends MY_Service{
 			show_error('Terjadi kesalahan', 500);
 		}
 	}
+
+	public function checkStock($products)
+	{
+		foreach ($products as $product) {
+			if ($product->stock == 0) {
+				return false;
+			}
+		}
+
+		return true;
+	}
 }

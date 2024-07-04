@@ -31,6 +31,9 @@ class Migration_Notifications extends CI_Migration
 				'type'              => 'VARCHAR',
 				'constraint'        => '255'
 			],
+			'url' => [
+				'type'              => 'LONGTEXT',
+			],
 			'is_clicked' => [
 				'type'              => 'BOOLEAN',
 				'default'			=> false
