@@ -5,6 +5,7 @@ class CartService extends MY_Service{
 	public function __construct() {
 		$this->load->model('User');
 		$this->load->model('Cart');
+		$this->load->model('Product');
 	}
 
 	public function findByUserId($user_id)
@@ -48,8 +49,16 @@ class CartService extends MY_Service{
 		try {
 			$cartItem = $this->Cart->checkProduct($data['product_id'], $data['user_id']);
 			$totalCart = $this->Cart->findByUserId($this->auth->user()->id)->result();
+			$product = $this->Product->find($data['product_id']);
+
+			if ($product->stock == 0) {
+				$this->output->set_status_header(400);
+				echo json_encode(array('success' => false, 'code' => 400, 'message' => "Stok produk sudah habis"));
+				return;
+			}
 
 			if ($cartItem != null) {
+
 				if ($cartItem->quantity >= $cartItem->stock) {
 					$this->output->set_status_header(401);
 					echo json_encode(array('success' => false, 'code' => 401, 'message' => "Data produk melebihi stock yang tersedia!"));

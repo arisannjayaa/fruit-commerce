@@ -118,6 +118,7 @@ function totalCount() {
 function fetchCart() {
 	ajaxGet(allCartItemUrl).done(function (res) {
 		let html = '';
+		let productSold = '';
 		data = res.data;
 
 		$("#product-container").html(loadingElement);
@@ -139,9 +140,13 @@ function fetchCart() {
 				</div>`;
 		}
 
+		console.log(data);
+
 		data.forEach(function (item) {
 			let attachment = item.attachment != null ? BASE_URL + item.attachment : BASE_URL + 'assets/home/images/image_5.jpg';
-			html += `<div id="product" class="mb-3">
+
+			if (item.stock > 0) {
+				html += `<div id="product" class="mb-3">
 					<div class="card">
 						<div class="card-body">
 							<div class="d-flex" style="gap: 10px">
@@ -169,13 +174,36 @@ function fetchCart() {
 						</div>
 					</div>
 				</div>`;
+			} else {
+				productSold += `<div id="product" class="mb-3">
+					<div class="card">
+						<div class="card-body">
+							<div class="d-flex" style="gap: 10px">
+								<img width="80" height="80" style="object-fit: cover; border-radius: 7px; opacity: 40%;" src="${attachment}" alt="">
+								<div class="d-flex flex-column justify-content-between flex-grow-1 flex-shrink-1">
+									<div class="d-flex justify-content-between flex-grow-1 flex-shrink-1" style="opacity: 40%;">
+										<a href="#" class="product-name" style="cursor: not-allowed">${item.title}</a>
+										<span data-price="${item.price}" class="price">${ formatRupiah(item.price, "IDR", false) }</span>
+										<input type="hidden" id="total" value="${item.quantity * item.price}">
+									</div>
+									<div class="d-flex justify-content-between flex-grow-1 flex-shrink-1 align-items-center" style="gap: 10px">
+										<span class="text-danger" style="font-size: 12px;">Produk ini sudah habis, hapus produk terlebih dahulu!</span>
+										<button data-id="${item.id}" id="btn-remove" class="btn btn-trash product-remove" style="height: 30px !important;"><i class="ion-ios-trash"></i></button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>`;
+			}
 		});
 
 		$(".total-price").html(loadingElement);
-
 		setTimeout(() => {
 			$("#product-container").empty();
+			$("#product-sold-container").empty();
 			$("#product-container").append(html);
+			$("#product-sold-container").html(productSold);
 
 			$(".total-price").html(formatRupiah(totalCount(), "IDR", false));
 			$("#total-price").val(totalCount());

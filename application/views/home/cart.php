@@ -44,8 +44,8 @@
 	<div class="container">
 		<div class="row no-gutters slider-text align-items-center justify-content-center">
 			<div class="col-md-9 ftco-animate text-center">
-				<p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home</a></span> <span class="mr-2"><a href="index.html">Cart</a></span> <span></span></p>
-				<h1 class="mb-0 bread">My Cart</h1>
+				<p class="breadcrumbs"><span class="mr-2"><a href="<?= base_url('') ?>">Home</a></span> <span class="mr-2"><a href="index.html">Cart</a></span> <span></span></p>
+				<h1 class="mb-0 bread">Keranjang</h1>
 			</div>
 		</div>
 	</div>
@@ -55,7 +55,8 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-8 col-12">
-				<div id="product-container" style="max-height: 500px !important; overflow-x: scroll !important;"></div>
+				<div id="product-container" class="scroll-x" style="max-height: 500px !important;"></div>
+				<div id="product-sold-container" class="scroll-x mt-3" style="max-height: 500px !important;"></div>
 			</div>
 			<div class="col-lg-4 col-12">
 				<div id="total-container">

@@ -3,6 +3,13 @@
 @section('title', 'Home')
 
 @section('style')
+<style>
+	.img-product {
+		height: 200px;
+		width: 100%;
+		object-fit: cover;
+	}
+</style>
 @endsection
 
 @section('content')
@@ -133,30 +140,21 @@
 	</div>
 	<div class="container">
 		<div class="row">
+			@if(count($products) > 0)
 			@foreach($products as $product)
-				<div class="col-md-6 col-lg-3 ftco-animate">
-				<div class="product item-product">
-					<a href="{{ base_url('shop/' . $product->slug) }}" class="img-prod"><img class="img-fluid" src="<?= base_url('assets/home/') ?>images/product-1.jpg" alt="Colorlib Template">
-						<div class="overlay"></div>
-					</a>
-					<div class="text py-3 pb-4 px-3 text-center">
-						<h3><a href="#">{{ $product->title }}</a></h3>
-						<div class="d-flex">
-							<div class="pricing">
-								<p class="price">{{  formatToRupiah($product->price) }}</p>
-							</div>
-						</div>
-						<div class="bottom-area d-flex px-3">
-							<div class="m-auto d-flex">
-								<a href="javascript:void(0)" data-id="{{ $product->id }}" class="buy-now d-flex justify-content-center align-items-center mx-1 add-cart">
-									<span><i class="ion-ios-cart"></i></span>
-								</a>
-							</div>
+			<div class="col-md-6 col-lg-3 ftco-animate">
+				<div class="product item-product p-2" style="border-radius: 10px;">
+					<div onclick="window.location.href='<?= base_url('shop/' . $product->slug) ?>'" style="cursor: pointer;">
+						<img class="img-product mb-2" style="border-radius: 10px;" src="<?= base_url($product->attachment ?? 'assets/home/images/image_5.jpg') ?>" alt="">
+						<div id="detail" class="p-1 mb-2">
+							<h1 style="font-size: 16px; font-weight: 400;"><?= trimString($product->title, 25) ?></h1>
+							<span style="font-size: 18px; font-weight: 600;" class="text-success"><?= formatToRupiah($product->price) ?></span>
 						</div>
 					</div>
 				</div>
 			</div>
 			@endforeach
+			@endif
 		</div>
 	</div>
 </section>

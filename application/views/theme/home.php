@@ -9,6 +9,29 @@
 	<link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Amatic+SC:400,700&display=swap" rel="stylesheet">
 	@include('components/home/css')
+	<style>
+		/* Selector untuk elemen dengan overflow */
+		.scroll-x {
+			/* Menyembunyikan scrollbar asli */
+			scrollbar-width: thin;
+			scrollbar-color: rgba(0, 0, 0, 0.3) transparent; /* Warna scrollbar dan latar belakang */
+			overflow-x: auto; /* Atur agar scrollbar muncul hanya jika diperlukan */
+		}
+
+		/* Untuk browser yang mendukung WebKit seperti Chrome dan Safari */
+		.scroll-x::-webkit-scrollbar {
+			width: 8px; /* Lebar scrollbar */
+		}
+
+		.scroll-x::-webkit-scrollbar-track {
+			background-color: transparent; /* Warna latar belakang track scrollbar */
+		}
+
+		.scroll-x::-webkit-scrollbar-thumb {
+			background-color: rgba(0, 0, 0, 0.3); /* Warna thumb scrollbar */
+			border-radius: 4px; /* Sudut lengkungan thumb scrollbar */
+		}
+	</style>
 	@yield('style')
 </head>
 <body class="goto-here">

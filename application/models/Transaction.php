@@ -18,11 +18,19 @@ class Transaction extends CI_Model
 
 	public function findByUserId($user_id)
 	{
+		$select = "t.*,
+				u.first_name,
+				u.last_name,
+				u.email,
+				u.telephone,
+				";
+
 		$builder = $this->db
-			->select('*')
+			->select($select)
 			->from('transactions t')
 			->join('users u', 'u.id = t.user_id')
-			->where('t.user_id', $user_id);
+			->where('t.user_id', $user_id)
+			->order_by('t.created_at', 'asc');
 
 		return $builder->get();
 	}

@@ -67,3 +67,12 @@ function expiredTime($init_time)
 	$formatted_expiration_time = date('Y-m-d H:i:s O', $expiration_time);
 	return $formatted_expiration_time;
 }
+
+function trimString($text, $max) {
+	if (strlen($text) > $max) {
+		$trimText = substr($text, 0, $max);
+		return $trimText . '...';
+	} else {
+		return $text;
+	}
+}

@@ -22,7 +22,6 @@
 			$product = json_decode($transaction->products);
 			$captureResponse = json_decode($transaction->capture_payment_response);
 			$status = $captureResponse->transaction_status;
-			$date = new DateTime($transaction->created_at);
 			$other = count($product) - 1;
 			$total = 0;
 		?>
@@ -30,7 +29,7 @@
 				<div class="card-body">
 					<div class="d-flex mb-3" style="gap: 10px">
 						<span class="badge {{ $status == 'pending' ? 'bg-warning' : 'bg-success' }} text-white my-auto">{{ $status }}</span>
-						<span>{{ $date->format('d F Y') }}</span>
+						<span>{{ formatDateId($transaction->created_at) }}</span>
 						<span class="d-lg-block d-none cursor-pointer">{{ $transaction->order_id }}</span>
 					</div>
 					<div class="d-flex justify-content-between flex-wrap">

@@ -47,7 +47,7 @@
 <section class="ftco-section ftco-cart">
 	<div class="container">
 		<div class="row justify-content-center">
-			<div class="col-6">
+			<div class="col-lg-6 col-12">
 				<div class="text-center">
 					<img height="250" width="250" src="<?= base_url('assets/dist/img/undraw_payments_re_77x0.svg') ?>" alt="payment">
 					<h5 id="title" class="mb-3"><div class="d-flex justify-content-center">
@@ -75,10 +75,10 @@
 
 				<div class="row">
 					<div class="col">
-						<button class="btn btn-primary w-100">Beranda</button>
+						<button class="btn btn-primary w-100" onclick="window.location.href='<?= base_url('') ?>'">Beranda</button>
 					</div>
 					<div class="col">
-						<button class="btn btn-primary w-100">Daftar Transaksi</button>
+						<button class="btn btn-primary w-100" onclick="window.location.href='<?= base_url('order-list') ?>'">Daftar Transaksi</button>
 					</div>
 				</div>
 			</div>
