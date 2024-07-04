@@ -62,23 +62,28 @@
 				?>
 				<div class="card">
 					<div class="card-body">
-						<div>
-							<h5><?= strtoupper($paymentResponse->va_numbers[0]->bank) ?></h5>
-						</div>
+						<h5><?= strtoupper($paymentResponse->va_numbers[0]->bank) . ' Virtual Account' ?></h5>
 					</div>
 				</div>
 				<div class="card mb-3">
 					<div class="card-body">
-						<h5 id="va-number"><?= strtoupper($paymentResponse->va_numbers[0]->va_number) ?></h5>
+						<div class="mb-3">
+							<label for="">Nomor Virtual Account</label>
+							<h5 id="va-number"><?= strtoupper($paymentResponse->va_numbers[0]->va_number) ?></h5>
+						</div>
+						<div class="mb-2">
+							<label for="">Total Tagihan</label>
+							<h5 id="va-number"><?= formatToRupiah($paymentResponse->gross_amount) ?></h5>
+						</div>
 					</div>
 				</div>
 
 				<div class="row">
 					<div class="col">
-						<button class="btn btn-primary w-100" onclick="window.location.href='<?= base_url('') ?>'">Beranda</button>
+						<button class="btn btn-primary w-100" onclick="window.location.href='<?= base_url('order-list') ?>'">Lihat Status Pembayaran</button>
 					</div>
 					<div class="col">
-						<button class="btn btn-primary w-100" onclick="window.location.href='<?= base_url('order-list') ?>'">Daftar Transaksi</button>
+						<button class="btn btn-primary w-100" onclick="window.location.href='<?= base_url('shop') ?>'">Belanja Lagi</button>
 					</div>
 				</div>
 			</div>
@@ -96,7 +101,10 @@
 <script src="https://cdn.jsdelivr.net/gh/yaza-putu/helpers@V2.0.4/helpers.min.js"></script>
 <script>
 	const expiry = $("#expiry-date").val();
-
+	setTimeout(() => {
+		$("#title").html('Pembayaran Harus Selesai Dalam');
+	},1000);
+	
 	setInterval(function() {
 		countDown(expiry);
 	}, 1000);

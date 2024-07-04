@@ -35,7 +35,7 @@
 					<div class="d-flex justify-content-between flex-wrap">
 						<div class="products col-lg-8 col-12" style="padding: 0">
 							<div class="d-flex" style="gap: 10px">
-								<img class="img-product" style="object-fit: cover; border-radius: 7px" src="<?= base_url('assets/home/images/image_5.jpg') ?>" alt="Colorlib Template">
+								<img class="img-product" style="object-fit: cover; border-radius: 7px" src="<?= base_url($product[0]->attachment ?? 'assets/home/images/image_5.jpg') ?>" alt="Colorlib Template">
 								<div class="title">
 									<span style="cursor:pointer;" data-id="{{ $transaction->order_id }}" class="detail" href="javascript:void(0)">{{ $product[0]->name }}</span>
 

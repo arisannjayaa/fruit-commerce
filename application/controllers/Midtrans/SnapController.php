@@ -38,7 +38,15 @@ class SnapController extends CI_Controller {
 		$arrProduct = [];
 		$arrSubTotal = [];
 		foreach ($data as $item) {
-			$arrProduct[] = ['id' => $item->product_id, 'price' => $item->price, 'quantity' => $item->quantity, 'name' => $item->title, 'user_id' => $item->user_id, 'description' => $item->description];
+			$arrProduct[] = [
+				'id' => $item->product_id,
+				'price' => $item->price,
+				'quantity' => $item->quantity,
+				'name' => $item->title,
+				'user_id' => $item->user_id,
+				'description' => $item->description,
+				'attachment' => $item->attachment,
+			];
 			array_push($arrSubTotal, $item->price * $item->quantity);
 		}
 

@@ -192,7 +192,6 @@ function badgeStatusCode(status_code) {
 }
 
 function countDown(expiry_date) {
-	$("#title").html('Pembayaran Harus Selesai Dalam');
 	const targetDate = new Date(expiry_date);
 	const now = new Date();
 

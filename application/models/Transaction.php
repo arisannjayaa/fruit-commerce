@@ -30,7 +30,7 @@ class Transaction extends CI_Model
 			->from('transactions t')
 			->join('users u', 'u.id = t.user_id')
 			->where('t.user_id', $user_id)
-			->order_by('t.created_at', 'asc');
+			->order_by('t.created_at', 'desc');
 
 		return $builder->get();
 	}
