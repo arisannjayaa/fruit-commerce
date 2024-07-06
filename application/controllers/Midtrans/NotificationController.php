@@ -21,7 +21,7 @@ class NotificationController extends CI_Controller {
 			$data = array(
 				'status_code' => $result->status_code,
 				'order_id' => $result->order_id,
-				'capture_payment_response' => $result
+				'capture_payment_response' => json_decode($result)
 			);
 //			$data['notification'] = $this->veritrans->status($result->order_id);
 
@@ -47,7 +47,7 @@ class NotificationController extends CI_Controller {
 		      // TODO set payment status in merchant's database to 'Challenge by FDS'
 		      // TODO merchant should decide whether this transaction is authorized or not in MAP
 		      echo "Transaction order_id: " . $order_id ." is challenged by FDS";
-		      } 
+		      }
 		      else {
 		      // TODO set payment status in merchant's database to 'Success'
 		      echo "Transaction order_id: " . $order_id ." successfully captured using " . $type;
@@ -57,11 +57,11 @@ class NotificationController extends CI_Controller {
 		else if ($transaction == 'settlement'){
 		  // TODO set payment status in merchant's database to 'Settlement'
 		  echo "Transaction order_id: " . $order_id ." successfully transfered using " . $type;
-		  } 
+		  }
 		  else if($transaction == 'pending'){
 		  // TODO set payment status in merchant's database to 'Pending'
 		  echo "Waiting customer to finish transaction order_id: " . $order_id . " using " . $type;
-		  } 
+		  }
 		  else if ($transaction == 'deny') {
 		  // TODO set payment status in merchant's database to 'Denied'
 		  echo "Payment using " . $type . " for transaction order_id: " . $order_id . " is denied.";
