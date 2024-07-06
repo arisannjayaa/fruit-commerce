@@ -19,10 +19,22 @@ class Address extends CI_Model
 	public function findByUserId($user_id)
 	{
 		$builder = $this->db
-			->select('a.*')
+			->select('a.id, a.address, a.addressee, a.label, a.telephone, a.postal_code, a.is_primary, a.created_at, a.updated_at')
 			->from('addresses a')
 			->join('users u', 'u.id = a.user_id')
 			->where('a.user_id', $user_id);
+
+		return $builder->get();
+	}
+
+	public function findByIsPrimary($user_id)
+	{
+		$builder = $this->db
+			->select('a.*')
+			->from('addresses a')
+			->join('users u', 'u.id = a.user_id')
+			->where('a.user_id', $user_id)
+			->where('a.is_primary', 1);
 
 		return $builder->get();
 	}
@@ -32,8 +44,6 @@ class Address extends CI_Model
 		$select = "a.*,
 				u.first_name,
 				u.last_name,
-				u.email,
-				u.telephone,
 				";
 
 		$builder = $this->db
@@ -74,6 +84,13 @@ class Address extends CI_Model
 	{
 		$this->db->set('is_primary', 'false');
 		$this->db->where('id !=', $id);
+		$this->db->update($this->table);
+	}
+
+	public function setPrimaryActive($id)
+	{
+		$this->db->set('is_primary', 1);
+		$this->db->where('id', $id);
 		$this->db->update($this->table);
 	}
 

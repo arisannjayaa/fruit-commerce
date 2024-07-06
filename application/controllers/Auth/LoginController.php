@@ -56,8 +56,13 @@ class LoginController extends CI_Controller {
 
 	public function rules()
 	{
-		$this->form_validation->set_rules('email', 'Email', 'required|valid_email');
-		$this->form_validation->set_rules('password', 'Password', 'required');
+		$this->form_validation->set_rules('email', 'Email', 'required|valid_email', array(
+			'required' => '%s tidak boleh kosong',
+			'valid_email' => '%s gunakan email yang valid'
+		));
+		$this->form_validation->set_rules('password', 'Password', 'required',  array(
+			'required' => '%s tidak boleh kosong',
+		));
 	}
 }
 

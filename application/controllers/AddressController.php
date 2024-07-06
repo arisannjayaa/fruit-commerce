@@ -10,7 +10,11 @@ class AddressController extends CI_Controller {
 		$this->load->model('Address');
     }
 
-    public function index()
+	/**
+	 * menampilkan halaman alamat
+	 * @return string
+	 */
+	public function index()
     {
 		if (!$this->auth->check()) {
 			redirect(base_url('login'));
@@ -22,6 +26,10 @@ class AddressController extends CI_Controller {
 		return view('home/settings/address-settings', $data);
     }
 
+	/**
+	 * membuat data alamat
+	 * @return void
+	 */
 	public function store()
 	{
 		if (!$this->input->is_ajax_request()) {
@@ -75,7 +83,7 @@ class AddressController extends CI_Controller {
 	}
 
 	/**
-	 * update data
+	 * update data alamat
 	 * @return void
 	 */
 	public function update()
@@ -86,7 +94,7 @@ class AddressController extends CI_Controller {
 
 		$this->auth->protect(2);
 
-		$this->rules();
+		$this->rules($this->input->post('id'));
 
 		if ($this->form_validation->run() == FALSE) {
 			$this->output->set_status_header(400);
@@ -116,7 +124,7 @@ class AddressController extends CI_Controller {
 	}
 
 	/**
-	 * delete data
+	 * Hapus data alamat
 	 * @return void
 	 */
 	public function delete()
@@ -131,22 +139,52 @@ class AddressController extends CI_Controller {
 		return $this->addressService->delete($id);
 	}
 
-	public function rules()
+	/**
+	 * set primary alamat utama
+	 * @return mixed
+	 */
+	public function setPrimary()
 	{
-		$this->form_validation->set_rules('address', 'Alamat', 'required', array(
-			'required' => '%s field tidak boleh kosong'
+		if (!$this->input->is_ajax_request()) {
+			show_error("Anda tidak memiliki izin untuk mengakses sumber daya ini.", 403, "Akses Ditolak");
+		}
+
+		$this->auth->protect(2);
+
+		$id = $this->input->post('id');
+		return $this->addressService->setPrimary($id);
+	}
+
+	/**
+	 * rules validasi
+	 * @param $id
+	 * @return void
+	 */
+	public function rules($id = null)
+	{
+		$rules = array(
+			'address' => $id == null ? 'required|is_unique[addresses.address]' : 'required',
+			'telephone' => $id == null ? 'required|is_unique[addresses.telephone]' : 'required'
+		);
+
+		$this->form_validation->set_rules('address', 'Alamat', $rules['address'], array(
+			'required' => '%s tidak boleh kosong',
+			'is_unique' => '%s harus berisi nilai unik',
 		));
 		$this->form_validation->set_rules('label', 'Label', 'required', array(
-			'required' => '%s field tidak boleh kosong',
+			'required' => '%s tidak boleh kosong',
 		));
-		$this->form_validation->set_rules('postal_code', 'Kode Pos', 'required', array(
-			'required' => '%s field tidak boleh kosong',
+		$this->form_validation->set_rules('postal_code', 'Kode Pos', 'required|numeric', array(
+			'required' => '%s tidak boleh kosong',
+			'numeric' => '%s harus berupa angka',
 		));
 		$this->form_validation->set_rules('addressee', 'Penerima', 'required', array(
-			'required' => '%s field tidak boleh kosong',
+			'required' => '%s tidak boleh kosong',
 		));
-		$this->form_validation->set_rules('telephone', 'Telephone', 'required', array(
-			'required' => '%s field tidak boleh kosong',
+		$this->form_validation->set_rules('telephone', 'Telepon', $rules['telephone'] .'|numeric', array(
+			'required' => '%s tidak boleh kosong',
+			'numeric' => '%s harus berupa angka',
+			'is_unique' => '%s harus berisi nilai unik',
 		));
 	}
 }

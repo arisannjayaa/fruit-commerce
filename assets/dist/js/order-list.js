@@ -15,8 +15,8 @@ $(document).on('click', '.detail', function () {
 
 			$(".modal-title").empty().append("Detail Transaksi");
 			$("#invoice-id").html(response.data.order_id);
-			$("#status").html(captureResponse.transaction_status);
-			$("#payment-type").html(response.data.payment_type);
+			$("#status").html(statusPayment(captureResponse.transaction_status));
+			$("#payment-type").html(paymentMethod(response.data.payment_type));
 			$("#date-transaction").html(convertDate(response.data.created_at));
 			$("#gross-amount").html(formatRupiah(response.data.gross_amount,"IDR", false));
 			$("#total-shop").html(formatRupiah(response.data.gross_amount,"IDR", false));

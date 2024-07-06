@@ -1,9 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Migration_Addresses extends CI_Migration
+class Migration_Notifications extends CI_Migration
 {
-    protected $tableName  = 'addresses';
+    protected $tableName  = 'notifications';
 	public function __construct($config = array())
 	{
 		parent::__construct($config);
@@ -23,28 +23,20 @@ class Migration_Addresses extends CI_Migration
 				'constraint'        => 11,
 				'unsigned'          => TRUE,
 			],
-			'address' => [
+			'title' => [
 				'type'              => 'VARCHAR',
 				'constraint'        => 255,
 			],
-			'label' => [
+			'message' => [
 				'type'              => 'VARCHAR',
 				'constraint'        => '255'
 			],
-			'addressee' => [
-				'type'              => 'VARCHAR',
-				'constraint'        => 255,
+			'url' => [
+				'type'              => 'LONGTEXT',
 			],
-			'telephone' => [
-				'type'              => 'VARCHAR',
-				'constraint'        => 255,
-			],
-			'postal_code' => [
-				'type'              => 'DOUBLE',
-			],
-			'is_primary' => [
-				'type' 				=> 'BOOLEAN',
-				'default'			=> false,
+			'is_clicked' => [
+				'type'              => 'BOOLEAN',
+				'default'			=> false
 			],
         ]);
 
@@ -54,16 +46,6 @@ class Migration_Addresses extends CI_Migration
 		$this->dbforge->add_field('CONSTRAINT FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE');
 
 		$this->dbforge->create_table($this->tableName);
-
-		$this->db->insert($this->tableName, [
-			'user_id' => 2,
-			'address'   => 'Jalan Pulau Bahari No.5',
-			'label' => 'Rumah',
-			'addressee' => 'Member',
-			'telephone' => '087861124897',
-			'postal_code' => '8789',
-			'is_primary' => 1,
-		]);
     }
 
     public function down()

@@ -39,6 +39,11 @@ $("#table").DataTable({
 			}
 		},
 		{ data: 'order_id', name: 'order_id', className: 'text-nowrap'},
+		{ data: 'status_code', name: 'status_code', className: 'text-nowrap', orderable: false, searchable: false,
+			render: function (data, type, row, meta) {
+				return `<span class="badge ${badgeStatusCode(row.status_code)}">${convertStatusCode(row.status_code)}</span>`;
+			}
+		},
 		{ data: 'gross_amount', name: 'gross_amount', className: 'text-nowrap', orderable: false, searchable: false, render: function (data) {
 				return `<span class="badge bg-success">${formatRupiah(data, "IDR", false)}</span>`
 		}},
@@ -59,12 +64,19 @@ $("#table").on("click", ".detail", function () {
 		let html = '';
 		let no = 1;
 		let products = JSON.parse(res.data.products);
+		let captureRequest = JSON.parse(res.data.capture_payment_request);
 
 		$(".modal-title").empty().append("Detail Pemesanan");
 		$("#invoice").html(res.data.order_id);
 		$("#fullname").html(res.data.first_name + ' ' + res.data.last_name);
 		$("#email").html(res.data.email);
 		$("#telephone").html(res.data.telephone);
+		$("#address").html(captureRequest.customer_details.shipping_address.address);
+		$("#state").html("Indonesia");
+		$("#city").html(captureRequest.customer_details.shipping_address.city);
+		$("#postal-code").html(captureRequest.customer_details.shipping_address.postal_code);
+		$("#status").html(`<span
+			class="badge ${badgeStatusCode(res.data.status)}">${convertStatusCode(res.data.status)}</span>`);
 
 		products.forEach(function (item) {
 			html += `<tr>

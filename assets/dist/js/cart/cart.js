@@ -1,5 +1,10 @@
 let allCartItemUrl = $("#all-cart-item-url").val();
 let userId = $("#user-id").val();
+let loadingElement = `<div class="d-flex justify-content-center">
+								  <div class="spinner-border" role="status" style="color: #82ae46;">
+									<span class="sr-only">Loading...</span>
+								  </div>
+							  </div>`;
 fetchCart();
 
 $(document).on('click', '.product-remove', function () {
@@ -21,12 +26,29 @@ $(document).on("click", ".btn-increase", function () {
 	let InputTotalElement = $(this).closest("#product").find("#total")[0];
 	let priceTotal = priceElement.getAttribute("data-price");
 	let subTotal = newValue * parseInt(priceTotal);
-	InputTotalElement.value = subTotal
-	$(".total-price").html(formatRupiah(totalCount(), "IDR", false));
-	$("#total-price").val(totalCount());
+	InputTotalElement.value = subTotal;
+
+	$(".total-price").html(loadingElement);
+
+	setTimeout(() => {
+		$(".total-price").html(formatRupiah(totalCount(), "IDR", false));
+		$("#total-price").val(totalCount());
+	}, 500);
 });
 
+$("#checkout-btn").click(function () {
+	let total = 0;
+	ajaxGet(allCartItemUrl).done(function (res) {
+		total = res.data.length;
 
+		if (total == 0) {
+			sweetError("Keranjang Masih Kosong!");
+			return;
+		}
+
+		location.href = BASE_URL + 'cart/checkout';
+	});
+})
 
 $(document).on("click", ".btn-decrease", function () {
 	let inputElement = $(this).closest("#product").find("input[type='number']");
@@ -40,9 +62,14 @@ $(document).on("click", ".btn-decrease", function () {
 	let InputTotalElement = $(this).closest("#product").find("#total")[0];
 	let priceTotal = priceElement.getAttribute("data-price");
 	let subTotal = newValue * parseInt(priceTotal);
-	InputTotalElement.value = subTotal
-	$(".total-price").html(formatRupiah(totalCount(), "IDR", false));
-	$("#total-price").val(totalCount());
+	InputTotalElement.value = subTotal;
+
+	$(".total-price").html(loadingElement);
+
+	setTimeout(() => {
+		$(".total-price").html(formatRupiah(totalCount(), "IDR", false));
+		$("#total-price").val(totalCount());
+	}, 500);
 });
 
 $(".item-product").on('click', '.add-cart', function (){
@@ -91,20 +118,35 @@ function totalCount() {
 function fetchCart() {
 	ajaxGet(allCartItemUrl).done(function (res) {
 		let html = '';
+		let productSold = '';
 		data = res.data;
-		$("#product-container").empty();
+
+		$("#product-container").html(loadingElement);
+
 		if (data.length == 0) {
 			html += `<div id="product">
 					<div class="card">
 						<div class="card-body">
-							<span>Belum ada produk yang di masukkan ke dalam keranjang</span>
+							<div class="d-flex align-items-center" style="gap: 10px;">
+								<img class="img-fluid" width="200" src="${BASE_URL + 'assets/dist/img/undraw_empty_cart_co35.svg'}" alt="">
+								<div>	
+									<h6>Waduhh, keranjang belanjaanmu masih kosong</h6>
+									<div class="mb-2">Yuk, isi dengan produk-produk impianmu!</div>
+									<a href="${BASE_URL + 'shop'}" class="btn btn-primary">Mulai Belanja</a>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>`;
 		}
+
+		console.log(data);
+
 		data.forEach(function (item) {
 			let attachment = item.attachment != null ? BASE_URL + item.attachment : BASE_URL + 'assets/home/images/image_5.jpg';
-			html += `<div id="product" class="mb-3">
+
+			if (item.stock > 0) {
+				html += `<div id="product" class="mb-3">
 					<div class="card">
 						<div class="card-body">
 							<div class="d-flex" style="gap: 10px">
@@ -132,11 +174,42 @@ function fetchCart() {
 						</div>
 					</div>
 				</div>`;
+			} else {
+				productSold += `<div id="product" class="mb-3">
+					<div class="card">
+						<div class="card-body">
+							<div class="d-flex" style="gap: 10px">
+								<img width="80" height="80" style="object-fit: cover; border-radius: 7px; opacity: 40%;" src="${attachment}" alt="">
+								<div class="d-flex flex-column justify-content-between flex-grow-1 flex-shrink-1">
+									<div class="d-flex justify-content-between flex-grow-1 flex-shrink-1" style="opacity: 40%;">
+										<a href="#" class="product-name" style="cursor: not-allowed">${item.title}</a>
+										<span data-price="${item.price}" class="price">${ formatRupiah(item.price, "IDR", false) }</span>
+										<input type="hidden" id="total" value="${item.quantity * item.price}">
+									</div>
+									<div class="d-flex justify-content-between flex-grow-1 flex-shrink-1 align-items-center" style="gap: 10px">
+										<span class="text-danger" style="font-size: 12px;">Produk ini sudah habis, hapus produk terlebih dahulu!</span>
+										<button data-id="${item.id}" id="btn-remove" class="btn btn-trash product-remove" style="height: 30px !important;"><i class="ion-ios-trash"></i></button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>`;
+			}
 		});
-		$("#product-container").append(html);
-		$(".total-price").html(formatRupiah(totalCount(), "IDR", false));
-		$("#total-price").val(totalCount());
-		fetchTotalCart();
+
+		$(".total-price").html(loadingElement);
+		setTimeout(() => {
+			$("#product-container").empty();
+			$("#product-sold-container").empty();
+			$("#product-container").append(html);
+			$("#product-sold-container").html(productSold);
+
+			$(".total-price").html(formatRupiah(totalCount(), "IDR", false));
+			$("#total-price").val(totalCount());
+			fetchTotalCart();
+		}, 500);
+
 	});
 }
 

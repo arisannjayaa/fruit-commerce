@@ -136,7 +136,22 @@ $route['user/settings/address/store'] = 'AddressController/store';
 $route['user/settings/address/update'] = 'AddressController/update';
 $route['user/settings/address/delete'] = 'AddressController/delete';
 $route['user/settings/address/total'] = 'AddressController/total';
+$route['user/settings/address/setprimary'] = 'AddressController/setPrimary';
 $route['user/settings/address/edit/(:any)'] = 'AddressController/edit/$1';
+
+//checkout
+$route['cart/checkout']['GET'] = 'CheckoutController/index';
+$route['cart/checkout']['POST'] = 'CheckoutController/checkout';
+
+// notifications
+$route['notifications']['GET'] = 'NotificationController/all';
+$route['notifications/read']['POST'] = 'NotificationController/read';
+
+$route['payment/(:any)']['GET'] = 'CheckoutController/payment/$1';
+
+//payment notification callback
+$route['payment/notification'] = 'Midtrans/NotificationController/index';
+
 
 $route['404_override'] = 'ErrorController/error_404';
 $route['translate_uri_dashes'] = FALSE;

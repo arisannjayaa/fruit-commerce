@@ -43,6 +43,7 @@
 					<tr>
 						<th>No</th>
 						<th>Invoice</th>
+						<th>Status</th>
 						<th>Total</th>
 						<th>Aksi</th>
 					</tr>

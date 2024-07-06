@@ -48,8 +48,8 @@ class ProductController extends CI_Controller {
 		$this->rules();
 
 		if (empty($_FILES['attachment']['name'])) {
-			$this->form_validation->set_rules('attachment', 'Attachment', 'required', array(
-				'required' => 'The %s field tidak boleh kosong.',
+			$this->form_validation->set_rules('attachment', 'Lampiran', 'required', array(
+				'required' => '%s tidak boleh kosong.',
 			));
 		}
 
@@ -98,7 +98,7 @@ class ProductController extends CI_Controller {
 			'stock' => $this->input->post('stock'),
 			'slug' => slug($this->input->post('title')),
 			'created_by' => $this->auth->user()->id,
-			'category_id' => $this->input->post('category_id')
+			'category_id' => $this->input->post('category_id'),
 		);
 
 		return $this->productService->create($data);
@@ -135,7 +135,7 @@ class ProductController extends CI_Controller {
 
 		$old_attachment = $this->input->post('old_attachment');
 
-		$this->rules();
+		$this->rules($this->input->post('id'));
 
 		if ($this->form_validation->run() == FALSE) {
 			$this->output->set_status_header(400);
@@ -158,10 +158,10 @@ class ProductController extends CI_Controller {
 			}
 
 			$config['upload_path'] 		= './'.$path;
-			$config['allowed_types'] 	= 'jpg|png';
+			$config['allowed_types'] 	= 'jpg|jpeg|png';
 			$config['max_filename']	 	= '255';
 			$config['encrypt_name'] 	= TRUE;
-			$config['max_size'] 		= 1024;
+			$config['max_size'] 		= 2024;
 			$this->load->library('upload', $config);
 
 			if (!$this->upload->do_upload("attachment")) {
@@ -192,7 +192,8 @@ class ProductController extends CI_Controller {
 			'stock' => $this->input->post('stock'),
 			'slug' => slug($this->input->post('title')),
 			'created_by' => $this->auth->user()->id,
-			'category_id' => $this->input->post('category_id')
+			'category_id' => $this->input->post('category_id'),
+			'updated_at' => date('Y-m-d H:i:s'),
 		);
 
 		return $this->productService->update($data);
@@ -214,21 +215,26 @@ class ProductController extends CI_Controller {
 		return $this->productService->delete($id);
 	}
 
-	public function rules()
+	public function rules($id = null)
 	{
-		$this->form_validation->set_rules('title', 'Judul', 'required', array(
-			'required' => '%s field tidak boleh kosong'
+		$rules = array(
+			'title' => $id == null ? 'required|is_unique[products.title]' : 'required',
+		);
+
+		$this->form_validation->set_rules('title', 'Judul', $rules['title'], array(
+			'required' => '%s tidak boleh kosong',
+			'is_unique' => '%s harus berisi nilai unik'
 		));
 		$this->form_validation->set_rules('category_id', 'Kategori', 'required', array(
-			'required' => '%s field tidak boleh kosong'
+			'required' => '%s tidak boleh kosong'
 		));
 		$this->form_validation->set_rules('stock', 'Stok', 'required|numeric', array(
-			'required' => '%s field tidak boleh kosong',
-			'numeric' => '%s field harus berupa angka',
+			'required' => '%s tidak boleh kosong',
+			'numeric' => '%s harus berupa angka',
 		));
 		$this->form_validation->set_rules('price', 'Harga', 'required|numeric', array(
-			'required' => '%s field tidak boleh kosong',
-			'numeric' => '%s field harus berupa angka',
+			'required' => '%s tidak boleh kosong',
+			'numeric' => '%s harus berupa angka',
 		));
 	}
 }

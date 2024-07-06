@@ -63,8 +63,7 @@ class Migration_Product extends CI_Migration
 		$this->dbforge->add_field('CONSTRAINT FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE');
 
         $this->dbforge->create_table($this->tableName);
-
-		for ($i=1; $i < 100; $i++) {
+		for ($i=1; $i < 5; $i++) {
 			$this->db->insert($this->tableName, [
 				'created_by' => 1,
 				'title'   => 'Strawberry-'.$i,

@@ -190,3 +190,60 @@ function badgeStatusCode(status_code) {
 
 	return badge;
 }
+
+function countDown(expiry_date) {
+	const targetDate = new Date(expiry_date);
+	const now = new Date();
+
+	const difference = targetDate.getTime() - now.getTime();
+
+	if (difference <= 0) {
+		$("#title").html('Pembayaran sudah waktunya atau melewati batas.');
+		return;
+	}
+
+	let second = Math.floor(difference / 1000);
+	let minute = Math.floor(second / 60);
+	let hour = Math.floor(minute / 60);
+	let day = Math.floor(hour / 24);
+
+	hour %= 24;
+	minute %= 60;
+	second %= 60;
+
+	$("#countdown").html(`${hour} Jam, ${minute} Menit, ${second} Detik`);
+}
+
+function statusPayment(status) {
+	let string = "";
+	switch (status) {
+		case "settlement":
+			string = "Berhasil";
+			break;
+		case "expire":
+			string = "Kedaluarsa";
+			break;
+		case "pending":
+			string = "Pending";
+			break;
+		default:
+			string = "Ditolak";
+			break;
+	}
+
+	return string;
+}
+
+function paymentMethod(payment_method) {
+	let method = "";
+	switch (payment_method) {
+		case "bank_transfer":
+			method = "Bank Transfer";
+			break;
+		default:
+			method = "Bank Transfer";
+			break;
+	}
+
+	return method;
+}

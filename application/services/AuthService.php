@@ -4,7 +4,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class AuthService extends MY_Service{
 	public function __construct() {
 		$this->load->model('User');
-		$this->load->model('Cart');
 	}
 
 	public function login($email, $password)

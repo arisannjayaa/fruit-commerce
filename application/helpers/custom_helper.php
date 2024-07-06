@@ -44,7 +44,7 @@ function myEncrypt($data)
 
 	$ciphertext = openssl_encrypt($data, $cipher, $key, $options, $iv);
 
-	return base64_encode($ciphertext);
+	return rtrim(base64_encode($ciphertext), '=');
 }
 
 function myDecrypt($data)
@@ -66,4 +66,67 @@ function expiredTime($init_time)
 	$expiration_time = strtotime($init_time . ' +24 hours');
 	$formatted_expiration_time = date('Y-m-d H:i:s O', $expiration_time);
 	return $formatted_expiration_time;
+}
+
+function trimString($text, $max) {
+	if (strlen($text) > $max) {
+		$trimText = substr($text, 0, $max);
+		return $trimText . '...';
+	} else {
+		return $text;
+	}
+}
+
+function statusPayment($status)
+{
+	switch ($status) {
+		case "settlement":
+			$string = "Berhasil";
+			break;
+		case "pending":
+			$string = "Pending";
+			break;
+		case "expire":
+			$string = "Kedaluarsa";
+			break;
+		default:
+			$string = "Ditolak";
+			break;
+	}
+
+	return $string;
+}
+
+function badgeStatusPayment($status)
+{
+	switch ($status) {
+		case "settlement":
+			$badge = "bg-success";
+			break;
+		case "pending":
+			$badge = "bg-warning";
+			break;
+		case "expire":
+			$badge = "bg-primary";
+			break;
+		default:
+			$badge = "bg-danger";
+			break;
+	}
+
+	return $badge;
+}
+
+function paymentMethod($payment_method)
+{
+	switch ($payment_method) {
+		case "bank_transfer":
+			$method = "Bank Transfer";
+			break;
+		default:
+			$method = "Manual";
+			break;
+	}
+
+	return $method;
 }

@@ -8,6 +8,7 @@ class OrderController extends CI_Controller {
         parent::__construct();
 		$this->load->helper('custom');
 		$this->load->model('Transaction');
+		$this->load->model('Product');
     }
 
     public function index()

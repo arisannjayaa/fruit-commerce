@@ -27,6 +27,15 @@
 		height: 30px !important;
 		border-radius: 10px;
 	}
+
+	.ftco-cart button.btn-primary:hover {
+		color: #82ae46 !important;
+		border: 1px solid #82ae46 !important;
+	}
+
+	.ftco-cart button.btn-primary {
+		color: #fff !important;
+	}
 </style>
 @endsection
 
@@ -35,23 +44,19 @@
 	<div class="container">
 		<div class="row no-gutters slider-text align-items-center justify-content-center">
 			<div class="col-md-9 ftco-animate text-center">
-				<p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home</a></span> <span class="mr-2"><a href="index.html">Cart</a></span> <span></span></p>
-				<h1 class="mb-0 bread">My Cart</h1>
+				<p class="breadcrumbs"><span class="mr-2"><a href="<?= base_url('') ?>">Home</a></span> <span class="mr-2"><a href="index.html">Cart</a></span> <span></span></p>
+				<h1 class="mb-0 bread">Keranjang</h1>
 			</div>
 		</div>
 	</div>
 </div>
 
 <section class="ftco-section ftco-cart">
-	<form class="d-none" id="payment-form">
-		<input type="hidden" name="result_type" id="result-type" value=""></div>
-		<input type="hidden" name="result_data" id="result-data" value=""></div>
-		<input type="hidden" name="invoice" id="invoice" value="<?= genInvoice() ?>"></div>
-	</form>
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-8 col-12">
-				<div id="product-container"></div>
+				<div id="product-container" class="scroll-x" style="max-height: 500px !important;"></div>
+				<div id="product-sold-container" class="scroll-x mt-3" style="max-height: 500px !important;"></div>
 			</div>
 			<div class="col-lg-4 col-12">
 				<div id="total-container">
@@ -61,9 +66,9 @@
 							<div class="d-flex justify-content-between align-items-center mb-3">
 								<span>Total</span>
 								<input id="total-price" type="hidden" value="">
-								<h6 class="total-price">100</h6>
+								<h6 class="total-price"></h6>
 							</div>
-							<button id="pay-button" class="btn btn-primary w-100 text-white">Bayar</button>
+							<button id="checkout-btn" class="btn btn-primary w-100">Beli</button>
 						</div>
 					</div>
 				</div>
@@ -85,5 +90,4 @@
 <script src="https://cdn.jsdelivr.net/gh/yaza-putu/helpers@V2.0.4/libs/libs-core.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/yaza-putu/helpers@V2.0.4/helpers.min.js"></script>
 <script src="{{ base_url('assets/dist/js/cart/cart.js') }}"></script>
-<script src="{{ base_url('assets/dist/js/cart/checkout.js') }}"></script>
 @endsection
