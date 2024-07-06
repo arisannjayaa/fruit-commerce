@@ -256,7 +256,9 @@
 			</footer>
 		</div>
 	</div>
-	<audio id="notification-sound" src="<?= base_url('assets/dist/audio/notification.mp3'); ?>" preload="auto"></audio>
+	<audio id="notification-sound">
+		<source src="<?= base_url('assets/dist/audio/notification.mp3'); ?>" type="audio/mpeg">
+	</audio>
 	<input type="hidden" id="base-url" value="<?= base_url('') ?>">
 	@yield('url')
 	<!-- Libs JS -->
