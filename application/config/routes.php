@@ -149,6 +149,9 @@ $route['notifications/read']['POST'] = 'NotificationController/read';
 
 $route['payment/(:any)']['GET'] = 'CheckoutController/payment/$1';
 
+//payment notification callback
+$route['payment/notification'] = 'Midtrans/NotificationController/index';
+
 
 $route['404_override'] = 'ErrorController/error_404';
 $route['translate_uri_dashes'] = FALSE;

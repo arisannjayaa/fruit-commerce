@@ -33,12 +33,27 @@ class TransactionService extends MY_Service{
 	public function update($data)
 	{
 		try {
-			$id = $data['id'];
-			unset($data['id']);
+			$this->db->trans_begin();
+
+			$orderId = $data['order_id'];
+			$transaction = $this->Transaction->findByOrderId($orderId)->row();
+
+			if (!$transaction) {
+				$this->output->set_status_header(400);
+				echo json_encode(array('success' => false, 'code' => 400, 'message' => "Terjadi Kesalahan"));
+				$this->db->trans_commit();
+				return;
+			}
+
+			$id = $transaction->id;
+			unset($data['order_id']);
+
 			$data['updated_at'] = date('Y-m-d H:i:s');
 			$this->Transaction->update($id, $data);
 			$this->output->set_status_header(200);
 			echo json_encode(array('success' => true, 'code' => 200, 'message' => "Data cart berhasil diupdate"));
+			$this->db->trans_commit();
+			return;
 		} catch (Exception $exception) {
 			show_error('Terjadi kesalahan', 500);
 		}

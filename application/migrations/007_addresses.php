@@ -54,6 +54,16 @@ class Migration_Addresses extends CI_Migration
 		$this->dbforge->add_field('CONSTRAINT FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE');
 
 		$this->dbforge->create_table($this->tableName);
+
+		$this->db->insert($this->tableName, [
+			'user_id' => 2,
+			'address'   => 'Jalan Pulau Bahari No.5',
+			'label' => 'Rumah',
+			'addressee' => 'Member',
+			'telephone' => '087861124897',
+			'postal_code' => '8789',
+			'is_primary' => 1,
+		]);
     }
 
     public function down()

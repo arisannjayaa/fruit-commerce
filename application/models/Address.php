@@ -19,7 +19,7 @@ class Address extends CI_Model
 	public function findByUserId($user_id)
 	{
 		$builder = $this->db
-			->select('a.*')
+			->select('a.id, a.address, a.addressee, a.label, a.telephone, a.postal_code, a.is_primary, a.created_at, a.updated_at')
 			->from('addresses a')
 			->join('users u', 'u.id = a.user_id')
 			->where('a.user_id', $user_id);
@@ -44,8 +44,6 @@ class Address extends CI_Model
 		$select = "a.*,
 				u.first_name,
 				u.last_name,
-				u.email,
-				u.telephone,
 				";
 
 		$builder = $this->db

@@ -53,6 +53,23 @@ class Transaction extends CI_Model
 		return $builder->get();
 	}
 
+	public function findByOrderId($order_id)
+	{
+		$select = "t.*,
+				u.first_name,
+				u.last_name,
+				u.email,
+				u.telephone,
+				";
+
+		$builder = $this->db
+			->select($select)
+			->from('transactions t')
+			->join('users u', 'u.id = t.user_id')
+			->where('t.order_id', $order_id);
+		return $builder->get();
+	}
+
     public function find($id)
     {
 		$select = "t.*,

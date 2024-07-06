@@ -1,4 +1,9 @@
 let totalRows = $("#total-rows").val();
+let loadingElement = `<div class="d-flex justify-content-center">
+								  <div class="spinner-border" role="status">
+									<span class="sr-only">Loading...</span>
+								  </div>
+							  </div>`;
 checkRows(totalRows);
 
 $('#btn-add').click(function () {
@@ -30,13 +35,31 @@ $("#form-address").submit(function (e) {
 
 	// send data
 	ajaxPost(url, formData, btn).done(function (res) {
+		$.blockUI({
+			message: loadingElement,
+			css: {
+				'z-index': 10002,
+				border: 'none',
+				padding: '15px',
+				backgroundColor: '#000',
+				'-webkit-border-radius': '10px',
+				'-moz-border-radius': '10px',
+				opacity: .5,
+				color: '#fff',
+			}
+		});
 		notifySuccess(res.message);
 		$(modal).modal("hide");
 		$(form)[0].reset();
 		setTimeout(() => {
+			$.unblockUI();
 			location.reload();
 		}, 1500);
 	});
+});
+
+$('#modal-address').on('hidden.bs.modal', function (e) {
+	$("#check-is-primary").show();
 });
 
 $(".edit").click(function () {
@@ -45,6 +68,7 @@ $(".edit").click(function () {
 	url = url.replace(":id", id);
 
 	ajaxGet(url).done(function (res) {
+		console.log(res);
 		$(".modal-title").empty().append("Edit Alamat");
 		$("#id").val(res.data.id);
 		$("#addressee").val(res.data.addressee);

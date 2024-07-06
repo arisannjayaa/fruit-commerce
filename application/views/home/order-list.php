@@ -28,7 +28,7 @@
 			<div class="card mb-3">
 				<div class="card-body">
 					<div class="d-flex mb-3" style="gap: 10px">
-						<span class="badge {{ $status == 'pending' ? 'bg-warning' : 'bg-success' }} text-white my-auto">{{ $status }}</span>
+						<span class="badge {{ badgeStatusPayment($status) }} text-white my-auto">{{ statusPayment($status) }}</span>
 						<span>{{ formatDateId($transaction->created_at) }}</span>
 						<span class="d-lg-block d-none cursor-pointer">{{ $transaction->order_id }}</span>
 					</div>

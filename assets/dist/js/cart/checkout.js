@@ -113,7 +113,7 @@ $("#payment-form").submit(function (e) {
 		cache: false,
 		success: function(res) {
 			let response = JSON.parse(res);
-			console.log(response);
+
 			notifySuccess(response.message);
 			setTimeout(() => {
 				location.href = response.redirect;

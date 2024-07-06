@@ -76,3 +76,57 @@ function trimString($text, $max) {
 		return $text;
 	}
 }
+
+function statusPayment($status)
+{
+	switch ($status) {
+		case "settlement":
+			$string = "Berhasil";
+			break;
+		case "pending":
+			$string = "Pending";
+			break;
+		case "expire":
+			$string = "Kedaluarsa";
+			break;
+		default:
+			$string = "Ditolak";
+			break;
+	}
+
+	return $string;
+}
+
+function badgeStatusPayment($status)
+{
+	switch ($status) {
+		case "settlement":
+			$badge = "bg-success";
+			break;
+		case "pending":
+			$badge = "bg-warning";
+			break;
+		case "expire":
+			$badge = "bg-primary";
+			break;
+		default:
+			$badge = "bg-danger";
+			break;
+	}
+
+	return $badge;
+}
+
+function paymentMethod($payment_method)
+{
+	switch ($payment_method) {
+		case "bank_transfer":
+			$method = "Bank Transfer";
+			break;
+		default:
+			$method = "Manual";
+			break;
+	}
+
+	return $method;
+}
