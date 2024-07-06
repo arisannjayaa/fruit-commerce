@@ -48,7 +48,6 @@ class NotificationController extends CI_Controller {
 				'capture_payment_response' => json_encode($result)
 			);
 
-			$this->load->model('Transaction_model', 'Transaction');
 			return $this->Transaction->update($data);
 		}
 
