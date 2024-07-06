@@ -7,6 +7,7 @@ class NotificationController extends CI_Controller {
         $params = array('server_key' => 'SB-Mid-server-GrsQXs1BZ7HDGD210SYbm-Gl', 'production' => false);
 		$this->load->library('veritrans');
 		$this->load->model('Notification');
+		$this->load->service('TransactionService', 'transactionService');
 		$this->veritrans->config($params);
 		$this->load->helper('url');
 		
@@ -48,7 +49,7 @@ class NotificationController extends CI_Controller {
 				'capture_payment_response' => json_encode($result)
 			);
 
-			return $this->Transaction->update($data);
+			return $this->transactionService->update($data);
 		}
 
 		// Logging untuk memeriksa hasil dari input JSON
