@@ -52,6 +52,8 @@ class NotificationController extends CI_Controller {
 			return $this->transactionService->update($data);
 		}
 
+		echo "error";
+
 		error_log(print_r($result, true));
 	}
 }
