@@ -16,18 +16,16 @@ class NotificationController extends CI_Controller {
 		echo 'test notification handler';
 		$json_result = file_get_contents('php://input');
 		$result = json_decode($json_result);
+		$mid = $this->veritrans->status($result->order_id);
 
-		if($result){
+		if ($mid->transaction_status == "settlement") {
 			$data = array(
-				'status_code' => $result->status_code,
-				'order_id' => $result->order_id,
-				'capture_payment_response' => json_decode($result)
+				'status_code' => $mid->status_code,
+				'order_id' => $mid->order_id,
+				'capture_payment_response' => json_decode($mid)
 			);
-//			$data['notification'] = $this->veritrans->status($result->order_id);
 
-			if ($result->status_code == 200) {
-				return $this->Transaction->update($data);
-			}
+			return $this->Transaction->update($data);
 		}
 
 		error_log(print_r($result,TRUE));
