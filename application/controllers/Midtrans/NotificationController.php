@@ -14,14 +14,11 @@ class NotificationController extends CI_Controller {
 
 	public function index()
 	{
-		// Output untuk memastikan handler dipanggil
 		echo 'test notification handler';
 
-		// Mendapatkan JSON input dari Midtrans
 		$json_result = file_get_contents('php://input');
 		$result = json_decode($json_result);
 
-		// Memeriksa apakah dekoding JSON berhasil
 		if ($result === null && json_last_error() !== JSON_ERROR_NONE) {
 			error_log('Failed to decode JSON input');
 			$options = array(
@@ -44,22 +41,18 @@ class NotificationController extends CI_Controller {
 				'message' => 'Terjadi error pada json',
 				'url' => base_url('')
 			));
-			return;
 		}
 
-		// Memanggil veritrans untuk mendapatkan status transaksi
 		$mid = $this->veritrans->status($result->order_id);
 
-		// Memeriksa jika status transaksi adalah "settlement"
-		if ($mid && $mid->transaction_status == "settlement") {
+		if ($result && $result->transaction_status == "settlement") {
 			// Persiapkan data yang akan diupdate
 			$data = array(
-				'status_code' => $mid->status_code,
-				'order_id' => $mid->order_id,
-				'capture_payment_response' => json_encode($mid) // Ubah menjadi JSON string jika diperlukan
+				'status_code' => $result->status_code,
+				'order_id' => $result->order_id,
+				'capture_payment_response' => json_encode($result) // Ubah menjadi JSON string jika diperlukan
 			);
-
-			// Panggil model untuk melakukan update data transaksi
+			
 			$this->load->model('Transaction_model', 'Transaction');
 			$this->Transaction->update($data);
 		}
