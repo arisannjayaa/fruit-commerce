@@ -14,12 +14,9 @@ class NotificationController extends CI_Controller {
 
 	public function index()
 	{
-		echo 'test notification handler';
-
 		$json_result = file_get_contents('php://input');
 		$result = json_decode($json_result);
-		echo json_encode(array("data" => $result));
-		return;
+
 		if ($result === null && json_last_error() !== JSON_ERROR_NONE) {
 			error_log('Failed to decode JSON input');
 			$options = array(
@@ -44,18 +41,15 @@ class NotificationController extends CI_Controller {
 			));
 		}
 
-		$mid = $this->veritrans->status($result->order_id);
-
 		if ($result && $result->transaction_status == "settlement") {
-			// Persiapkan data yang akan diupdate
 			$data = array(
 				'status_code' => $result->status_code,
 				'order_id' => $result->order_id,
-				'capture_payment_response' => json_encode($result) // Ubah menjadi JSON string jika diperlukan
+				'capture_payment_response' => json_encode($result)
 			);
 
 			$this->load->model('Transaction_model', 'Transaction');
-			$this->Transaction->update($data);
+			return $this->Transaction->update($data);
 		}
 
 		// Logging untuk memeriksa hasil dari input JSON
