@@ -165,32 +165,6 @@ function convertDate(datetime) {
 	return formattedDateTime;
 }
 
-function convertStatusCode(status_code) {
-	let status = '';
-	if (status_code == '407') {
-		status = 'Expired';
-	} else if (status_code == '201') {
-		status = 'Pending';
-	} else {
-		status = 'Berhasil'
-	}
-
-	return status;
-}
-
-function badgeStatusCode(status_code) {
-	let badge = '';
-	if (status_code == '407') {
-		badge = 'bg-danger';
-	} else if (status_code == '201') {
-		badge = 'bg-warning';
-	} else {
-		badge = 'bg-success'
-	}
-
-	return badge;
-}
-
 function countDown(expiry_date) {
 	const targetDate = new Date(expiry_date);
 	const now = new Date();
@@ -232,6 +206,27 @@ function statusPayment(status) {
 	}
 
 	return string;
+}
+
+
+function badgeStatusPayment(status) {
+	let badge = "";
+	switch (status) {
+		case "settlement":
+			badge = "bg-success";
+			break;
+		case "expire":
+			badge = "bg-danger";
+			break;
+		case "pending":
+			badge = "bg-warning";
+			break;
+		default:
+			badge = "bg-danger";
+			break;
+	}
+
+	return badge;
 }
 
 function paymentMethod(payment_method) {

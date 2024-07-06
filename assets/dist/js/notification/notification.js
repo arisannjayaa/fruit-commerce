@@ -6,6 +6,10 @@ var pusher = new Pusher('127db0c2612c670ab73d', {
 	cluster: 'ap1'
 });
 
+setTimeout(() => {
+	showAudio();
+},6000);
+
 var channel = pusher.subscribe('my-channel');
 channel.bind('my-event', function(data) {
 	if (data.message == "OK") {
@@ -38,6 +42,15 @@ $(document).on("click", ".read-notification", function() {
 		}
 	});
 });
+
+function showAudio() {
+	let audioUrl = BASE_URL + 'uploads/notification.mp3';
+	let audio = `<audio id="notification-sound">
+						<source src="${audioUrl}" type="audio/mpeg">
+					   </audio>`;
+	$("#audio-container").html(audio);
+	console.log("audio loaded");
+}
 
 function fetchNotification() {
 	$.ajax({

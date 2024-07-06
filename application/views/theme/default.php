@@ -256,9 +256,7 @@
 			</footer>
 		</div>
 	</div>
-	<audio id="notification-sound">
-		<source src="<?= base_url('uploads/notification.ogg'); ?>" type="audio/mpeg">
-	</audio>
+	<div id="audio-container"></div>
 	<input type="hidden" id="base-url" value="<?= base_url('') ?>">
 	@yield('url')
 	<!-- Libs JS -->

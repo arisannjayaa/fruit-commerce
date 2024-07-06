@@ -4,7 +4,9 @@ require 'vendor/autoload.php';
 class TransactionService extends MY_Service{
 	public function __construct() {
 		$this->load->model('Cart');
+		$this->load->model('Product');
 		$this->load->model('Transaction');
+		$this->load->helper('custom');
 		$this->load->model('Notification');
 	}
 
@@ -34,7 +36,6 @@ class TransactionService extends MY_Service{
 	{
 		try {
 			$this->db->trans_begin();
-
 			$orderId = $data['order_id'];
 			$transaction = $this->Transaction->findByOrderId($orderId)->row();
 
@@ -48,7 +49,59 @@ class TransactionService extends MY_Service{
 			$id = $transaction->id;
 			unset($data['order_id']);
 
+			if ($data['capture_payment_response']->transaction_status == 'settlement'){
+				$title = 'Transaksi Pembayaran berhasil';
+				$message = "Transaksi invoice: " . $data['capture_payment_response']->order_id ." berhasil ditransfer menggunakan" . paymentMethod($data['capture_payment_response']->payment_type);
+				$products = json_decode($transaction->products);
+
+				foreach ($products as $product) {
+					$findProduct = $this->Product->find($product->id);
+					$dataProduct = array(
+						'stock' => 	$findProduct->stock - $product->quantity
+					);
+					$this->Product->update($product->id, $dataProduct);
+				}
+
+			}
+			else if($data['capture_payment_response']->transaction_status == 'pending'){
+				$title = 'Transaksi Pembayaran tertunda';
+				$message = "Menunggu pelanggan menyelesaikan transaksi invoice:" . $data['capture_payment_response']->order_id . " menggunakan " . paymentMethod($data['capture_payment_response']->payment_type);
+			}
+			else if ($data['capture_payment_response']->transaction_status == 'deny') {
+				$title = 'Transaksi Pembayaran ditolak';
+				$message = "Pembayaran menggunakan " . paymentMethod($data['capture_payment_response']->payment_type) . " untuk transaksi invoice: " . $data['capture_payment_response']->order_id . " ditolak";
+			}
+			else {
+				$title = 'Transaksi Pembayaran kadaluarsa';
+				$message = "Pembayaran menggunakan " . paymentMethod($data['capture_payment_response']->payment_type) . " untuk transaksi invoice: " . $data['capture_payment_response']->order_id . " kadaluarsa";
+			}
+
 			$data['updated_at'] = date('Y-m-d H:i:s');
+			$data['capture_payment_response'] = json_encode($data['capture_payment_response']);
+
+			$options = array(
+				'cluster' => 'ap1',
+				'useTLS' => true
+			);
+
+			$pusher = new Pusher\Pusher(
+				'127db0c2612c670ab73d',
+				'00310ca89193537c89b1',
+				'1828273',
+				$options
+			);
+
+			$dataPusher['message'] = 'OK';
+
+			$pusher->trigger('my-channel', 'my-event', $dataPusher);
+
+			$this->Notification->create(array(
+				'user_id' => $transaction->user_id,
+				'title' => $title,
+				'message' => $message,
+				'url' => base_url('transaction/order')
+			));
+
 			$this->Transaction->update($id, $data);
 			$this->output->set_status_header(200);
 			echo json_encode(array('success' => true, 'code' => 200, 'message' => "Data cart berhasil diupdate"));

@@ -41,7 +41,8 @@ $("#table").DataTable({
 		{ data: 'order_id', name: 'order_id', className: 'text-nowrap'},
 		{ data: 'status_code', name: 'status_code', className: 'text-nowrap', orderable: false, searchable: false,
 			render: function (data, type, row, meta) {
-				return `<span class="badge ${badgeStatusCode(row.status_code)}">${convertStatusCode(row.status_code)}</span>`;
+				let paymentResponse = JSON.parse(row.capture_payment_response);
+				return `<span class="badge ${badgeStatusPayment(paymentResponse.transaction_status)}">${statusPayment(paymentResponse.transaction_status)}</span>`;
 			}
 		},
 		{ data: 'gross_amount', name: 'gross_amount', className: 'text-nowrap', orderable: false, searchable: false, render: function (data) {
@@ -65,6 +66,7 @@ $("#table").on("click", ".detail", function () {
 		let no = 1;
 		let products = JSON.parse(res.data.products);
 		let captureRequest = JSON.parse(res.data.capture_payment_request);
+		let captureResponse = JSON.parse(res.data.capture_payment_response);
 
 		$(".modal-title").empty().append("Detail Pemesanan");
 		$("#invoice").html(res.data.order_id);
@@ -76,7 +78,7 @@ $("#table").on("click", ".detail", function () {
 		$("#city").html(captureRequest.customer_details.shipping_address.city);
 		$("#postal-code").html(captureRequest.customer_details.shipping_address.postal_code);
 		$("#status").html(`<span
-			class="badge ${badgeStatusCode(res.data.status)}">${convertStatusCode(res.data.status)}</span>`);
+			class="badge ${badgeStatusPayment(captureResponse.transaction_status)}">${statusPayment(captureResponse.transaction_status)}</span>`);
 
 		products.forEach(function (item) {
 			html += `<tr>

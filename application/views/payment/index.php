@@ -61,7 +61,7 @@
 		</div>
 	</div>
 </div>
-@include('payment/modal')
+@include('order/modal')
 @endsection
 
 @section('url')

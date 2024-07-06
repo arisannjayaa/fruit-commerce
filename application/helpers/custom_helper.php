@@ -107,7 +107,7 @@ function badgeStatusPayment($status)
 			$badge = "bg-warning";
 			break;
 		case "expire":
-			$badge = "bg-primary";
+			$badge = "bg-danger";
 			break;
 		default:
 			$badge = "bg-danger";

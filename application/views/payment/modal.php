@@ -15,7 +15,7 @@
 						</address>
 					</div>
 					<div class="col-12 my-5">
-						<h1>Invoice <span id="invoice"></span></h1>
+						<h1>Invoice <span id="invoice"></span></h1><div class="d-inline" id="status"></div>
 					</div>
 				</div>
 				<table class="table table-transparent table-responsive">
