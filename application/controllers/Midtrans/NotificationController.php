@@ -20,26 +20,7 @@ class NotificationController extends CI_Controller {
 
 		if ($result === null && json_last_error() !== JSON_ERROR_NONE) {
 			error_log('Failed to decode JSON input');
-			$options = array(
-				'cluster' => 'ap1',
-				'useTLS' => true
-			);
-
-			$pusher = new Pusher\Pusher(
-				'127db0c2612c670ab73d',
-				'00310ca89193537c89b1',
-				'1828273',
-				$options
-			);
-
-			$dataPusher['message'] = 'OK';
-			$pusher->trigger('my-channel', 'my-event', $dataPusher);
-			$this->Notification->create(array(
-				'user_id' => 2,
-				'title' => "Error",
-				'message' => 'Terjadi error pada json',
-				'url' => base_url('')
-			));
+			return;
 		}
 
 		if ($result) {
@@ -51,8 +32,8 @@ class NotificationController extends CI_Controller {
 
 			return $this->transactionService->update($data);
 		}
-
-		echo "error";
+		
+		echo json_encode(array("status" => false, "code" => 500, "message" => "Terjadi Kesalahan Server"));
 
 		error_log(print_r($result, true));
 	}
