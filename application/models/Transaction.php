@@ -125,12 +125,12 @@ class Transaction extends CI_Model
 		return $builder->get()->row();
 	}
 
-	public function table($keyword = null, $start = 0, $length = 0, $data = null)
+	public function table($data = null, $start = 0, $length = 0)
 	{
 		$builder = $this->db->select("*")->from($this->table);
 
-		if($keyword) {
-			$arrKeyword = explode(" ", $keyword);
+		if($data['search']) {
+			$arrKeyword = explode(" ", $data['search']);
 			for ($i=0; $i < count($arrKeyword); $i++) {
 				$builder = $builder->or_like('order_id', $arrKeyword[$i]);
 			}

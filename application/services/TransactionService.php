@@ -187,9 +187,9 @@ class TransactionService extends MY_Service{
 		$param['draw'] = isset($_REQUEST['draw']) ? $_REQUEST['draw'] : '';
 		$start = isset($_REQUEST['start']) ? $_REQUEST['start'] : '';
 		$length = isset($_REQUEST['length']) ? $_REQUEST['length'] : '';
-		$search = isset($_REQUEST['search']['value']) ? $_REQUEST['search']['value'] : '';
-		$query = $this->Transaction->table($search, $start, $length, $data);
-		$total_count = $this->Transaction->table($search);
+		$data['search'] = isset($_REQUEST['search']['value']) ? $_REQUEST['search']['value'] : '';
+		$query = $this->Transaction->table($data, $start, $length);
+		$total_count = $this->Transaction->table($data);
 
 		echo json_encode([
 			'draw' => intval($param['draw']),
