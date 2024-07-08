@@ -8,6 +8,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Amatic+SC:400,700&display=swap" rel="stylesheet">
+	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 	@include('components/home/css')
 	<style>
 		/* Selector untuk elemen dengan overflow */
@@ -30,6 +31,11 @@
 		.scroll-x::-webkit-scrollbar-thumb {
 			background-color: rgba(0, 0, 0, 0.3); /* Warna thumb scrollbar */
 			border-radius: 4px; /* Sudut lengkungan thumb scrollbar */
+		}
+
+		.page-item.active .page-link {
+			background-color: #82ae46 !important;
+			border-color: #82ae46 !important;
 		}
 	</style>
 	@yield('style')

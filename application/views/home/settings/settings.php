@@ -25,9 +25,6 @@
 			<div class="card-header">
 				<ul class="nav nav-pills">
 					<li class="nav-item">
-						<a class="nav-link <?= $this->uri->uri_string() == 'user/settings' ? 'active' : '' ?>" href="<?= base_url('user/settings') ?>">Biodata</a>
-					</li>
-					<li class="nav-item">
 						<a class="nav-link <?= $this->uri->uri_string() == 'user/settings/address' ? 'active' : '' ?>" href="<?= base_url('user/settings/address') ?>">Alamat</a>
 					</li>
 				</ul>

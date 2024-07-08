@@ -167,9 +167,8 @@ class TransactionService extends MY_Service{
 
 			$dataPusher['message'] = 'OK';
 			$pusher->trigger('my-channel', 'my-event', $dataPusher);
-			$invoice = myEncrypt($data['order_id']);
 
-			echo json_encode(array('success' => true, 'code' => 200, 'message' => $message, 'redirect' => base_url('payment/' . $invoice)));
+			echo json_encode(array('success' => true, 'code' => 200, 'message' => $message, 'redirect' => base_url('payment/' . $data['order_id'])));
 			$this->db->trans_commit();
 			return;
 		} catch (Exception $exception) {
@@ -197,5 +196,23 @@ class TransactionService extends MY_Service{
 			'recordsFiltered' => count($total_count),
 			'data' => $query
 		]);
+	}
+
+	public function redirectTransactionStatus($transaction_status, $data)
+	{
+		switch ($transaction_status) {
+			case "settlement":
+				return view('home/payment/settlement', $data);
+				break;
+			case "pending":
+				return view('home/payment/pending', $data);
+				break;
+			case "expire":
+				return view('home/payment/expire', $data);
+				break;
+			default:
+				return view('home/payment/deny', $data);
+				break;
+		}
 	}
 }

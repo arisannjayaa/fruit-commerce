@@ -12,6 +12,7 @@ $(document).on('click', '.detail', function () {
 			let products = JSON.parse(response.data.products);
 			let captureResponse = JSON.parse(response.data.capture_payment_response);
 			let html = '';
+			let htmlOption = '';
 
 			$(".modal-title").empty().append("Detail Transaksi");
 			$("#invoice-id").html(response.data.order_id);
@@ -62,6 +63,16 @@ $(document).on('click', '.detail', function () {
 						</div>
 					</div>`;
 			});
+
+			if (captureResponse.transaction_status) {
+				htmlOption += `<button onclick="location.href='${BASE_URL + 'payment/' + response.data.order_id}'" type="button" class="btn btn-primary">Lihat Detail Transaksi</button>`;
+
+				if (captureResponse.transaction_status == "pending") {
+					htmlOption += `<button type="button" class="btn btn-danger">Batalkan</button>`;
+				}
+
+				$("#option").html(htmlOption);
+			}
 
 			$("#collapse-product").html(html);
 

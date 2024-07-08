@@ -13,7 +13,7 @@
 @endsection
 
 @section('content')
-<section class="ftco-section">
+<section class="my-2">
 	<div class="container">
 		<h4>Daftar Transaksi</h4>
 		@if(count($transactions) > 0)
@@ -52,8 +52,8 @@
 							<span>{{ formatToRupiah($transaction->gross_amount) }}</span>
 						</div>
 					</div>
-					<div class="d-lg-flex d-none justify-content-end">
-						<button type="button" data-id="{{ $transaction->order_id }}" href="javascript:void(0)" class="btn btn-primary detail">Lihat Detail Transaksi</button>
+					<div class="d-lg-flex d-none justify-content-end" style="gap: 10px;">
+						<button type="button" data-id="{{ $transaction->order_id }}" class="btn btn-primary detail">Lihat Detail Transaksi</button>
 					</div>
 				</div>
 			</div>
@@ -61,17 +61,25 @@
 		@else
 		<div class="card">
 			<div class="card-body">
-				<div class="d-flex align-items-center" style="gap: 10px;">
-					<img class="img-fluid" width="200" src="{{ base_url('assets/dist/img/undraw_empty_cart_co35.svg') }}" alt="">
-					<div>
-						<h6>Waduhh, kamu belum memiliki riwayat transaksi</h6>
-						<div class="mb-2">Yuk, lakukan transaksi dengan produk-produk impianmu!</div>
-						<a href="{{ base_url('shop') }}" class="btn btn-primary">Mulai Belanja</a>
+				<div class="row align-items-center" style="gap: 10px;">
+					<div class="col-12 col-lg-4">
+						<div class="text-center text-lg-right">
+							<img class="img-fluid" width="200" src="{{ base_url('assets/dist/img/undraw_empty_cart_co35.svg') }}" alt="">
+						</div>
+					</div>
+					<div class="col-12 col-lg-6">
+						<div class="text-center text-lg-left">
+							<h6>Waduhh, kamu belum memiliki riwayat transaksi</h6>
+							<div class="mb-2">Yuk, lakukan transaksi dengan produk-produk impianmu!</div>
+							<a href="{{ base_url('shop') }}" class="btn btn-primary">Mulai Belanja</a>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 		@endif
+
+		<?=  $this->pagination->create_links(); ?>
 	</div>
 </section>
 @include('home/modal-order-detail')

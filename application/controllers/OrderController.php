@@ -18,7 +18,21 @@ class OrderController extends CI_Controller {
 		}
 
 		$this->auth->protect(2);
-		$data['transactions'] = $this->Transaction->findByUserId($this->auth->user()->id)->result();
+
+		$transactions = $this->Transaction->findByUserId($this->auth->user()->id)->num_rows();
+
+		$config['base_url'] = base_url('order-list');
+		$config['page_query_string'] = TRUE;
+		$config['total_rows'] = $transactions;
+		$config['per_page'] = 10;
+
+		$limit = $config['per_page'];
+		$offset = html_escape($this->input->get('per_page'));
+
+		$this->pagination->initialize($config);
+
+		$data['transactions'] = $this->Transaction->paginate($this->auth->user()->id, $limit, $offset)->result();
+
 		return view('home/order-list', $data);
     }
 

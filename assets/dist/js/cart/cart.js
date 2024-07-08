@@ -127,12 +127,18 @@ function fetchCart() {
 			html += `<div id="product">
 					<div class="card">
 						<div class="card-body">
-							<div class="d-flex align-items-center" style="gap: 10px;">
-								<img class="img-fluid" width="200" src="${BASE_URL + 'assets/dist/img/undraw_empty_cart_co35.svg'}" alt="">
-								<div>	
+							<div class="row align-items-center" style="gap: 10px;">
+								<div class="col-12 col-lg-4">
+									<div class="text-center text-lg-left">
+										<img class="img-fluid" width="200" src="${BASE_URL + 'assets/dist/img/undraw_empty_cart_co35.svg'}" alt="">
+									</div>
+								</div>
+								<div class="col-12 col-lg-6">
+									<div class="text-center text-lg-left">	
 									<h6>Waduhh, keranjang belanjaanmu masih kosong</h6>
 									<div class="mb-2">Yuk, isi dengan produk-produk impianmu!</div>
 									<a href="${BASE_URL + 'shop'}" class="btn btn-primary">Mulai Belanja</a>
+								</div>
 								</div>
 							</div>
 						</div>

@@ -11,6 +11,7 @@ class CheckoutController extends CI_Controller {
 		$this->load->model('Address');
 		$this->load->model('Transaction');
 		$this->load->service('CartService', 'cartService');
+		$this->load->service('TransactionService', 'transactionService');
     }
 
     public function index()
@@ -31,17 +32,25 @@ class CheckoutController extends CI_Controller {
 		return view('home/checkout/index', $data);
     }
 
-	public function payment($id)
+	public function payment($order_id)
 	{
-		$orderId = myDecrypt($id);
-		$transaction = $this->Transaction->findByUserOrderId($this->auth->user()->id, $orderId)->row();
+		if (!$this->auth->check()) {
+			redirect(base_url('login'));
+		}
+
+		$this->auth->protect(2);
+
+		$transaction = $this->Transaction->findByUserOrderId($this->auth->user()->id, $order_id)->row();
 
 		if (!$transaction) {
 			show_error("Sumber daya yang diminta tidak dapat ditemukan di server ini.", 404, "Halaman Tidak Ditemukan");
 		}
 
+		$paymentResponse = json_decode($transaction->capture_payment_response);
 		$data['transaction'] = $transaction;
-		return view('home/payment/payment', $data);
+
+		return $this->transactionService->redirectTransactionStatus($paymentResponse->transaction_status, $data);
+
 	}
 }
 

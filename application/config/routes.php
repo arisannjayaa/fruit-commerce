@@ -123,7 +123,6 @@ $route['cart/create'] = 'CartController/store';
 $route['snap'] = 'Midtrans/SnapController/index';
 $route['snap/token'] = 'Midtrans/SnapController/token';
 $route['snap/finish'] = 'Midtrans/SnapController/finish';
-$route['notification'] = 'Midtrans/Notification/index';
 
 //order-list
 $route['order-list'] = 'OrderController/index';

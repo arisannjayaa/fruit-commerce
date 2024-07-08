@@ -84,6 +84,26 @@ class Product extends CI_Model
 		$query->where('slug', $slug);
 		return $query->get()->row();
 	}
+
+	public function paginate($limit = null, $offset = null)
+	{
+		if (!$limit && !$offset) {
+			$query = $this->db
+				->select("*")
+				->from($this->table)
+				->order_by('created_at', 'desc');
+		} else {
+			$query = $this->db
+				->select("*")
+				->from($this->table)
+				->order_by('created_at', 'desc')
+				->limit($limit)
+				->offset($offset)
+				->order_by('created_at', 'desc');
+		}
+
+		return $query->get();
+	}
 }
 
 

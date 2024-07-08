@@ -175,14 +175,34 @@ class Transaction extends CI_Model
 		return $builder->get()->result();
 	}
 
-	public function updateProduct()
+	public function paginate($user_id, $limit = null, $offset = null)
 	{
-		
-	}
+		$select = "t.*,
+				u.first_name,
+				u.last_name,
+				u.email,
+				u.telephone,
+				";
 
-	public function restoreProduct()
-	{
-		
+		if (!$limit && !$offset) {
+			$query = $this->db
+				->select($select)
+				->from('transactions t')
+				->join('users u', 'u.id = t.user_id')
+				->where('t.user_id', $user_id)
+				->order_by('created_at', 'desc');
+		} else {
+			$query = $this->db
+				->select($select)
+				->from('transactions t')
+				->join('users u', 'u.id = t.user_id')
+				->where('t.user_id', $user_id)
+				->limit($limit)
+				->offset($offset)
+				->order_by('created_at', 'desc');
+		}
+
+		return $query->get();
 	}
 }
 
