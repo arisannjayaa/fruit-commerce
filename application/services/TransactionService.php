@@ -236,6 +236,10 @@ class TransactionService extends MY_Service{
 			if ($find->stock == 0) {
 				return false;
 			}
+
+			if ($find->stock < $product->quantity) {
+				return false;
+			}
 		}
 
 		return true;
