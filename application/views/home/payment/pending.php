@@ -132,8 +132,8 @@
 			processData: false,
 			success: function(res) {
 				let response = res.responseJSON;
-
-				if (response.code == 200) {
+				console.log(res);
+				if (res.code == 200) {
 					clearInterval(intervalId);
 					location.href = '';
 				}
