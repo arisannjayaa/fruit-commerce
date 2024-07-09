@@ -40,7 +40,7 @@
 		</div>
 	</div>
 </div>
-@include('order/modal')
+@include('report/modal')
 @endsection
 
 @section('url')

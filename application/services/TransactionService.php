@@ -21,21 +21,10 @@ class TransactionService extends MY_Service{
 		}
 	}
 
-	public function delete($id)
-	{
-		try {
-			$this->Transaction->delete($id);
-			$this->output->set_status_header(200);
-			echo json_encode(array('success' => true, 'code' => 200, 'message' => "Data cart berhasil dihapus"));
-		} catch (Exception $exception) {
-			show_error('Terjadi kesalahan', 500);
-		}
-	}
-
 	public function update($data)
 	{
+		$this->db->trans_begin();
 		try {
-			$this->db->trans_begin();
 			$orderId = $data['order_id'];
 			$transaction = $this->Transaction->findByOrderId($orderId)->row();
 
@@ -108,14 +97,15 @@ class TransactionService extends MY_Service{
 			$this->db->trans_commit();
 			return;
 		} catch (Exception $exception) {
+			$this->db->trans_rollback();
 			show_error('Terjadi kesalahan', 500);
 		}
 	}
 
 	public function create($data, $result)
 	{
+		$this->db->trans_begin();
 		try {
-			$this->db->trans_begin();
 			$products = json_decode($data['products']);
 
 			foreach ($products as $product) {
@@ -214,5 +204,40 @@ class TransactionService extends MY_Service{
 				return view('home/payment/deny', $data);
 				break;
 		}
+	}
+
+	public function cancel($order_id)
+	{
+		try {
+			$serverKey = 'SB-Mid-server-GrsQXs1BZ7HDGD210SYbm-Gl';
+
+			$client = new \GuzzleHttp\Client();
+
+			$response = $client->request('POST', 'https://api.sandbox.midtrans.com/v2/'.$order_id.'/cancel', [
+				'headers' => [
+					'accept' => 'application/json',
+					'authorization' => 'Basic ' . base64_encode($serverKey),
+				],
+			]);
+
+			$result =  $response->getBody()->getContents();
+			return $result;
+		} catch (Exception $exception) {
+			show_error('Terjadi kesalahan', 500);
+			return;
+		}
+
+	}
+
+	public function checkProduct($products)
+	{
+		foreach ($products as $product) {
+			$find = $this->Product->find($product->id);
+			if ($find->stock == 0) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 }

@@ -59,32 +59,9 @@
 					</h5>
 					<h5 id="countdown"></h5>
 				</div>
-				<?php
-				$paymentResponse = json_decode($transaction->capture_payment_response);
-				?>
-				<div class="card">
-					<div class="card-body">
-						<h5><?= strtoupper($paymentResponse->va_numbers[0]->bank) . ' Virtual Account' ?></h5>
-					</div>
-				</div>
-				<div class="card mb-3">
-					<div class="card-body">
-						<div class="mb-3">
-							<label for="">Nomor Virtual Account</label>
-							<h5 id="va-number"><?= strtoupper($paymentResponse->va_numbers[0]->va_number) ?></h5>
-						</div>
-						<div class="mb-2">
-							<label for="">Total Tagihan</label>
-							<h5 id="va-number"><?= formatToRupiah($paymentResponse->gross_amount) ?></h5>
-						</div>
-					</div>
-				</div>
 
 				<div class="row">
-					<div class="col">
-						<button class="btn btn-primary w-100" onclick="window.location.href='<?= base_url('order-list') ?>'">Lihat Status Pembayaran</button>
-					</div>
-					<div class="col">
+					<div class="col-12">
 						<button class="btn btn-primary w-100" onclick="window.location.href='<?= base_url('shop') ?>'">Belanja Lagi</button>
 					</div>
 				</div>

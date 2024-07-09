@@ -1,4 +1,43 @@
 fetchTotalCart();
+
+let loadingElement = `<div class="d-flex justify-content-center">
+								  <div class="spinner-border" role="status">
+									<span class="sr-only">Loading...</span>
+								  </div>
+							  </div>`;
+$(document).on('click', '.cancel', function () {
+	let id = $(this).data("id");
+	let url = BASE_URL + 'transaction/cancel';
+	let formData = new FormData();
+	formData.append('order_id', id);
+
+	$.ajax({
+		type: 'POST',
+		data: formData,
+		url: url,
+		dataType: 'json',
+		contentType: false,
+		processData: false,
+		beforeSend: function () {
+			$(".cancel").empty().append(loadingElement);
+		},
+		success: function(res) {
+			notifySuccess(res.message);
+			location.href = '';
+		},
+		error: function (res) {
+			let response = res.responseJSON;
+			sweetError(response.message);
+		},
+		complete: function (res) {
+			$(".cancel").empty().append("Cancel");
+		},
+		always: function (res) {
+
+		}
+	});
+});
+
 $(document).on('click', '.detail', function () {
 	let id = $(this).data("id");
 	let url = $("#detail-url").val();
@@ -65,10 +104,12 @@ $(document).on('click', '.detail', function () {
 			});
 
 			if (captureResponse.transaction_status) {
-				htmlOption += `<div class="col-12 mb-2"><button onclick="location.href='${BASE_URL + 'payment/' + response.data.order_id}'" type="button" class="btn w-100  btn-primary">Lihat Detail Transaksi</button></div>`;
+				if (captureResponse.transaction_status != "settlement") {
+					htmlOption += `<div class="col-12 mb-2"><button onclick="location.href='${BASE_URL + 'payment/' + response.data.order_id}'" type="button" class="btn w-100  btn-primary">Lihat Pembayaran</button></div>`;
+				}
 
 				if (captureResponse.transaction_status == "pending") {
-					htmlOption += `<div class="col-12"><button type="button" class="btn  w-100 btn-danger">Batalkan</button></div>`;
+					htmlOption += `<div class="col-12"><button data-id="${captureResponse.order_id}" type="button" class="btn w-100 btn-danger cancel">Batalkan</button></div>`;
 				}
 
 				$("#option").html(htmlOption);

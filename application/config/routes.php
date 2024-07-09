@@ -150,7 +150,8 @@ $route['payment/(:any)']['GET'] = 'CheckoutController/payment/$1';
 
 //payment notification callback
 $route['transaction/notification'] = 'Midtrans/NotificationController/index';
-
+$route['transaction/cancel'] = 'CheckoutController/cancel';
+$route['transaction/check/cancel'] = 'CheckoutController/check';
 
 $route['404_override'] = 'ErrorController/error_404';
 $route['translate_uri_dashes'] = FALSE;

@@ -5,12 +5,11 @@ class NotificationController extends CI_Controller {
     {
         parent::__construct();
         $params = array('server_key' => 'SB-Mid-server-GrsQXs1BZ7HDGD210SYbm-Gl', 'production' => false);
-		$this->load->library('veritrans');
+		$this->load->library('midtrans');
+		$this->midtrans->config($params);
 		$this->load->model('Notification');
 		$this->load->service('TransactionService', 'transactionService');
-		$this->veritrans->config($params);
 		$this->load->helper('url');
-		
     }
 
 	public function index()
@@ -18,12 +17,9 @@ class NotificationController extends CI_Controller {
 		$json_result = file_get_contents('php://input');
 		$result = json_decode($json_result);
 
-		if ($result === null && json_last_error() !== JSON_ERROR_NONE) {
-			error_log('Failed to decode JSON input');
-			return;
-		}
+		$hash = hash("sha512", $result->order_id.$result->status_code.$result->gross_amount."SB-Mid-server-GrsQXs1BZ7HDGD210SYbm-Gl");
 
-		if ($result) {
+		if ($hash == $result->signature_key) {
 			$data = array(
 				'status_code' => $result->status_code,
 				'order_id' => $result->order_id,

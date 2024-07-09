@@ -52,6 +52,7 @@ class OrderController extends CI_Controller {
 		echo json_encode(array('success' => true, 'code' => 200, 'data' => $this->Transaction->findByUserOrderId($this->auth->user()->id, $order_id)->row()));
 		return;
 	}
+
 }
 
 /* End of file DashboardController.php and path \application\controllers\DashboardController.php */

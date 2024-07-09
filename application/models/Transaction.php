@@ -99,6 +99,12 @@ class Transaction extends CI_Model
         return $this->db->update($this->table, $data);
     }
 
+	public function updateByOrderId($id, $data)
+	{
+		$this->db->where('order_id', $id);
+		return $this->db->update($this->table, $data);
+	}
+
     public function delete($id)
     {
         $this->db->where('id', $id);

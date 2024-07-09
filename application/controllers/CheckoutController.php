@@ -11,6 +11,7 @@ class CheckoutController extends CI_Controller {
 		$this->load->model('Address');
 		$this->load->model('Transaction');
 		$this->load->service('CartService', 'cartService');
+		$this->load->service('ProductService', 'productService');
 		$this->load->service('TransactionService', 'transactionService');
     }
 
@@ -51,6 +52,66 @@ class CheckoutController extends CI_Controller {
 
 		return $this->transactionService->redirectTransactionStatus($paymentResponse->transaction_status, $data);
 
+	}
+
+	public function cancel()
+	{
+		if (!$this->input->is_ajax_request()) {
+			show_error("Anda tidak memiliki izin untuk mengakses sumber daya ini.", 403, "Akses Ditolak");
+		}
+
+		if (!$this->auth->check()) {
+			redirect(base_url('login'));
+		}
+
+		$this->auth->protect(2);
+		$order_id = $this->input->post('order_id');
+
+		$result = json_decode($this->transactionService->cancel($order_id));
+
+		if ($result->status_code == "200") {
+			$this->output->set_status_header(200);
+			echo json_encode(array('success' => true, 'code' => 200, 'message' => "Berhasil membatalkan pesanan"));
+			$this->Transaction->updateByOrderId($order_id, ['capture_payment_response' => json_encode($result)]);
+			return;
+		}
+
+		$this->output->set_status_header(400);
+		echo json_encode(array('success' => false, 'code' => 400, 'message' => "Terjadi Kesalahan Server"));
+		return;
+	}
+
+	public function check()
+	{
+		if (!$this->input->is_ajax_request()) {
+			show_error("Anda tidak memiliki izin untuk mengakses sumber daya ini.", 403, "Akses Ditolak");
+		}
+
+		if (!$this->auth->check()) {
+			redirect(base_url('login'));
+		}
+
+		$this->auth->protect(2);
+		$order_id = $this->input->post('order_id');
+
+		$transaction = $this->Transaction->findByOrderId($order_id)->row();
+
+		$products = json_decode($transaction->products);
+
+		if ($this->transactionService->checkProduct($products) == false) {
+			$result = json_decode($this->transactionService->cancel($order_id));
+
+			if ($result->status_code == "200") {
+				$this->output->set_status_header(200);
+				echo json_encode(array('success' => true, 'code' => 200, 'message' => "Berhasil membatalkan pesanan"));
+				$this->Transaction->updateByOrderId($order_id, ['capture_payment_response' => json_encode($result)]);
+				return;
+			}
+		}
+
+		$this->output->set_status_header(400);
+		echo json_encode(array('success' => false, 'code' => 400, 'message' => "Terjadi Kesalahan Server"));
+		return;
 	}
 }
 

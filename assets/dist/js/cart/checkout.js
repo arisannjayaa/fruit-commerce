@@ -119,10 +119,24 @@ $("#payment-form").submit(function (e) {
 				location.href = response.redirect;
 			}, 1500);
 		},
-		error: function () {
-			sweetError('Terjadi Kesalahan Server');
+		error: function (res) {
+			let response = JSON.parse(res.responseText)
+			sweetError(response.message);
+
+			setTimeout(() => {
+				location.href = response.redirect;
+			}, 2000);
 		},
-		complete: function () {
+		complete: function (res) {
+			let response = JSON.parse(res.responseText);
+
+			if (response.code == 400) {
+				$("#pay-button").empty().append("Gagal");
+				$("#pay-button").prop("disabled", false);
+				$.unblockUI();
+				return
+			}
+
 			$("#pay-button").empty().append("Berhasil");
 			$("#pay-button").prop("disabled", false);
 			$.unblockUI();

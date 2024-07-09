@@ -147,6 +147,17 @@ class SnapController extends CI_Controller {
 			'expired_time' => $expired
 		);
 
+		$item = $this->Cart->findByUserId($this->auth->user()->id)->result();
+		if ($this->productService->checkStock($item) == false) {
+			$cancel = json_decode($this->transactionService->cancel($result->order_id));
+
+			if ($cancel->status_code == "200") {
+				$this->output->set_status_header(400);
+				echo json_encode(array('success' => false, 'code' => 400, 'message' => "Terdapat Stok Produk Yang Sudah Habis", 'redirect' => base_url('cart')));
+				return;
+			}
+		}
+
 		$this->transactionService->create($data, $result);
     }
 }

@@ -201,7 +201,7 @@ function statusPayment(status) {
 			string = "Pending";
 			break;
 		default:
-			string = "Ditolak";
+			string = "Dibatalkan";
 			break;
 	}
 

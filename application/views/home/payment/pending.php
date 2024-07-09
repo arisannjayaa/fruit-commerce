@@ -94,6 +94,7 @@
 
 @section('url')
 <input type="hidden" id="expiry-date" value="{{ $transaction->expired_time }}">
+<input type="hidden" id="order-id" value="{{ $transaction->order_id }}">
 @endsection
 
 @section('script')
@@ -101,13 +102,44 @@
 <script src="https://cdn.jsdelivr.net/gh/yaza-putu/helpers@V2.0.4/helpers.min.js"></script>
 <script>
 	const expiry = $("#expiry-date").val();
+	let intervalId;
+
 	setTimeout(() => {
 		$("#title").html('Pembayaran Harus Selesai Dalam');
 	},1000);
-	
-	setInterval(function() {
-		countDown(expiry);
-	}, 1000);
+
+	startInterval();
+
+	function startInterval() {
+		intervalId = setInterval(function() {
+			countDown(expiry);
+			checkProduct();
+		}, 1000);
+	}
+
+	function checkProduct() {
+		let id = $("#order-id").val();
+		let url = BASE_URL + 'transaction/check/cancel';
+		let formData = new FormData();
+		formData.append('order_id', id);
+
+		$.ajax({
+			type: 'POST',
+			data: formData,
+			url: url,
+			dataType: 'json',
+			contentType: false,
+			processData: false,
+			success: function(res) {
+				let response = res.responseJSON;
+
+				if (response.code == 200) {
+					clearInterval(intervalId);
+					location.href = '';
+				}
+			},
+		});
+	}
 
 	function fetchTotalCart() {
 		let countCart = 0;

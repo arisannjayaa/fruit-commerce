@@ -90,6 +90,7 @@ $("#table").on("click", ".detail", function () {
 		$("#status").html(`<span
 			class="badge ${badgeStatusPayment(captureResponse.transaction_status)}">${statusPayment(captureResponse.transaction_status)}</span>`);
 
+		console.log(statusPayment(captureResponse.transaction_status));
 		products.forEach(function (item) {
 			html += `<tr>
 						<td class="text-center">${no}</td>

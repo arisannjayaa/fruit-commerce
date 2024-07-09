@@ -90,7 +90,7 @@ function statusPayment($status)
 			$string = "Kedaluarsa";
 			break;
 		default:
-			$string = "Ditolak";
+			$string = "Dibatalkan";
 			break;
 	}
 
