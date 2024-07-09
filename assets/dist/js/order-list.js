@@ -65,10 +65,10 @@ $(document).on('click', '.detail', function () {
 			});
 
 			if (captureResponse.transaction_status) {
-				htmlOption += `<div class="col-12"><button onclick="location.href='${BASE_URL + 'payment/' + response.data.order_id}'" type="button" class="btn btn-primary">Lihat Detail Transaksi</button></div>`;
+				htmlOption += `<div class="col-12 mb-2"><button onclick="location.href='${BASE_URL + 'payment/' + response.data.order_id}'" type="button" class="btn w-100  btn-primary">Lihat Detail Transaksi</button></div>`;
 
 				if (captureResponse.transaction_status == "pending") {
-					htmlOption += `<div class="col-12"><button type="button" class="btn btn-danger">Batalkan</button></div>`;
+					htmlOption += `<div class="col-12"><button type="button" class="btn  w-100 btn-danger">Batalkan</button></div>`;
 				}
 
 				$("#option").html(htmlOption);
