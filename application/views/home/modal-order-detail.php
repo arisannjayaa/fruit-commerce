@@ -48,7 +48,7 @@
 						<p style="font-weight: bold!important" id="total-shop">Rp.100000</p>
 					</div>
 				</div>
-				<div id="option" class="d-lg-flex justify-content-between" style="gap: 10px;">
+				<div id="option" class="row justify-content-between" style="gap: 10px;">
 				</div>
 			</div>
 		</div>
