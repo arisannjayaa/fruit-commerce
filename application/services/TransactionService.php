@@ -60,6 +60,10 @@ class TransactionService extends MY_Service{
 				$title = 'Transaksi Pembayaran ditolak';
 				$message = "Pembayaran menggunakan " . paymentMethod($data['capture_payment_response']->payment_type) . " untuk transaksi invoice: " . $data['capture_payment_response']->order_id . " ditolak";
 			}
+			else if ($data['capture_payment_response']->transaction_status == 'cancel') {
+				$title = 'Transaksi Pembayaran dibatalkan';
+				$message = "Pembayaran menggunakan " . paymentMethod($data['capture_payment_response']->payment_type) . " untuk transaksi invoice: " . $data['capture_payment_response']->order_id . " ditolak";
+			}
 			else {
 				$title = 'Transaksi Pembayaran kadaluarsa';
 				$message = "Pembayaran menggunakan " . paymentMethod($data['capture_payment_response']->payment_type) . " untuk transaksi invoice: " . $data['capture_payment_response']->order_id . " kadaluarsa";
