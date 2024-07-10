@@ -38,7 +38,7 @@ class HomeController extends CI_Controller {
 		$data['product'] = $this->Product->findBySlug($slug);
 
 		if ($data['product'] == null) {
-			return show_404();
+			show_error("Sumber daya yang diminta tidak dapat ditemukan di server ini.", 404, "Produk Tidak Ditemukan");
 		}
 
 		return view('home/detail-product', $data);
