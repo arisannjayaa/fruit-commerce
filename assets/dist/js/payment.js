@@ -44,7 +44,8 @@ function checkProduct() {
 
 function fetchTotalCart() {
 	let countCart = 0;
-	let url = BASE_URL + 'all-cart-item-url';
+	let url = BASE_URL + 'all-cart';
+
 	ajaxGet(url).done(function (res) {
 		let data = res.data;
 		countCart = data.length;
