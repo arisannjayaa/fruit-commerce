@@ -133,6 +133,14 @@ class ProductController extends CI_Controller {
 
 		$this->auth->protect(1);
 
+		if ($this->input->post('attachment') == null || $this->input->post('attachment') == "") {
+			if (empty($_FILES['attachment']['name'])) {
+				$this->form_validation->set_rules('attachment', 'Lampiran', 'required', array(
+					'required' => '%s tidak boleh kosong.',
+				));
+			}
+		}
+
 		$old_attachment = $this->input->post('old_attachment');
 
 		$this->rules($this->input->post('id'));
@@ -150,7 +158,7 @@ class ProductController extends CI_Controller {
 			return;
 		}
 
-		if ($_FILES['attachment']['name']) {
+		if (@$_FILES['attachment']['name']) {
 			$path = 'uploads/products/';
 
 			if (!is_dir($path)) {
