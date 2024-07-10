@@ -72,6 +72,11 @@ $("#form-product").submit(function (e) {
 		reloadTable(table);
 		$(modal).modal("hide");
 		$(form)[0].reset();
+
+		if ($("#old-attachment").length) {
+			$("#old-attachment").remove();
+		}
+
 	}).fail(function (res) {
 		let data = res.responseJSON;
 		let errorMessage = document.querySelectorAll('.text-left.invalid-feedback.order-3');
@@ -98,10 +103,18 @@ $("#table").on("click", ".edit", function () {
 
 		$('#attachment , .dropify-wrapper').remove();
 
-		let html = `<input type="file" id="attachment" name="attachment" class="dropify" data-max-file-size="2M" data-allowed-file-extensions="jpg jpeg png" value="${res.data.attachment}" data-default-file='${BASE_URL + res.data.attachment}' />
+		let html = `<input type="text" id="attachment" name="attachment" class="dropify" data-max-file-size="2M" data-allowed-file-extensions="jpg jpeg png" value="${res.data.attachment}" data-default-file='${BASE_URL + res.data.attachment}' />
 			<input type="hidden" name="old_attachment" id="old-attachment" value="${res.data.attachment}">`;
 		$('.custom-file').append(html);
 		$('.dropify').dropify();
+
+		$(".dropify-clear").click(function () {
+			$(".dropify-wrapper").remove();
+			let html = `<input type="file" id="attachment" name="attachment" class="dropify" data-max-file-size="2M" data-allowed-file-extensions="jpg jpeg png" value="" data-default-file='' />`;
+			$('.custom-file').append(html);
+			$('.dropify').dropify();
+		})
+
 		$("#modal-product").modal("show");
 	});
 });
@@ -117,4 +130,8 @@ $("#table").on("click", ".delete", function () {
 
 $('#modal-product').on('hidden.bs.modal', function () {
 	resetValidation();
+
+	if ($("#old-attachment").length) {
+		$("#old-attachment").remove();
+	}
 });
