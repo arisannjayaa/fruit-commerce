@@ -100,53 +100,5 @@
 @section('script')
 <script src="https://cdn.jsdelivr.net/gh/yaza-putu/helpers@V2.0.4/libs/libs-core.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/yaza-putu/helpers@V2.0.4/helpers.min.js"></script>
-<script>
-	const expiry = $("#expiry-date").val();
-	let intervalId;
-
-	setTimeout(() => {
-		$("#title").html('Pembayaran Harus Selesai Dalam');
-	},1000);
-
-	startInterval();
-
-	function startInterval() {
-		intervalId = setInterval(function() {
-			countDown(expiry);
-			checkProduct();
-		}, 1000);
-	}
-
-	function checkProduct() {
-		let id = $("#order-id").val();
-		let url = BASE_URL + 'transaction/check/cancel';
-		let formData = new FormData();
-		formData.append('order_id', id);
-
-		$.ajax({
-			type: 'POST',
-			data: formData,
-			url: url,
-			dataType: 'json',
-			contentType: false,
-			processData: false,
-			success: function(res) {
-				if (res.code == 200) {
-					clearInterval(intervalId);
-					location.href = '';
-				}
-			},
-		});
-	}
-
-	function fetchTotalCart() {
-		let countCart = 0;
-		let url = BASE_URL + 'all-cart-item-url';
-		ajaxGet(url).done(function (res) {
-			let data = res.data;
-			countCart = data.length;
-			$(".cart-count").html(countCart);
-		});
-	}
-</script>
+<script src="{{ base_url('assets/dist/js/payment.js') }}"></script>
 @endsection
