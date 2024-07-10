@@ -36,11 +36,14 @@ class TransactionService extends MY_Service{
 			}
 
 			$id = $transaction->id;
+			$response = $data['capture_payment_response'];
+			$data['updated_at'] = date('Y-m-d H:i:s');
+			$data['capture_payment_response'] = json_encode($data['capture_payment_response']);
 			unset($data['order_id']);
 
-			if ($data['capture_payment_response']->transaction_status == 'settlement'){
+			if ($response->transaction_status == 'settlement'){
 				$title = 'Transaksi Pembayaran berhasil';
-				$message = "Transaksi invoice: " . $data['capture_payment_response']->order_id ." berhasil ditransfer menggunakan" . paymentMethod($data['capture_payment_response']->payment_type);
+				$message = "Transaksi invoice: " . $response->order_id ." berhasil ditransfer menggunakan" . paymentMethod($response->payment_type);
 				$products = json_decode($transaction->products);
 
 				foreach ($products as $product) {
@@ -50,27 +53,29 @@ class TransactionService extends MY_Service{
 					);
 					$this->Product->update($product->id, $dataProduct);
 				}
-
 			}
-			else if($data['capture_payment_response']->transaction_status == 'pending'){
+			else if($response->transaction_status == 'pending'){
 				$title = 'Transaksi Pembayaran tertunda';
-				$message = "Menunggu pelanggan menyelesaikan transaksi invoice:" . $data['capture_payment_response']->order_id . " menggunakan " . paymentMethod($data['capture_payment_response']->payment_type);
+				$message = "Menunggu pelanggan menyelesaikan transaksi invoice:" . $response->order_id . " menggunakan " . paymentMethod($response->payment_type);
 			}
-			else if ($data['capture_payment_response']->transaction_status == 'deny') {
+			else if ($response->transaction_status == 'deny') {
 				$title = 'Transaksi Pembayaran ditolak';
-				$message = "Pembayaran menggunakan " . paymentMethod($data['capture_payment_response']->payment_type) . " untuk transaksi invoice: " . $data['capture_payment_response']->order_id . " ditolak";
+				$message = "Pembayaran menggunakan " . paymentMethod($response->payment_type) . " untuk transaksi invoice: " . $response->order_id . " ditolak";
 			}
-			else if ($data['capture_payment_response']->transaction_status == 'cancel') {
+			else if ($response->transaction_status == 'cancel') {
 				$title = 'Transaksi Pembayaran dibatalkan';
-				$message = "Pembayaran menggunakan " . paymentMethod($data['capture_payment_response']->payment_type) . " untuk transaksi invoice: " . $data['capture_payment_response']->order_id . " ditolak";
+				$message = "Pembayaran menggunakan " . paymentMethod($response->payment_type) . " untuk transaksi invoice: " . $response->order_id . " ditolak";
 			}
 			else {
 				$title = 'Transaksi Pembayaran kadaluarsa';
-				$message = "Pembayaran menggunakan " . paymentMethod($data['capture_payment_response']->payment_type) . " untuk transaksi invoice: " . $data['capture_payment_response']->order_id . " kadaluarsa";
+				$message = "Pembayaran menggunakan " . paymentMethod($response->payment_type) . " untuk transaksi invoice: " . $response->order_id . " kadaluarsa";
 			}
 
-			$data['updated_at'] = date('Y-m-d H:i:s');
-			$data['capture_payment_response'] = json_encode($data['capture_payment_response']);
+			$transactionCaptureResponse = json_decode($transaction->capture_payment_response);
+
+			if ($transactionCaptureResponse->transaction_status == "settlement") {
+				unset($data['capture_payment_response']);
+			}
 
 			$options = array(
 				'cluster' => 'ap1',
