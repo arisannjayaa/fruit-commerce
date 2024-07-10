@@ -51,6 +51,12 @@ class CartService extends MY_Service{
 			$totalCart = $this->Cart->findByUserId($this->auth->user()->id)->result();
 			$product = $this->Product->find($data['product_id']);
 
+			if ($this->auth->isAdmin()) {
+				$this->output->set_status_header(401);
+				echo json_encode(array('success' => false, 'code' => 401, 'message' => "Hak Akses Tidak Diizinkan"));
+				return;
+			}
+
 			if ($product->stock == 0) {
 				$this->output->set_status_header(400);
 				echo json_encode(array('success' => false, 'code' => 400, 'message' => "Stok produk sudah habis"));
