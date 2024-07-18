@@ -76,13 +76,39 @@ class Migration_Users extends CI_Migration
 
 		$this->db->insert($this->tableName, [
 			'attachment'   => 'uploads/profile/default.jpg',
-			'first_name'   => 'Member',
+			'first_name'   => 'Member1',
 			'last_name'   => null,
 			'username'   => 'member',
 			'telephone' => '081778899241',
 			'password'   => password_hash('Password1', PASSWORD_BCRYPT),
 			'role_id'    => 2,
-			'email'      => 'member@mail.com',
+			'email'      => 'member1@mail.com',
+			'created_at' => date('Y-m-d H:i:s'),
+			'updated_at' => date('Y-m-d H:i:s'),
+		]);
+
+		$this->db->insert($this->tableName, [
+			'attachment'   => 'uploads/profile/default.jpg',
+			'first_name'   => 'Member2',
+			'last_name'   => null,
+			'username'   => 'member2',
+			'telephone' => '081778899241',
+			'password'   => password_hash('Password1', PASSWORD_BCRYPT),
+			'role_id'    => 2,
+			'email'      => 'member2@mail.com',
+			'created_at' => date('Y-m-d H:i:s'),
+			'updated_at' => date('Y-m-d H:i:s'),
+		]);
+
+		$this->db->insert($this->tableName, [
+			'attachment'   => 'uploads/profile/default.jpg',
+			'first_name'   => 'Member3',
+			'last_name'   => null,
+			'username'   => 'member3',
+			'telephone' => '081778899241',
+			'password'   => password_hash('Password1', PASSWORD_BCRYPT),
+			'role_id'    => 2,
+			'email'      => 'member3@mail.com',
 			'created_at' => date('Y-m-d H:i:s'),
 			'updated_at' => date('Y-m-d H:i:s'),
 		]);

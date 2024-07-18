@@ -18,10 +18,11 @@ class NotificationController extends CI_Controller {
 		$result = json_decode($json_result);
 
 		$hash = hash("sha512", $result->order_id.$result->status_code.$result->gross_amount."SB-Mid-server-GrsQXs1BZ7HDGD210SYbm-Gl");
-
+//		dd($hash == $result->signature_key);
 		if ($hash == $result->signature_key) {
 			$data = array(
 				'status_code' => $result->status_code,
+				'transaction_status' => $result->transaction_status,
 				'order_id' => $result->order_id,
 				'capture_payment_response' => $result
 			);

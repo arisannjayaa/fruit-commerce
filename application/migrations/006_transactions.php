@@ -49,6 +49,11 @@ class Migration_Transactions extends CI_Migration
 				'constraint'        => '255',
 				'null'				=> true
 			],
+			'transaction_status' => [
+				'type' 				=> 'VARCHAR',
+				'constraint'        => '255',
+				'null'				=> true
+			],
 			'capture_payment_request' => [
 				'type'              => 'JSON',
 			],

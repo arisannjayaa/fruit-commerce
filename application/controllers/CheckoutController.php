@@ -72,7 +72,7 @@ class CheckoutController extends CI_Controller {
 		if ($result->status_code == "200") {
 			$this->output->set_status_header(200);
 			echo json_encode(array('success' => true, 'code' => 200, 'message' => "Berhasil membatalkan pesanan"));
-			$this->Transaction->updateByOrderId($order_id, ['capture_payment_response' => json_encode($result)]);
+			$this->Transaction->updateByOrderId($order_id, ['transaction_status' => 'cancel','capture_payment_response' => json_encode($result)]);
 			return;
 		}
 

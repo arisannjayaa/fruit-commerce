@@ -25,9 +25,11 @@ class TransactionService extends MY_Service{
 	{
 		$this->db->trans_begin();
 		try {
+			$this->transactionService->checkPendingTransaction();
 			$orderId = $data['order_id'];
 			$transaction = $this->Transaction->findByOrderId($orderId)->row();
 
+			// cek transaski produk
 			if (!$transaction) {
 				$this->output->set_status_header(400);
 				echo json_encode(array('success' => false, 'code' => 400, 'message' => "Terjadi Kesalahan"));
@@ -41,6 +43,7 @@ class TransactionService extends MY_Service{
 			$data['capture_payment_response'] = json_encode($data['capture_payment_response']);
 			unset($data['order_id']);
 
+			// cek transaski berhasil
 			if ($response->transaction_status == 'settlement'){
 				$title = 'Transaksi Pembayaran berhasil';
 				$message = "Transaksi invoice: " . $response->order_id ." berhasil ditransfer menggunakan" . paymentMethod($response->payment_type);
@@ -54,18 +57,22 @@ class TransactionService extends MY_Service{
 					$this->Product->update($product->id, $dataProduct);
 				}
 			}
+			// cek transaski pending
 			else if($response->transaction_status == 'pending'){
 				$title = 'Transaksi Pembayaran tertunda';
 				$message = "Menunggu pelanggan menyelesaikan transaksi invoice:" . $response->order_id . " menggunakan " . paymentMethod($response->payment_type);
 			}
+			// cek transaski gagak
 			else if ($response->transaction_status == 'deny') {
 				$title = 'Transaksi Pembayaran ditolak';
 				$message = "Pembayaran menggunakan " . paymentMethod($response->payment_type) . " untuk transaksi invoice: " . $response->order_id . " ditolak";
 			}
+			// cek transaski batal
 			else if ($response->transaction_status == 'cancel') {
 				$title = 'Transaksi Pembayaran dibatalkan';
 				$message = "Pembayaran menggunakan " . paymentMethod($response->payment_type) . " untuk transaksi invoice: " . $response->order_id . " ditolak";
 			}
+			// cek transaski kedaluarsa
 			else {
 				$title = 'Transaksi Pembayaran kadaluarsa';
 				$message = "Pembayaran menggunakan " . paymentMethod($response->payment_type) . " untuk transaksi invoice: " . $response->order_id . " kadaluarsa";
@@ -91,8 +98,10 @@ class TransactionService extends MY_Service{
 
 			$dataPusher['message'] = 'OK';
 
+			// kirim notifikasi
 			$pusher->trigger('my-channel', 'my-event', $dataPusher);
 
+			// buat notifikasi
 			$this->Notification->create(array(
 				'user_id' => $transaction->user_id,
 				'title' => $title,
@@ -252,5 +261,23 @@ class TransactionService extends MY_Service{
 		}
 
 		return true;
+	}
+
+	public function checkPendingTransaction()
+	{
+		$transactions = $this->Transaction->findByTransactionStatus('pending')->result();
+
+		if (count($transactions) > 0) {
+			foreach ($transactions as $transaction) {
+				$products = json_decode($transaction->products);
+				if (!$this->checkProduct($products)) {
+					$result = json_decode($this->cancel($transaction->order_id));
+
+					if ($result->status_code == "200") {
+						$this->Transaction->updateByOrderId($order_id, ['transaction_status' => 'cancel', 'capture_payment_response' => json_encode($result)]);
+					}
+				}
+			}
+		}
 	}
 }

@@ -70,6 +70,23 @@ class Transaction extends CI_Model
 		return $builder->get();
 	}
 
+	public function findByTransactionStatus($transaction_status)
+	{
+		$select = "t.*,
+				u.first_name,
+				u.last_name,
+				u.email,
+				u.telephone,
+				";
+
+		$builder = $this->db
+			->select($select)
+			->from('transactions t')
+			->join('users u', 'u.id = t.user_id')
+			->where('t.transaction_status', $transaction_status);
+		return $builder->get();
+	}
+
     public function find($id)
     {
 		$select = "t.*,

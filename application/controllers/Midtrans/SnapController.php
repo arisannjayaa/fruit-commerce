@@ -142,12 +142,15 @@ class SnapController extends CI_Controller {
 			'status_code' => $result->status_code,
 			'payment_type' => $result->payment_type,
 			'bank' => $result->va_numbers[0]->bank ?? null,
+			'transaction_status' => $result->transaction_status,
 			'capture_payment_request' => $captureRequest,
 			'capture_payment_response' => $captureResponse,
 			'expired_time' => $expired
 		);
 
 		$item = $this->Cart->findByUserId($this->auth->user()->id)->result();
+
+		// cek stok produk
 		if ($this->productService->checkStock($item) == false) {
 			$cancel = json_decode($this->transactionService->cancel($result->order_id));
 
