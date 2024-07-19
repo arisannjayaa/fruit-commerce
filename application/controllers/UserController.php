@@ -135,11 +135,6 @@ class UserController extends CI_Controller {
 		return $this->userService->delete($id);
 	}
 
-	public function settings()
-	{
-		return view('home/settings/settings');
-	}
-
 	public function rules()
 	{
 		$this->form_validation->set_rules('username', 'Username', 'required', array(

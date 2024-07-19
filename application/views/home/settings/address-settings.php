@@ -1,6 +1,6 @@
 @extends('theme.home')
 
-@section('title', 'Pengaturan')
+@section('title', 'Pengaturan Alamat')
 
 @section('style')
 <style>

@@ -129,7 +129,9 @@ $route['order-list'] = 'OrderController/index';
 $route['order-list/(:any)'] = 'OrderController/detail/$1';
 
 //user settings
-$route['user/settings'] = 'UserController/settings';
+$route['user/settings'] = 'ProfileController/index';
+$route['user/settings/edit/(:any)'] = 'ProfileController/edit/$1';
+$route['user/settings/update'] = 'ProfileController/update';
 $route['user/settings/address'] = 'AddressController/index';
 $route['user/settings/address/store'] = 'AddressController/store';
 $route['user/settings/address/update'] = 'AddressController/update';
