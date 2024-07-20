@@ -5,7 +5,7 @@ class SnapController extends CI_Controller {
 	public function __construct()
     {
         parent::__construct();
-        $params = array('server_key' => 'SB-Mid-server-GrsQXs1BZ7HDGD210SYbm-Gl', 'production' => false);
+        $params = array('server_key' => $_ENV['MIDTRANS_SERVER'], 'production' => $_ENV['MIDTRANS_IS_PRODUCTION'] == 'false' ? false : true);
 		$this->load->library('midtrans');
 		$this->midtrans->config($params);
 		$this->load->helper('url');
@@ -118,7 +118,7 @@ class SnapController extends CI_Controller {
 		error_log(json_encode($transaction_data));
 		$snapToken = $this->midtrans->getSnapToken($transaction_data);
 		error_log($snapToken);
-		echo $snapToken;
+		echo json_encode(array('token' => $snapToken));
     }
 
     public function finish()

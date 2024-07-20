@@ -6,6 +6,11 @@ class DashboardController extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
+		$this->load->model('User');
+		$this->load->model('Transaction');
+		$this->load->model('Product');
+		$this->load->model('Category');
+		$this->load->model('Notification');
     }
 
     public function index()
@@ -15,7 +20,14 @@ class DashboardController extends CI_Controller {
 		}
 
 		$this->auth->protect(1);
-		return view('dashboard');
+
+		$data['users'] = $this->User->all();
+		$data['categories'] = $this->Category->all();
+		$data['transactions'] = $this->Transaction->all();
+		$data['products'] = $this->Product->all();
+		$data['notifications'] = $this->Notification->all()->result();
+
+		return view('dashboard', $data);
     }
 }
 

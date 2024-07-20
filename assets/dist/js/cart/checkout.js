@@ -37,6 +37,7 @@ $('#pay-button').click(function (event) {
 				result_type : $("#result-type").val(),
 			},
 			url: tokenUrl,
+			dataType: 'json',
 			cache: false,
 			success: function(data) {
 				var resultType = document.getElementById('result-type');
@@ -45,16 +46,11 @@ $('#pay-button').click(function (event) {
 				function changeResult(type,data){
 					$("#result-type").val(type);
 					$("#result-data").val(JSON.stringify(data));
-					//resultType.innerHTML = type;
-					//resultData.innerHTML = JSON.stringify(data);
 				}
 
-				snap.pay(data, {
+				snap.pay(data.token, {
 					onSuccess: function(result){
-						// console.log(result);
 						changeResult('success', result);
-						// console.log(result.status_message);
-						// console.log(result);
 						$("#payment-form").submit();
 					},
 					onPending: function(result){
@@ -63,7 +59,6 @@ $('#pay-button').click(function (event) {
 					},
 					onError: function(result){
 						changeResult('error', result);
-						// console.log(result.status_message);
 						$("#payment-form").submit();
 					}
 				});

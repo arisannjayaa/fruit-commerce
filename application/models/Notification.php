@@ -12,9 +12,10 @@ class Notification extends CI_Model
 
 	public function all()
 	{
-		$query = $this->db->select("*")->from($this->table);
+		$query = $this->db->select("notifications.*, users.first_name, users.last_name")->from($this->table);
+		$query = $query->join('users', 'users.id = notifications.user_id');
 		$query = $query->where('is_clicked', 0);
-		$query = $query->order_by('updated_at', 'desc');
+		$query = $query->order_by('notifications.updated_at', 'desc');
 		return $query->get();
 	}
 

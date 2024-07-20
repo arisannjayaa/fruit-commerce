@@ -43,6 +43,16 @@ class HomeController extends CI_Controller {
 
 		return view('home/detail-product', $data);
 	}
+
+	public function contact()
+	{
+		return view('home/contact');
+	}
+
+	public function about()
+	{
+		return view('home/about');
+	}
 }
 
 /* End of file DashboardController.php and path \application\controllers\DashboardController.php */

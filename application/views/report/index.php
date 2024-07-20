@@ -11,9 +11,10 @@
 		<input type="text" class="form-control w-auto" id="dates" name="dates" value="" />
 		<select name="status" id="status" class="form-control w-auto">
 			<option value="">Semua</option>
-			<option value="201">Pending</option>
-			<option value="407">Expired</option>
-			<option value="200">Berhasil</option>
+			<option value="pending">Pending</option>
+			<option value="expired">Expired</option>
+			<option value="settlement">Berhasil</option>
+			<option value="cancel">Dibatalkan</option>
 		</select>
 		<button type="button" id="btn-export" class="btn mb-2 h-100 w-auto">
 			Export
