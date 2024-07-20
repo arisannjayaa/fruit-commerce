@@ -227,11 +227,11 @@ class TransactionService extends MY_Service{
 	public function cancel($order_id)
 	{
 		try {
-			$serverKey = 'SB-Mid-server-GrsQXs1BZ7HDGD210SYbm-Gl';
+			$serverKey = $_ENV['MIDTRANS_SERVER'];
 
 			$client = new \GuzzleHttp\Client();
 
-			$response = $client->request('POST', 'https://api.sandbox.midtrans.com/v2/'.$order_id.'/cancel', [
+			$response = $client->request('POST', $_ENV['MIDTRANS_CANCEL_URL'].$order_id.'/cancel', [
 				'headers' => [
 					'accept' => 'application/json',
 					'authorization' => 'Basic ' . base64_encode($serverKey),

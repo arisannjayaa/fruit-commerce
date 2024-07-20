@@ -71,7 +71,7 @@ class Migration_Product extends CI_Migration
 				'category_id' => rand(1,4),
 				'description' => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sodales nunc eu enim dignissim, eu sagittis leo semper. Ut tempor, neque non ullamcorper lobortis, ante sem molestie leo, eu dapibus diam mi id eros. Praesent ac viverra dolor. Nunc dictum, nisl ac tincidunt porttitor, neque leo blandit neque, non efficitur purus dui in ante. Fusce tristique velit lectus, non consectetur neque rhoncus at. Mauris vitae sapien at est tempor viverra. Donec efficitur hendrerit viverra. In lobortis eros eget commodo elementum. Suspendisse pulvinar eu odio non maximus. Aenean vestibulum lacus ut nisl commodo, ut efficitur lorem malesuada. Phasellus quis congue tortor, in ultrices odio. Cras feugiat sagittis ex in efficitur. Donec varius enim ante, placerat porta massa suscipit vel. Fusce sed gravida felis. Proin nec augue ex.",
 				'stock' => rand(1,10),
-				'price' => rand(10000, 50000),
+				'price' => rand(1, 10),
 				'created_at' => date('Y-m-d H:i:s'),
 				'updated_at' => date('Y-m-d H:i:s'),
 			]);

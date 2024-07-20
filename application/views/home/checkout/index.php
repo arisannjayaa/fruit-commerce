@@ -4,8 +4,8 @@
 
 @section('style')
 <script type="text/javascript"
-		src="https://app.sandbox.midtrans.com/snap/snap.js"
-		data-client-key="SB-Mid-client-S09glAfzatzn3woa" xmlns="http://www.w3.org/1999/html"></script>
+		src="<?= $_ENV['MIDTRANS_CLIENT_URL'] ?>"
+		data-client-key="<?= $_ENV['MIDTRANS_CLIENT'] ?>" xmlns="http://www.w3.org/1999/html"></script>
 <style>
 	.img-product {
 		height: 500px;
