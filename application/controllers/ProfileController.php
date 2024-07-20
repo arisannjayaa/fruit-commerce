@@ -23,7 +23,7 @@ class ProfileController extends CI_Controller {
 		$data['user'] = $this->User->find($this->auth->user()->id);
 
 		if ($this->auth->isAdmin()) {
-			return view('profile', $data);
+			return view('profile/index', $data);
 		}
 
 		if ($this->auth->isMember()) {
@@ -55,8 +55,6 @@ class ProfileController extends CI_Controller {
 		if (!$this->input->is_ajax_request()) {
 			show_error("Anda tidak memiliki izin untuk mengakses sumber daya ini.", 403, "Akses Ditolak");
 		}
-
-		$this->auth->protect(2);
 
 		$this->rules($this->input->post('id'));
 

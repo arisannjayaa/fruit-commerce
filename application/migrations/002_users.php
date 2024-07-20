@@ -17,7 +17,9 @@ class Migration_Users extends CI_Migration
             ],
 			'attachment' => [
 				'type'              => 'VARCHAR',
-				'constraint'        => '255'
+				'constraint'        => '255',
+				'null'				=> true,
+				'default'			=> null
 			],
 			'first_name' => [
 				'type'              => 'VARCHAR',
@@ -62,7 +64,6 @@ class Migration_Users extends CI_Migration
         // Buat tabel users
         $this->dbforge->create_table($this->tableName);
 		$this->db->insert($this->tableName, [
-            'attachment'   => 'uploads/profile/default.jpg',
             'first_name'   => 'Admin',
             'last_name'   => null,
             'username'   => 'admin',
@@ -75,7 +76,6 @@ class Migration_Users extends CI_Migration
         ]);
 
 		$this->db->insert($this->tableName, [
-			'attachment'   => 'uploads/profile/default.jpg',
 			'first_name'   => 'Member1',
 			'last_name'   => null,
 			'username'   => 'member',
@@ -88,7 +88,6 @@ class Migration_Users extends CI_Migration
 		]);
 
 		$this->db->insert($this->tableName, [
-			'attachment'   => 'uploads/profile/default.jpg',
 			'first_name'   => 'Member2',
 			'last_name'   => null,
 			'username'   => 'member2',
@@ -101,7 +100,6 @@ class Migration_Users extends CI_Migration
 		]);
 
 		$this->db->insert($this->tableName, [
-			'attachment'   => 'uploads/profile/default.jpg',
 			'first_name'   => 'Member3',
 			'last_name'   => null,
 			'username'   => 'member3',

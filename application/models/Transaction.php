@@ -166,7 +166,7 @@ class Transaction extends CI_Model
 			}
 
 			if (isset($data['status'])) {
-				$builder = $builder->where('status_code', $data['status']);
+				$builder = $builder->where('transaction_status', $data['status']);
 			}
 		}
 

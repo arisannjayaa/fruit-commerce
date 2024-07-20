@@ -110,6 +110,8 @@ $route['report/export']['GET'] = 'ReportController/export';
 //home
 $route['default_controller'] = 'HomeController/index';
 $route['shop'] = 'HomeController/shop';
+$route['about'] = 'HomeController/about';
+$route['contact'] = 'HomeController/contact';
 $route['shop/(:any)'] = 'HomeController/detail/$1';
 
 //cart
