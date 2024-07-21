@@ -163,13 +163,12 @@ class AddressController extends CI_Controller {
 	public function rules($id = null)
 	{
 		$rules = array(
-			'address' => $id == null ? 'required|is_unique[addresses.address]' : 'required',
-			'telephone' => $id == null ? 'required|is_unique[addresses.telephone]' : 'required'
+			'address' => 'required',
+			'telephone' => $id == null ? 'required|is_unique[addresses.telephone]' : 'required|edit_unique[addresses.telephone.'.$id.']'
 		);
 
 		$this->form_validation->set_rules('address', 'Alamat', $rules['address'], array(
 			'required' => '%s tidak boleh kosong',
-			'is_unique' => '%s harus berisi nilai unik',
 		));
 		$this->form_validation->set_rules('label', 'Label', 'required', array(
 			'required' => '%s tidak boleh kosong',
@@ -185,6 +184,7 @@ class AddressController extends CI_Controller {
 			'required' => '%s tidak boleh kosong',
 			'numeric' => '%s harus berupa angka',
 			'is_unique' => '%s harus berisi nilai unik',
+			'edit_unique' => '%s harus berisi nilai unik'
 		));
 	}
 }

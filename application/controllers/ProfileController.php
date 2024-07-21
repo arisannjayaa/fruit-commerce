@@ -134,28 +134,32 @@ class ProfileController extends CI_Controller {
 	public function rules($id = null)
 	{
 		$rules = array(
-			'first_name' => $id == null ? 'required|is_unique[users.first_name]' : 'required',
-			'last_name' => $id == null ? 'required|is_unique[users.last_name]' : 'required',
-			'email' => $id == null ? 'required|is_unique[users.email]' : 'required',
-			'telephone' => $id == null ? 'required|is_unique[users.telephone]' : 'required'
+			'first_name' => $id == null ? 'required|is_unique[users.first_name]' : 'required|edit_unique[users.first_name.'.$id.']',
+			'last_name' => $id == null ? 'required|is_unique[users.last_name]' : 'required|edit_unique[users.last_name.'.$id.']',
+			'email' => $id == null ? 'required|is_unique[users.email]' : 'required|edit_unique[users.email.'.$id.']',
+			'telephone' => $id == null ? 'required|is_unique[users.telephone]' : 'required|edit_unique[users.telephone.'.$id.']'
 		);
 
 		$this->form_validation->set_rules('first_name', 'Nama Awal', $rules['first_name'], array(
 			'required' => '%s tidak boleh kosong',
 			'is_unique' => '%s harus berisi nilai unik',
+			'edit_unique' => '%s harus berisi nilai unik'
 		));
 		$this->form_validation->set_rules('last_name', 'Nama Akhir', $rules['last_name'], array(
 			'required' => '%s tidak boleh kosong',
 			'is_unique' => '%s harus berisi nilai unik',
+			'edit_unique' => '%s harus berisi nilai unik'
 		));
 		$this->form_validation->set_rules('email', 'Email', $rules['email'], array(
 			'required' => '%s tidak boleh kosong',
 			'is_unique' => '%s harus berisi nilai unik',
+			'edit_unique' => '%s harus berisi nilai unik'
 		));
 		$this->form_validation->set_rules('telephone', 'Telepon', $rules['telephone'] .'|numeric', array(
 			'required' => '%s tidak boleh kosong',
 			'numeric' => '%s harus berupa angka',
 			'is_unique' => '%s harus berisi nilai unik',
+			'edit_unique' => '%s harus berisi nilai unik'
 		));
 	}
 }

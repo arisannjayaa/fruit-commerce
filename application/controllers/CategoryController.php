@@ -134,11 +134,12 @@ class CategoryController extends CI_Controller {
 	public function rules($id = null)
 	{
 		$rules = array(
-			'name' => $id == null ? 'required|is_unique[categories.name]' : 'required',
+			'name' => $id == null ? 'required|is_unique[categories.name]' : 'required|edit_unique[categories.name.'.$id.']',
 		);
 		$this->form_validation->set_rules('name', 'Kategori', $rules['name'], array(
 			'required' => '%s tidak boleh kosong',
-			'is_unique' => '%s harus berisi nilai unik'
+			'is_unique' => '%s harus berisi nilai unik',
+			'edit_unique' => '%s harus berisi nilai unik'
 		));
 	}
 }

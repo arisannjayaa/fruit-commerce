@@ -226,12 +226,13 @@ class ProductController extends CI_Controller {
 	public function rules($id = null)
 	{
 		$rules = array(
-			'title' => $id == null ? 'required|is_unique[products.title]' : 'required',
+			'title' => $id == null ? 'required|is_unique[products.title]' : 'require|edit_unique[products.title.'.$id.']',
 		);
 
 		$this->form_validation->set_rules('title', 'Judul', $rules['title'], array(
 			'required' => '%s tidak boleh kosong',
-			'is_unique' => '%s harus berisi nilai unik'
+			'is_unique' => '%s harus berisi nilai unik',
+			'edit_unique' => '%s harus berisi nilai unik'
 		));
 		$this->form_validation->set_rules('category_id', 'Kategori', 'required', array(
 			'required' => '%s tidak boleh kosong'
