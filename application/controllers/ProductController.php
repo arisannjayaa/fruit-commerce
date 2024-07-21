@@ -226,7 +226,7 @@ class ProductController extends CI_Controller {
 	public function rules($id = null)
 	{
 		$rules = array(
-			'title' => $id == null ? 'required|is_unique[products.title]' : 'require|edit_unique[products.title.'.$id.']',
+			'title' => $id == null ? 'required|is_unique[products.title]' : 'required|edit_unique[products.title.'.$id.']',
 		);
 
 		$this->form_validation->set_rules('title', 'Judul', $rules['title'], array(
