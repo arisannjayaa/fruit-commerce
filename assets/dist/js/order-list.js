@@ -103,14 +103,18 @@ $(document).on('click', '.detail', function () {
 					</div>`;
 			});
 
+			console.log(captureResponse);
+
 			if (captureResponse.transaction_status) {
 				if (captureResponse.transaction_status != "settlement") {
 					htmlOption += `<div class="col-12 mb-2"><button onclick="location.href='${BASE_URL + 'payment/' + response.data.order_id}'" type="button" class="btn w-100  btn-primary">Lihat Pembayaran</button></div>`;
 				}
 
 				if (captureResponse.transaction_status == "pending") {
-					htmlOption += `<div class="col-12"><button data-id="${captureResponse.order_id}" type="button" class="btn w-100 btn-danger cancel">Batalkan</button></div>`;
+					htmlOption += `<div class="col-12 mb-2"><button data-id="${captureResponse.order_id}" type="button" class="btn w-100 btn-danger cancel">Batalkan</button></div>`;
 				}
+
+				htmlOption += `<div class="col-12 mb-2"><button target="_blank" onclick="location.href='${BASE_URL + 'invoice/' + response.data.order_id}'" type="button" class="btn w-100  btn-secondary">Lihat Nota Pembayaran</button></div>`;
 
 				$("#option").html(htmlOption);
 			}
