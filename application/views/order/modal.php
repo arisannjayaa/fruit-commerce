@@ -7,7 +7,10 @@
 			</div>
 			<div class="modal-body">
 				<div class="row">
-					<div class="col-12 text-end">
+					<div class="col-6">
+						<p class="h1">BU JEM JEM</p>
+					</div>
+					<div class="col-6 text-end">
 						<p class="h3" id="fullname">Client</p>
 						<address>
 							<div id="email">Email</div>
@@ -40,6 +43,9 @@
 			<div class="modal-footer">
 				<a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
 					Cancel
+				</a>
+				<a target="_blank" href="javascript:void(0)" class="btn btn-primary ms-auto" id="btn-print">
+					Cetak
 				</a>
 			</div>
 		</div>

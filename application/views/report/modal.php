@@ -41,6 +41,9 @@
 				<a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
 					Cancel
 				</a>
+				<a target="_blank" href="javascript:void(0)" class="btn btn-primary ms-auto" id="btn-print">
+					Cetak
+				</a>
 			</div>
 		</div>
 	</div>
