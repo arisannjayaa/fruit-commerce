@@ -52,7 +52,8 @@ class TransactionService extends MY_Service{
 				foreach ($products as $product) {
 					$findProduct = $this->Product->find($product->id);
 					$dataProduct = array(
-						'stock' => 	$findProduct->stock - $product->quantity
+						'stock' => 	$findProduct->stock - $product->quantity,
+						'total_sold' => $findProduct->total_sold + $product->quantity,
 					);
 					$this->Product->update($product->id, $dataProduct);
 				}

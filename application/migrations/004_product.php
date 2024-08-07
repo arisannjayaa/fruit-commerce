@@ -54,6 +54,10 @@ class Migration_Product extends CI_Migration
 				'type'              => 'INT',
 				'constraint'        => 11
 			],
+			'total_sold' => [
+				'type'              => 'INT',
+				'constraint'        => 11
+			],
         ]);
 
         $this->dbforge->add_key('id', TRUE);

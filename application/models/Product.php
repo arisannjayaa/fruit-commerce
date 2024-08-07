@@ -104,6 +104,52 @@ class Product extends CI_Model
 
 		return $query->get();
 	}
+
+	public function filter($data = null)
+	{
+		if ($data == null) {
+			$query = $this->db
+				->select("*")
+				->from($this->table)
+				->order_by('total_sold', 'desc');
+		}
+
+		if ($data) {
+			$query = $this->db
+				->select("*")
+				->from($this->table);
+			if (@$data['category']) {
+				$query = $query
+					->where_in('category_id', $data['category']);
+			}
+
+			if ($data['sort_by']) {
+				if ($data['sort_by'] == "popular") {
+					$query = $query->order_by('total_sold', 'desc');
+				}
+				if ($data['sort_by'] == "title_asc") {
+					$query = $query->order_by('title', 'asc');
+				}
+				if ($data['sort_by'] == "title_desc") {
+					$query = $query->order_by('title', 'desc');
+				}
+				if ($data['sort_by'] == "price_asc") {
+					$query = $query->order_by('price', 'asc');
+				}
+				if ($data['sort_by'] == "price_desc") {
+					$query = $query->order_by('price', 'desc');
+				}
+				if ($data['sort_by'] == "created_desc") {
+					$query = $query->order_by('created_at', 'desc');
+				}
+				if ($data['sort_by'] == "created_asc") {
+					$query = $query->order_by('created_at', 'asc');
+				}
+			}
+		}
+
+		return $query->get();
+	}
 }
 
 

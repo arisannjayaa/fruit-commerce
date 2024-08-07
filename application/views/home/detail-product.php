@@ -44,6 +44,7 @@
 				<div class="rating d-flex">
 					<p class="text-left">
 						<a href="javascript:void()" class="mr-2" style="color: #000;"><span style="color: #bbb;">{{ "Stok " . $product->stock }}</span></a>
+						<a href="javascript:void()" class="mr-2" style="color: #000;"><span style="color: #bbb;">{{ "Terjual " . $product->total_sold }}</span></a>
 					</p>
 				</div>
 				<p class="price"><span>{{ formatToRupiah($product->price) }}</span></p>

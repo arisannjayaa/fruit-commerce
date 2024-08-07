@@ -57,8 +57,8 @@ class ExportService extends MY_Service{
 				$sheet->setCellValue('B' . $cell, $transaction->order_id);
 				$sheet->setCellValue('C' . $cell, $transaction->first_name . ' ' . $transaction->last_name);
 				$sheet->setCellValue('D' . $cell, $transaction->payment_type);
-				$sheet->setCellValue('E' . $cell, $captureResponse->transaction_status);
-				$sheet->setCellValue('F' . $cell, $transaction->bank);
+				$sheet->setCellValue('E' . $cell, statusPayment($captureResponse->transaction_status));
+				$sheet->setCellValue('F' . $cell, strtoupper($transaction->bank));
 				$sheet->setCellValue('G' . $cell, formatDateId($transaction->created_at));
 				$sheet->setCellValue('H' . $cell, $transaction->gross_amount);
 				$no++;

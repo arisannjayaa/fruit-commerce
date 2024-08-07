@@ -21,15 +21,11 @@ class HomeController extends CI_Controller {
 
 	public function shop()
 	{
-		if ($this->input->get('category') != null) {
-			$data['category_id'] = $this->input->get('category');
-		} else {
-			$data['category_id'] = "";
-		}
+		$filter = $this->input->get();
+		$data['products'] = $this->Product->filter($filter)->result();
+		$data['categories'] = $this->Category->all();
 
-		$data['categories'] = $this->Category->limit(4);
-		$data['products'] = $this->Product->findByCategoryId($data['category_id']);
-
+//		dd($data['products']);
 		return view('home/shop', $data);
 	}
 
