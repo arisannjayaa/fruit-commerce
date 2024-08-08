@@ -161,5 +161,8 @@ $route['transaction/check/cancel'] = 'CheckoutController/check';
 //invoice print
 $route['invoice/(:any)'] = 'InvoiceController/print/$1';
 
+//location distance
+$route['distance'] = 'LocationController/checkDistance';
+
 $route['404_override'] = 'ErrorController/error_404';
 $route['translate_uri_dashes'] = FALSE;

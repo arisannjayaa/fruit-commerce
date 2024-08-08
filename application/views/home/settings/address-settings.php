@@ -18,6 +18,11 @@
 	.address.active {
 		border: 1px solid #82ae46 !important;
 	}
+
+	 #map {
+		 height: 400px; /* Sesuaikan dengan ukuran peta yang diinginkan */
+	 }
+</style>
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 @endsection
@@ -69,6 +74,7 @@
 		</div>
 	</div>
 </section>
+
 @include('home/settings/modal-address')
 @endsection
 
@@ -84,6 +90,9 @@
 
 @section('script')
 @if($this->auth->user())
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+		integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+		crossorigin=""></script>
 <script src="https://cdn.jsdelivr.net/gh/yaza-putu/helpers@V2.0.4/libs/libs-core.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/yaza-putu/helpers@V2.0.4/helpers.min.js"></script>
 <script>
@@ -92,7 +101,6 @@
 		let countCart = 0;
 		let url = $("#all-cart-item-url").val();
 		ajaxGet(url).done(function (res) {
-			console.log(res);
 			let data = res.data;
 			countCart = data.length;
 			$(".cart-count").html(countCart);

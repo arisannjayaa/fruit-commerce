@@ -11,8 +11,6 @@
 <script src="<?= base_url('assets/home/') ?>js/jquery.animateNumber.min.js"></script>
 <script src="<?= base_url('assets/home/') ?>js/bootstrap-datepicker.js"></script>
 <script src="<?= base_url('assets/home/') ?>js/scrollax.min.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-<script src="<?= base_url('assets/home/') ?>js/google-map.js"></script>
 <script src="<?= base_url('assets/home/') ?>js/main.js"></script>
 
 <!-- Helpers -->

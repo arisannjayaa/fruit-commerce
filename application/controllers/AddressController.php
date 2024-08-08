@@ -7,6 +7,7 @@ class AddressController extends CI_Controller {
     {
         parent::__construct();
 		$this->load->service('AddressService', 'addressService');
+		$this->load->service('LocationService', 'locationService');
 		$this->load->model('Address');
     }
 
@@ -59,8 +60,23 @@ class AddressController extends CI_Controller {
 			'addressee' => $this->input->post('addressee'),
 			'telephone' => $this->input->post('telephone'),
 			'postal_code' => $this->input->post('postal_code'),
+			'latitude' => $this->input->post('latitude'),
+			'longitude' => $this->input->post('longitude'),
 			'is_primary' => $this->input->post('is_primary') ? true : false,
 		);
+
+
+		if (!$data['latitude'] && !$data['longitude']) {
+			$this->output->set_status_header(400);
+			echo json_encode(array('status' => "OK", 'code' => 400, 'message' => "Titik lokasi belum di pilih"));
+			return;
+		}
+
+		if ($this->locationService->isLongDistanceRadius($data['latitude'], $data['longitude'])) {
+			$this->output->set_status_header(400);
+			echo json_encode(array('status' => "OK", 'code' => 400, 'message' => "Jarak terlalu jauh"));
+			return;
+		}
 
 		return $this->addressService->create($data);
 	}
@@ -117,8 +133,22 @@ class AddressController extends CI_Controller {
 			'addressee' => $this->input->post('addressee'),
 			'telephone' => $this->input->post('telephone'),
 			'postal_code' => $this->input->post('postal_code'),
+			'latitude' => $this->input->post('latitude'),
+			'longitude' => $this->input->post('longitude'),
 			'is_primary' => $this->input->post('is_primary') ? true : false,
 		);
+
+		if (!$data['latitude'] && !$data['longitude']) {
+			$this->output->set_status_header(400);
+			echo json_encode(array('status' => "OK", 'code' => 400, 'message' => "Titik lokasi belum di pilih"));
+			return;
+		}
+
+		if ($this->locationService->isLongDistanceRadius($data['latitude'], $data['longitude'])) {
+			$this->output->set_status_header(400);
+			echo json_encode(array('status' => "OK", 'code' => 400, 'message' => "Jarak terlalu jauh"));
+			return;
+		}
 
 		return $this->addressService->update($data);
 	}

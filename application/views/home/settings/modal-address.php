@@ -9,6 +9,9 @@
 					</button>
 				</div>
 				<div class="modal-body">
+					<div class="alert alert-info" role="alert">
+						Pengiriman hanya dapat dilakukan untuk area denpasar dan nusa dua!
+					</div>
 					<input type="hidden" class="form-control" id="id" name="id">
 					<div class="form-group">
 						<label for="addressee">Nama Penerima</label>
@@ -19,6 +22,13 @@
 						<input type="text" class="form-control" id="telephone" name="telephone">
 					</div>
 					<hr>
+					<div class="form-group">
+						<label for="telephone">Lokasi</label>
+						<div id="map"></div>
+						<p id="coordinates"></p>
+						<input type="hidden" class="form-control" id="latitude" name="latitude">
+						<input type="hidden" class="form-control" id="longitude" name="longitude">
+					</div>
 					<div class="form-group">
 						<label for="label">Label Alamat</label>
 						<input type="text" class="form-control" id="label" name="label">
