@@ -40,6 +40,13 @@ class Migration_Addresses extends CI_Migration
 				'constraint'        => 255,
 			],
 			'postal_code' => [
+				'type'              => 'VARCHAR',
+				'constraint'        => 255,
+			],
+			'latitude' => [
+				'type'              => 'DOUBLE',
+			],
+			'longitude' => [
 				'type'              => 'DOUBLE',
 			],
 			'is_primary' => [

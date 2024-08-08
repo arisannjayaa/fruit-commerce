@@ -6,7 +6,53 @@ let loadingElement = `<div class="d-flex justify-content-center">
 							  </div>`;
 checkRows(totalRows);
 
+var latlng = [-8.7956767, 115.2128371];
+var radiusInKm = 20;
+var map = L.map('map').setView(latlng, 13);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	maxZoom: 20,
+	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+var circle = L.circle(latlng, {
+	color: 'red',       // Warna garis lingkaran
+	fillColor: '#f03',  // Warna isi lingkaran
+	fillOpacity: 0.1,   // Transparansi isi lingkaran
+	radius: radiusInKm * 1000 // Radius dalam meter (kilometer * 1000)
+}).addTo(map);
+
+var marker;
+
+function onMapClick(e) {
+	var lat = e.latlng.lat;
+	var lng = e.latlng.lng;
+
+	if (marker) {
+		map.removeLayer(marker);
+	}
+
+	marker = L.marker([lat, lng]).addTo(map)
+		.bindPopup("Titik lokasi anda").openPopup();
+
+	document.getElementById('latitude').value = lat;
+	document.getElementById('longitude').value = lng;
+}
+
+$('#modal-address').on('shown.bs.modal', function() {
+	map.invalidateSize();
+});
+
+map.on('click', onMapClick);
+
+
+
 $('#btn-add').click(function () {
+	if (marker) {
+		marker.remove();
+		marker = null;
+	}
+
 	if (totalRows == 5) {
 		sweetError('Tidak dapat menyimpan data alamat lebih dari 5');
 		return;
@@ -68,7 +114,11 @@ $(".edit").click(function () {
 	url = url.replace(":id", id);
 
 	ajaxGet(url).done(function (res) {
-		console.log(res);
+		let newLatLng = [res.data.latitude, res.data.longitude];
+		marker = L.marker(newLatLng).addTo(map)
+			.bindPopup("Titik lokasi anda").openPopup();
+		map.setView(newLatLng, 13);
+
 		$(".modal-title").empty().append("Edit Alamat");
 		$("#id").val(res.data.id);
 		$("#addressee").val(res.data.addressee);
@@ -76,6 +126,8 @@ $(".edit").click(function () {
 		$("#label").val(res.data.label);
 		$("#address").val(res.data.address);
 		$("#postal_code").val(res.data.postal_code);
+		$("#latitude").val(res.data.latitude);
+		$("#longitude").val(res.data.longitude);
 
 		if (res.data.is_primary == 1) {
 			$("#check-is-primary").hide();
