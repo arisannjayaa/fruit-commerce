@@ -4,6 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 require 'vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Style;
 
 class ExportService extends MY_Service{
 	public function __construct() {
@@ -22,9 +24,11 @@ class ExportService extends MY_Service{
 			$spreadsheet = new Spreadsheet();
 			$sheet = $spreadsheet->getActiveSheet();
 
+			// heading
 			$sheet->setCellValue('A1', 'LAPORAN');
 
-			$sheet->mergeCells('A1:G1');
+			// menggabungkan cell
+			$sheet->mergeCells('A1:H1');
 
 			$sheet->getStyle('A1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
 			$sheet->getStyle('A1')->getFont()->setBold(true)->setSize(24);
@@ -51,19 +55,39 @@ class ExportService extends MY_Service{
 
 			$no = 1;
 			$cell = 5;
+			$total = 0;
 			foreach ($transactions as $transaction) {
 				$captureResponse = json_decode($transaction->capture_payment_response);
 				$sheet->setCellValue('A' . $cell, $no);
 				$sheet->setCellValue('B' . $cell, $transaction->order_id);
 				$sheet->setCellValue('C' . $cell, $transaction->first_name . ' ' . $transaction->last_name);
-				$sheet->setCellValue('D' . $cell, $transaction->payment_type);
+				$sheet->setCellValue('D' . $cell, paymentMethod($transaction->payment_type));
 				$sheet->setCellValue('E' . $cell, statusPayment($captureResponse->transaction_status));
 				$sheet->setCellValue('F' . $cell, strtoupper($transaction->bank));
 				$sheet->setCellValue('G' . $cell, formatDateId($transaction->created_at));
 				$sheet->setCellValue('H' . $cell, $transaction->gross_amount);
 				$no++;
 				$cell++;
+				$total += $transaction->gross_amount;
 			}
+
+			$sheet->setCellValue('A' . $cell, "Total");
+			$sheet->setCellValue('H' . $cell, $total);
+			$sheet->mergeCells('A' . $cell . ':G'. $cell);
+
+			// Atur border untuk rentang sel A1:B2
+			$styleArray = [
+				'borders' => [
+					'allBorders' => [
+						'borderStyle' => Border::BORDER_THIN,
+						'color' => ['argb' => 'FF000000'], // Warna border hitam
+					],
+				],
+			];
+
+			// Terapkan gaya border ke sel
+			$sheet->getStyle('A4:H'.$cell)->applyFromArray($styleArray);
+			$sheet->getStyle('H5:H'.$cell)->getNumberFormat()->setFormatCode('Rp #,##0');
 
 			$fileName = "Report-" . date('Y-m-d') . ".xlsx";
 			$writer = new Xlsx($spreadsheet);
