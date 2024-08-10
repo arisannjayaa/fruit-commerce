@@ -21,7 +21,7 @@
                 <div class="row slider-text justify-content-center align-items-center" data-scrollax-parent="true">
 
                     <div class="col-md-12 ftco-animate text-center">
-                        <h1 class="mb-2">Kami menyediakan sayur &amp; buah</h1>
+                        <h1 class="mb-2">Kami menyediakan sayur jewhejwhje &amp; buah</h1>
                         <h2 class="subheading mb-4">Free pengiriman sayur &amp; buah hanya untuk Daerah Denpasar & Nusa
                             Dua</h2>
                         <p><a href="<?= base_url('shop') ?>" class="btn btn-primary">Lihat Selengkapnya</a></p>
