@@ -37,6 +37,14 @@ class TransactionService extends MY_Service{
 				return;
 			}
 
+			// cek transaksi jika sebelumnya sudah berhasil
+			if ($transaction->transaction_status == 'settlement') {
+				$this->output->set_status_header(400);
+				echo json_encode(array('success' => false, 'code' => 400, 'message' => "Terjadi Kesalahan"));
+				$this->db->trans_commit();
+				return;
+			}
+
 			$id = $transaction->id;
 			$response = $data['capture_payment_response'];
 			$data['updated_at'] = date('Y-m-d H:i:s');
@@ -51,6 +59,7 @@ class TransactionService extends MY_Service{
 
 				foreach ($products as $product) {
 					$findProduct = $this->Product->find($product->id);
+
 					$dataProduct = array(
 						'stock' => 	$findProduct->stock - $product->quantity,
 						'total_sold' => $findProduct->total_sold + $product->quantity,
