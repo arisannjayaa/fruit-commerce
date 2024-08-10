@@ -281,4 +281,19 @@ class TransactionService extends MY_Service{
 			}
 		}
 	}
+
+	public function changeDeliveryStatus($id, $delivery_status)
+	{
+		$this->db->trans_begin();
+		try {
+			$this->Transaction->update($id, ['delivery_status' => $delivery_status]);
+			echo json_encode(array('success' => true, 'code' => 200, 'message' => "Status Pengiriman Berhasil diupdate"));
+			$this->db->trans_commit();
+			return;
+		} catch (Exception $exception) {
+			$this->db->trans_rollback();
+			show_error('Terjadi kesalahan', 500);
+			return;
+		}
+	}
 }

@@ -39,10 +39,9 @@ $("#table").DataTable({
 			}
 		},
 		{ data: 'order_id', name: 'order_id', className: 'text-nowrap'},
-		{ data: 'status_code', name: 'status_code', className: 'text-nowrap', orderable: false, searchable: false,
+		{ data: 'transaction_status', name: 'transaction_status', className: 'text-nowrap', orderable: false, searchable: false,
 			render: function (data, type, row, meta) {
-				let paymentResponse = JSON.parse(row.capture_payment_response);
-				return `<span class="badge ${badgeStatusPayment(paymentResponse.transaction_status)}">${statusPayment(paymentResponse.transaction_status)}</span>`;
+				return `<span class="badge ${badgeStatusPayment(row.transaction_status)}">${statusPayment(row.transaction_status)}</span>`;
 			}
 		},
 		{ data: 'gross_amount', name: 'gross_amount', className: 'text-nowrap', orderable: false, searchable: false, render: function (data) {

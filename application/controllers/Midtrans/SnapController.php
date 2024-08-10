@@ -143,6 +143,7 @@ class SnapController extends CI_Controller {
 			'payment_type' => $result->payment_type,
 			'bank' => $result->va_numbers[0]->bank ?? null,
 			'transaction_status' => $result->transaction_status,
+			'delivery_status' => "Menunggu Konfirmasi",
 			'capture_payment_request' => $captureRequest,
 			'capture_payment_response' => $captureResponse,
 			'expired_time' => $expired

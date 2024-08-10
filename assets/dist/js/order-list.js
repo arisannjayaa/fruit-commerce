@@ -57,6 +57,7 @@ $(document).on('click', '.detail', function () {
 			$("#invoice-id").html(response.data.order_id);
 			$("#status").html(statusPayment(captureResponse.transaction_status));
 			$("#payment-type").html(paymentMethod(response.data.payment_type));
+			$("#delivery-status").html(response.data.delivery_status);
 			$("#date-transaction").html(convertDate(response.data.created_at));
 			$("#gross-amount").html(formatRupiah(response.data.gross_amount,"IDR", false));
 			$("#total-shop").html(formatRupiah(response.data.gross_amount,"IDR", false));

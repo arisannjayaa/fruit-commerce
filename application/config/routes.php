@@ -164,5 +164,8 @@ $route['invoice/(:any)'] = 'InvoiceController/print/$1';
 //location distance
 $route['distance'] = 'LocationController/checkDistance';
 
+// change delivery status
+$route['change/delivery/status'] = 'OrderController/changeDeliveryStatus';
+
 $route['404_override'] = 'ErrorController/error_404';
 $route['translate_uri_dashes'] = FALSE;

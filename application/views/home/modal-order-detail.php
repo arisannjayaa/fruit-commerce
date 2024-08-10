@@ -21,6 +21,10 @@
 						<span>Tanggal Pembelian</span>
 						<span id="date-transaction">19 Juni 2024</span>
 					</div>
+					<div class="d-flex justify-content-between align-items-center">
+						<span>Status Pengiriman</span>
+						<span id="delivery-status">Menunggu Konfirmasi</span>
+					</div>
 				</div>
 
 				<div class="d-flex flex-column">

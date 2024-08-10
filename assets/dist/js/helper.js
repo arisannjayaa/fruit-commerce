@@ -165,6 +165,14 @@ function convertDate(datetime) {
 	return formattedDateTime;
 }
 
+function checkTransactionStatus(transaction_status) {
+	if (transaction_status == "settlement") {
+		return true;
+	}
+
+	return false;
+}
+
 function countDown(expiry_date) {
 	const targetDate = new Date(expiry_date);
 	const now = new Date();

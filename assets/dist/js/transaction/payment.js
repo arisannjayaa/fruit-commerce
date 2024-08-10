@@ -52,10 +52,20 @@ $("#table").DataTable({
 				return `<span>${paymentMethod(paymentResponse.payment_type)}</span>`;
 			}
 		},
-		{ data: 'status_code', name: 'status_code', className: 'text-nowrap', orderable: false, searchable: false,
+		{ data: 'transaction_status', name: 'transaction_status', className: 'text-nowrap', orderable: false, searchable: false,
 			render: function (data, type, row, meta) {
-				let paymentResponse = JSON.parse(row.capture_payment_response);
-				return `<span class="badge ${badgeStatusPayment(paymentResponse.transaction_status)}">${statusPayment(paymentResponse.transaction_status)}</span>`;
+				return `<span class="badge ${badgeStatusPayment(row.transaction_status)}">${statusPayment(row.transaction_status)}</span>`;
+			}
+		},
+		{ data: 'delivery_status', name: 'delivery_status', className: 'text-nowrap', orderable: false, searchable: false,
+			render: function (data, type, row, meta) {
+				let html = `<select class="form-control change-delivery-status" data-id="${row.id}" ${checkTransactionStatus(row.transaction_status) == false ? 'disabled' : ''}>
+										<option value="Menunggu Konfirmasi" ${row.delivery_status == "Menunggu Menunggu Konfirmasi" ? "selected" : ""}>Menunggu Konfirmasi</option>
+										<option value="Menunggu Kurir" ${row.delivery_status == "Menunggu Kurir" ? "selected" : ""}>Menunggu Kurir</option>
+										<option value="Dalam Pengiriman" ${row.delivery_status == "Dalam Pengiriman" ? "selected" : ""}>Dalam Pengiriman</option>
+										<option value="Selesai" ${row.delivery_status == "Selesai" ? "selected" : ""}>Selesai</option>
+									</select>`
+				return html;
 			}
 		},
 		{ data: null, className: 'text-nowrap', orderable: false, searchable: false,
@@ -65,6 +75,22 @@ $("#table").DataTable({
 		}
 	]
 });
+
+$("#table").on("change", ".change-delivery-status", function () {
+	let id = $(this).data("id");
+	let deliveryStatus = $(this).val();
+	let url = BASE_URL + 'change/delivery/status';
+
+	let formData = new FormData();
+	formData.append('id', id);
+	formData.append('delivery_status', deliveryStatus);
+
+	ajaxPost(url, formData).done(function (res) {
+		notifySuccess(res.message);
+		reloadTable(table);
+	});
+
+})
 
 $("#table").on("click", ".detail", function () {
 	let id = $(this).data("id");

@@ -52,7 +52,8 @@
 						<th>Invoice</th>
 						<th>Total</th>
 						<th>Tipe</th>
-						<th>Status</th>
+						<th>Status Pembayaran</th>
+						<th>Status Pengiriman</th>
 						<th>Aksi</th>
 					</tr>
 					</thead>

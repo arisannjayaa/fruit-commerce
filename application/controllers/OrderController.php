@@ -8,6 +8,7 @@ class OrderController extends CI_Controller {
         parent::__construct();
 		$this->load->helper('custom');
 		$this->load->model('Transaction');
+		$this->load->service('TransactionService', 'transactionService');
 		$this->load->model('Product');
     }
 
@@ -51,6 +52,19 @@ class OrderController extends CI_Controller {
 		$this->output->set_status_header(200);
 		echo json_encode(array('success' => true, 'code' => 200, 'data' => $this->Transaction->findByUserOrderId($this->auth->user()->id, $order_id)->row()));
 		return;
+	}
+
+	public function changeDeliveryStatus()
+	{
+		if (!$this->input->is_ajax_request()) {
+			show_error("Anda tidak memiliki izin untuk mengakses sumber daya ini.", 403, "Akses Ditolak");
+		}
+
+		$this->auth->protect(1);
+
+		$id = $this->input->post('id');
+		$delivery_status = $this->input->post('delivery_status');
+		return $this->transactionService->changeDeliveryStatus($id, $delivery_status);
 	}
 
 }
