@@ -40,6 +40,11 @@
 			background-color: #82ae46 !important;
 			border-color: #82ae46 !important;
 		}
+
+		.btn-primary {
+			background-color: #006400 !important;
+			border-color: #006400 !important;
+		}
 	</style>
 	@yield('style')
 </head>
@@ -120,7 +125,7 @@
 			<div class="col-md-12 text-center">
 
 				<p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-					Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Made with <i class="icon-heart color-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Hilmi Dev</a>
+					Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Made with <i class="icon-heart color-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" style="color: #006400 !important;">Hilmi Dev</a>
 					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 				</p>
 			</div>

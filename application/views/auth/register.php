@@ -73,7 +73,7 @@
 						</div>
 					</form>
 					<div class="text-center">
-						<p>Sudah memiliki akun? <a href="<?= base_url('login') ?>">Login</a></p>
+						<p>Sudah memiliki akun? <a style="color: #006400 !important;" href="<?= base_url('login') ?>">Login</a></p>
 					</div>
 				</div>
 			</div>

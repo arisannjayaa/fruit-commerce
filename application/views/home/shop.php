@@ -9,6 +9,47 @@
     width: 100%;
     object-fit: cover;
 }
+
+.custom-checkbox .custom-control-input:checked~.custom-control-label::before{
+	background-color: #006400 !important;;
+}
+.custom-checkbox .custom-control-input:checked~.custom-control-label::after{
+	background-image:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='white' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3E%3C/svg%3E");
+	width: 25px !important;
+	height: 25px !important;
+	margin-top: -6px;
+	margin-left: -3px;
+}
+.custom-control-input:active~.custom-control-label::before{
+	background-color: #006400 !important;
+}
+
+.custom-checkbox .custom-control-label::before {
+	margin-top: -6px;
+	margin-left: -3px;
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+	color: #fff;
+	border-color: #006400 !important;;
+	background-color: #006400 !important;;
+}
+
+.custom-control-label {
+	font-size: 14px !important;
+	padding-left: 7px;
+}
+
+.custom-checkbox .custom-control-label::before {
+	border-radius: 0.25rem;
+	width: 25px !important;
+	height: 25px !important;
+}
+
+.custom-control {
+	padding-left: 30px;
+}
+
 </style>
 @endsection
 
@@ -57,15 +98,12 @@
                         @php
                         $ctgr = $this->input->get('category') ?? [];
                         @endphp
+
                         @foreach($categories as $category)
-                        <div class="form-check d-flex align-items-center mb-4" style="gap: 10px;">
-                            <input value="<?= $category->id ?>" name="category[]" class="form-check-input"
-                                style="position: relative !important; width: 25px; height: 25px;" type="checkbox"
-                                id="<?= $category->id ?>" <?= in_array($category->id, $ctgr) ? "checked" : "" ?>>
-                            <label class="form-check-label" for="<?= $category->id ?>>">
-                                <?= $category->name ?>
-                            </label>
-                        </div>
+						<div class="custom-control form-control-lg custom-checkbox">
+							<input value="<?= $category->id ?>" name="category[]" type="checkbox" class="custom-control-input" id="<?= $category->id ?>" <?= in_array($category->id, $ctgr) ? "checked" : "" ?>>
+							<label class="custom-control-label" for="<?= $category->id ?>"><?= $category->name ?></label>
+						</div>
                         @endforeach
                     </div>
                     <div>

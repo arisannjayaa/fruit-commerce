@@ -11,6 +11,11 @@
 	@include('components/home/css')
 	<!-- Helpers -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/yaza-putu/helpers@V2.0.4/libs/libs-core.min.css">
+	<style>
+		a {
+			color: #006400 !important;;
+		}
+	</style>
 </head>
 <body class="goto-here">
 <div class="container-fluid">
