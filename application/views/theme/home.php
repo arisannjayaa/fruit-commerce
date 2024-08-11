@@ -45,6 +45,11 @@
 			background-color: #006400 !important;
 			border-color: #006400 !important;
 		}
+
+		.heading-section .subheading {
+			color: #006400 !important;
+		}
+		
 	</style>
 	@yield('style')
 </head>
