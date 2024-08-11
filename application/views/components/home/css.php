@@ -17,3 +17,29 @@
 <link rel="stylesheet" href="<?= base_url('assets/home/') ?>css/icomoon.css">
 <link rel="stylesheet" href="<?= base_url('assets/home/') ?>css/style.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/yaza-putu/helpers@V2.0.4/libs/libs-core.min.css">
+<style>
+	.btn-primary {
+		background-color: #006400 !important;
+		border-color: #006400 !important;
+	}
+
+	.ftco-navbar-light.scrolled .nav-item.active > a {
+		color: #006400 !important;
+	}
+
+	.ftco-navbar-light.scrolled .nav-item.cta > a {
+		background-color: #006400 !important;
+	}
+
+	.ftco-navbar-light .navbar-brand {
+		color: #006400;
+	}
+
+	.ftco-category .category-wrap .text {
+		background-color: #006400 !important;
+	}
+
+	.mouse-icon {
+		background-color: #006400 !important;
+	}
+</style>
