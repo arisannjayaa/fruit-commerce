@@ -35,10 +35,7 @@
 					<div class="mb-3">
 						<label class="form-label">Deskripsi</label>
 						<div class="description">
-							<div id="editor">
-								<h2>Deskripsi produk</h2>
-								<p>Segar dan Sehat</p>
-							</div>
+							<div id="editor"></div>
 						</div>
 					</div>
 				</div>

@@ -34,15 +34,18 @@ $("#table").DataTable({
 });
 
 $('#btn-add').click(function () {
+	const defaultDescription = '<h2>Deskripsi produk</h2><p>Segar dan Sehat</p>';
 	$('#attachment , .dropify-wrapper').remove();
 	let html = `<input type="file" id="attachment" name="attachment" class="dropify" data-max-file-size="2M" data-allowed-file-extensions="jpg jpeg png" data-default-file='' />`;
 	$('.custom-file').append(html);
 	$('.dropify').dropify();
 
+	quill.setContents([]);
 	$("#form-product")[0].reset();
 	$("#modal-product").modal('show');
 
 	$('.modal-title').empty().append('Tambah Produk');
+	quill.root.innerHTML += defaultDescription;
 });
 
 resetValidationFile();
