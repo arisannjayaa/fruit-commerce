@@ -4,16 +4,16 @@
 
 @section('style')
 <style>
-.img-product {
-    height: 200px;
-    width: 100%;
-    object-fit: cover;
-}
+    .img-product {
+        height: 200px;
+        width: 100%;
+        object-fit: cover;
+    }
 </style>
 @endsection
 
 @section('content')
-<div class="hero-wrap hero-bread" style="background-image: url(<?= base_url('assets/home/') ?>images/j22.jpg);">
+<div class="hero-wrap hero-bread" style="background-image: url(<?= base_url('assets/home/') ?>images/Tentang_wr.jpg);">
     <div class="container">
         <div class="row no-gutters slider-text align-items-center justify-content-center">
             <div class="col-md-9 ftco-animate text-center">
@@ -29,12 +29,12 @@
     <div class="container">
         <div class="row">
             <div class="col-md-5 p-md-5 img img-2 d-flex justify-content-center align-items-center"
-                style="background-image: url(<?= base_url('assets/home/') ?>images/WA.jpeg);">
+                style="background-image: url(<?= base_url('assets/home/') ?>images/Tentang3.jpg);">
             </div>
             <div class="col-md-7 py-5 wrap-about pb-md-5 ftco-animate fadeInUp ftco-animated">
                 <div class="heading-section-bold mb-4 mt-md-5">
                     <div class="ml-md-0">
-                        <h2 class="mb-4">Welcome to bu Jem-jem eCommerce website</h2>
+                        <h2 class="mb-4">Selamat datang di Website e-Commerce Warung Bu Jem Jem </h2>
                     </div>
                 </div>
                 <div class="pb-md-5">

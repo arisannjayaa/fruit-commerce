@@ -21,7 +21,7 @@ $(document).on('click', '.cancel', function () {
 		beforeSend: function () {
 			$(".cancel").empty().append(loadingElement);
 		},
-		success: function(res) {
+		success: function (res) {
 			notifySuccess(res.message);
 			location.href = '';
 		},
@@ -46,7 +46,7 @@ $(document).on('click', '.detail', function () {
 	$.ajax({
 		url: url,
 		method: "GET",
-		success: function(res) {
+		success: function (res) {
 			let response = JSON.parse(res);
 			let products = JSON.parse(response.data.products);
 			let captureResponse = JSON.parse(response.data.capture_payment_response);
@@ -59,8 +59,8 @@ $(document).on('click', '.detail', function () {
 			$("#payment-type").html(paymentMethod(response.data.payment_type));
 			$("#delivery-status").html(response.data.delivery_status);
 			$("#date-transaction").html(convertDate(response.data.created_at));
-			$("#gross-amount").html(formatRupiah(response.data.gross_amount,"IDR", false));
-			$("#total-shop").html(formatRupiah(response.data.gross_amount,"IDR", false));
+			$("#gross-amount").html(formatRupiah(response.data.gross_amount, "IDR", false));
+			$("#total-shop").html(formatRupiah(response.data.gross_amount, "IDR", false));
 
 			let htmlFirst = `<div class="card mb-2">
 						<div class="card-body">
@@ -74,7 +74,7 @@ $(document).on('click', '.detail', function () {
 								</div>
 								<div class="d-flex flex-column align-items-lg-end align-items-start">
 									<span>Total Harga</span>
-									<span>${formatRupiah(products[0].price * products[0].quantity,"IDR", false)}</span>
+									<span>${formatRupiah(products[0].price * products[0].quantity, "IDR", false)}</span>
 								</div>
 							</div>
 						</div>
@@ -97,7 +97,7 @@ $(document).on('click', '.detail', function () {
 								</div>
 								<div class="d-flex flex-column align-items-lg-end align-items-start">
 									<span>Total Harga</span>
-									<span>${formatRupiah(item.price * item.quantity,"IDR", false)}</span>
+									<span>${formatRupiah(item.price * item.quantity, "IDR", false)}</span>
 								</div>
 							</div>
 						</div>
@@ -136,7 +136,7 @@ $(document).on('click', '.detail', function () {
 				$("#collapse-product").toggle();
 			});
 		},
-		error: function(jqXHR, textStatus, errorThrown) {
+		error: function (jqXHR, textStatus, errorThrown) {
 			$("#result").html("Terjadi kesalahan: " + textStatus);
 		}
 	});
@@ -155,13 +155,13 @@ function fetchTotalCart() {
 	$.ajax({
 		url: BASE_URL + 'all-cart',
 		method: "GET",
-		success: function(res) {
+		success: function (res) {
 			let response = JSON.parse(res);
 			let data = response.data;
 			countCart = data.length;
 			$(".cart-count").html(countCart);
 		},
-		error: function(jqXHR, textStatus, errorThrown) {
+		error: function (jqXHR, textStatus, errorThrown) {
 			alert('Server error');
 		}
 	});
