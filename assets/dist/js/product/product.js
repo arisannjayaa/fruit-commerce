@@ -45,7 +45,7 @@ $('#btn-add').click(function () {
 	$("#modal-product").modal('show');
 
 	$('.modal-title').empty().append('Tambah Produk');
-	quill.root.innerHTML += defaultDescription;
+	quill.root.innerHTML = defaultDescription;
 });
 
 resetValidationFile();
