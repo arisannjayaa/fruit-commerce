@@ -49,7 +49,7 @@
 		.heading-section .subheading {
 			color: #006400 !important;
 		}
-		
+
 	</style>
 	@yield('style')
 </head>
