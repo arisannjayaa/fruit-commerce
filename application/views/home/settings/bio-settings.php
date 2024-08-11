@@ -27,6 +27,15 @@
 		width: 200px !important;
 		padding: 10px 0 !important;
 	}
+
+	.ftco-section .nav-link.active {
+		color: #fff !important;
+		background-color: #006400 !important;;
+	}
+
+	.ftco-section .nav-link {
+		color: #006400 !important;;
+	}
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 @endsection

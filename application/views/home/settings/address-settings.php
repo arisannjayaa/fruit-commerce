@@ -16,12 +16,21 @@
 	}
 
 	.address.active {
-		border: 1px solid #82ae46 !important;
+		border: 1px solid #006400 !important;
 	}
 
 	 #map {
 		 height: 400px; /* Sesuaikan dengan ukuran peta yang diinginkan */
 	 }
+
+	 .ftco-section .nav-link.active {
+		 color: #fff !important;
+		 background-color: #006400 !important;;
+	 }
+
+	.ftco-section .nav-link {
+		color: #006400 !important;;
+	}
 </style>
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
