@@ -4,32 +4,32 @@
 
 @section('style')
 <style>
-.img-product {
-    height: 200px;
-    width: 100%;
-    object-fit: cover;
-}
+    .img-product {
+        height: 200px;
+        width: 100%;
+        object-fit: cover;
+    }
 
-.delivery-info {
-    margin-top: 20px;
-}
+    .delivery-info {
+        margin-top: 20px;
+    }
 
-.delivery-info .info-item .icon {
-    width: 40px;
-    height: 40px;
-}
+    .delivery-info .info-item .icon {
+        width: 40px;
+        height: 40px;
+    }
 
-.delivery-info .info-item h4 {
-    font-size: 18px;
-    margin-bottom: 5px;
-    font-weight: 700;
-}
+    .delivery-info .info-item h4 {
+        font-size: 18px;
+        margin-bottom: 5px;
+        font-weight: 700;
+    }
 
-.delivery-info .info-item p {
-    margin: 0;
-    font-size: 14px;
-    color: #666;
-}
+    .delivery-info .info-item p {
+        margin: 0;
+        font-size: 14px;
+        color: #666;
+    }
 </style>
 @endsection
 
@@ -190,7 +190,7 @@
                     <div class="category-wrap ftco-animate img d-flex align-items-end"
                         style="background-image: url(<?= base_url('assets/home/') ?>images/F&B.jpg);">
                         <div class="text px-3 py-1">
-                            <h2 class="mb-0"><a href="<?= base_url('shop?sort_by=popular&category%5B%5D=' . $category->id) ?>">{{ $category->name }}</a></h2>
+                            <h2 class="mb-0"><a href="#">{{ $category->name }}</a></h2>
                         </div>
                     </div>
                 </div>
@@ -251,9 +251,9 @@
 @endif
 @if(!$this->auth->user())
 <script>
-$(".item-product").on('click', '.add-cart', function() {
-    location.href = BASE_URL + 'login';
-});
+    $(".item-product").on('click', '.add-cart', function() {
+        location.href = BASE_URL + 'login';
+    });
 </script>
 @endif
 @endsection
