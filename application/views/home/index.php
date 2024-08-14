@@ -4,32 +4,32 @@
 
 @section('style')
 <style>
-    .img-product {
-        height: 200px;
-        width: 100%;
-        object-fit: cover;
-    }
+.img-product {
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
+}
 
-    .delivery-info {
-        margin-top: 20px;
-    }
+.delivery-info {
+    margin-top: 20px;
+}
 
-    .delivery-info .info-item .icon {
-        width: 40px;
-        height: 40px;
-    }
+.delivery-info .info-item .icon {
+    width: 40px;
+    height: 40px;
+}
 
-    .delivery-info .info-item h4 {
-        font-size: 18px;
-        margin-bottom: 5px;
-        font-weight: 700;
-    }
+.delivery-info .info-item h4 {
+    font-size: 18px;
+    margin-bottom: 5px;
+    font-weight: 700;
+}
 
-    .delivery-info .info-item p {
-        margin: 0;
-        font-size: 14px;
-        color: #666;
-    }
+.delivery-info .info-item p {
+    margin: 0;
+    font-size: 14px;
+    color: #666;
+}
 </style>
 @endsection
 
@@ -190,7 +190,8 @@
                     <div class="category-wrap ftco-animate img d-flex align-items-end"
                         style="background-image: url(<?= base_url('assets/home/') ?>images/F&B.jpg);">
                         <div class="text px-3 py-1">
-                            <h2 class="mb-0"><a href="#">{{ $category->name }}</a></h2>
+                            <h2 class="mb-0"><a
+                                    href="<?= base_url('shop?sort_by=popular&category%5B%5D=' . $category->id) ?>"">{{ $category->name }}</a></h2>
                         </div>
                     </div>
                 </div>
@@ -200,39 +201,42 @@
     </div>
 </section>
 
-<section class="ftco-section">
-    <div class="container">
-        <div class="row justify-content-center pb-3">
-            <div class="col-md-12 heading-section text-center ftco-animate">
-                <span class="subheading">Produk Pilihan</span>
-                <h2 class="mb-4">Produk kita</h2>
-                <p>Miliki buah dan sayur pilihan kami yang segar dan berkualitas tinggi, langsung dari kebun ke meja
-                    makan Anda.</p>
-            </div>
-        </div>
-    </div>
-    <div class="container">
-        <div class="row">
-            @if(count($products) > 0)
-            @foreach($products as $product)
-            <div class="col-md-6 col-lg-3 ftco-animate">
-                <div class="product item-product p-2" style="border-radius: 10px;">
-                    <div onclick="window.location.href='<?= base_url('shop/' . $product->slug) ?>'"
-                        style="cursor: pointer;">
-                        <img class="img-product mb-2" style="border-radius: 10px;"
-                            src="<?= base_url($product->attachment ?? 'assets/home/images/image_5.jpg') ?>" alt="">
-                        <div id="detail" class="p-1 mb-2">
-                            <h1 style="font-size: 16px; font-weight: 400;"><?= trimString($product->title, 25) ?></h1>
-                            <span style="font-size: 18px; font-weight: 600;"
-                                class="text-success"><?= formatToRupiah($product->price) ?></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @endforeach
-            @endif
-        </div>
-    </div>
+<section class=" ftco-section">
+                                    <div class="container">
+                                        <div class="row justify-content-center pb-3">
+                                            <div class="col-md-12 heading-section text-center ftco-animate">
+                                                <span class="subheading">Produk Pilihan</span>
+                                                <h2 class="mb-4">Produk kita</h2>
+                                                <p>Miliki buah dan sayur pilihan kami yang segar dan berkualitas tinggi,
+                                                    langsung dari kebun ke meja
+                                                    makan Anda.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="container">
+                                        <div class="row">
+                                            @if(count($products) > 0)
+                                            @foreach($products as $product)
+                                            <div class="col-md-6 col-lg-3 ftco-animate">
+                                                <div class="product item-product p-2" style="border-radius: 10px;">
+                                                    <div onclick="window.location.href='<?= base_url('shop/' . $product->slug) ?>'"
+                                                        style="cursor: pointer;">
+                                                        <img class="img-product mb-2" style="border-radius: 10px;"
+                                                            src="<?= base_url($product->attachment ?? 'assets/home/images/image_5.jpg') ?>"
+                                                            alt="">
+                                                        <div id="detail" class="p-1 mb-2">
+                                                            <h1 style="font-size: 16px; font-weight: 400;">
+                                                                <?= trimString($product->title, 25) ?></h1>
+                                                            <span style="font-size: 18px; font-weight: 600;"
+                                                                class="text-success"><?= formatToRupiah($product->price) ?></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @endforeach
+                                            @endif
+                                        </div>
+                                    </div>
 </section>
 @endsection
 
@@ -251,9 +255,9 @@
 @endif
 @if(!$this->auth->user())
 <script>
-    $(".item-product").on('click', '.add-cart', function() {
-        location.href = BASE_URL + 'login';
-    });
+$(".item-product").on('click', '.add-cart', function() {
+    location.href = BASE_URL + 'login';
+});
 </script>
 @endif
 @endsection
