@@ -58,6 +58,10 @@ class Migration_Product extends CI_Migration
 				'type'              => 'INT',
 				'constraint'        => 11
 			],
+			'is_variant' => [
+				'type'              => 'BOOLEAN',
+				'default' 			=> false
+			],
         ]);
 
         $this->dbforge->add_key('id', TRUE);
