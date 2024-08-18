@@ -59,12 +59,13 @@ class TransactionService extends MY_Service{
 
 				foreach ($products as $product) {
 					$findProduct = $this->Product->find($product->id);
-
+					$findVariant = $this->ProductVariant->find($product->variant_id);
 					$dataProduct = array(
 						'stock' => 	$findProduct->stock - $product->quantity,
 						'total_sold' => $findProduct->total_sold + $product->quantity,
 					);
 					$this->Product->update($product->id, $dataProduct);
+					$this->ProductVariant->update($product->variant_id, ['stock' => $findVariant->stock - $product->quantity]);
 				}
 			}
 			// cek transaski pending
@@ -259,6 +260,7 @@ class TransactionService extends MY_Service{
 
 	public function checkProduct($products)
 	{
+		dd($products);
 		foreach ($products as $product) {
 			$find = $this->Product->find($product->id);
 			if ($find->stock == 0) {

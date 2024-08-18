@@ -8,6 +8,7 @@ class HomeController extends CI_Controller {
         parent::__construct();
 		$this->load->model('Category');
 		$this->load->model('Product');
+		$this->load->model('ProductVariant');
 		$this->load->helper('custom');
     }
 
@@ -36,6 +37,8 @@ class HomeController extends CI_Controller {
 		if ($data['product'] == null) {
 			show_error("Sumber daya yang diminta tidak dapat ditemukan di server ini.", 404, "Produk Tidak Ditemukan");
 		}
+
+		$data['variants'] = $this->ProductVariant->findAllByProductId($data['product']->id);
 
 		return view('home/detail-product', $data);
 	}

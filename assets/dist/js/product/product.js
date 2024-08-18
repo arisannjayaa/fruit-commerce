@@ -33,6 +33,24 @@ $("#table").DataTable({
 	]
 });
 
+$('#is-variant').on('change', function() {
+	if($(this).is(':checked')) {
+		$("#price-wrapper").hide();
+		$("#stock-wrapper").hide();
+		$("#price").prop('readonly', true);
+		$("#stock").prop('readonly', true);
+		$("#price").val(0);
+		$("#stock").val(0);
+	} else {
+		$("#price-wrapper").show();
+		$("#stock-wrapper").show();
+		$("#price").prop('readonly', false);
+		$("#stock").prop('readonly', false);
+		$("#price").val();
+		$("#stock").val();
+	}
+});
+
 $('#btn-add').click(function () {
 	const defaultDescription = '<h2>Deskripsi produk</h2><p>Segar dan Sehat</p>';
 	$('#attachment , .dropify-wrapper').remove();
@@ -102,6 +120,13 @@ $("#table").on("click", ".edit", function () {
 		$("#price").val(formatRupiah(res.data.price, "IDR"));
 		$("#stock").val(res.data.stock);
 		$("#category-id").val(res.data.category_id);
+
+		if (res.data.is_variant == 1) {
+			$("#is-variant").prop('checked', true).trigger('change');
+		} else {
+			$("#is-variant").prop('checked', false).trigger('change');
+		}
+
 		$(".ql-editor").empty().append(res.data.description);
 
 		$('#attachment , .dropify-wrapper').remove();

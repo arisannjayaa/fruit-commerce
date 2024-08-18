@@ -7,6 +7,7 @@ class ProductVariantController extends CI_Controller {
     {
         parent::__construct();
 		$this->load->model('Product');
+		$this->load->model('ProductVariant');
 		$this->load->helper('custom');
 		$this->load->service('ProductVariantService', 'productVariantService');
     }
@@ -18,7 +19,7 @@ class ProductVariantController extends CI_Controller {
 		}
 
 		$this->auth->protect(1);
-		$data['products'] = $this->Product->all();
+		$data['products'] = $this->Product->findAllByIsVariant(1);
 		return view('product-variant/index', $data);
     }
 
@@ -47,12 +48,6 @@ class ProductVariantController extends CI_Controller {
 
 		$this->rules();
 
-		if (empty($_FILES['attachment']['name'])) {
-			$this->form_validation->set_rules('attachment', 'Lampiran', 'required', array(
-				'required' => '%s tidak boleh kosong.',
-			));
-		}
-
 		if ($this->form_validation->run() == FALSE) {
 			$this->output->set_status_header(400);
 			$errors = $this->form_validation->error_array();
@@ -65,40 +60,12 @@ class ProductVariantController extends CI_Controller {
 			echo json_encode(array('errors' => $errorObj));
 			return;
 		}
-		$path 		= 'uploads/products/';
-
-		if (!is_dir($path)) {
-			mkdir($path, 0777, TRUE);
-		}
-
-		$config['upload_path'] 		= './'.$path;
-		$config['allowed_types'] 	= 'jpg|png';
-		$config['max_filename']	 	= '255';
-		$config['encrypt_name'] 	= TRUE;
-		$config['max_size'] 		= 1024;
-		$this->load->library('upload', $config);
-
-		if (!$this->upload->do_upload("attachment")) {
-			$this->output->set_status_header(400);
-
-			echo json_encode(array('attachment' => "Terjadi error saat upload file"));
-			return;
-		}
-
-		$file_data 	= $this->upload->data();
-		$file_name 	= $path.$file_data['file_name'];
-		$arr_file 	= explode('.', $file_name);
-		$extension 	= end($arr_file);
 
 		$data = array(
-			'title' => $this->input->post('title'),
+			'name' => $this->input->post('name'),
 			'price' => $this->input->post('price'),
-			'attachment' => $file_name,
-			'description' => $this->input->post('description'),
 			'stock' => $this->input->post('stock'),
-			'slug' => slug($this->input->post('title')),
-			'created_by' => $this->auth->user()->id,
-			'category_id' => $this->input->post('category_id'),
+			'product_id' => $this->input->post('product_id'),
 		);
 
 		return $this->productVariantService->create($data);
@@ -118,7 +85,17 @@ class ProductVariantController extends CI_Controller {
 		$this->auth->protect(1);
 
 		$this->output->set_status_header(200);
-		echo json_encode(array('success' => true, 'code' => 200, 'data' => $this->Product->find($id)));
+		echo json_encode(array('success' => true, 'code' => 200, 'data' => $this->ProductVariant->find($id)));
+	}
+
+	public function find($id)
+	{
+		if (!$this->input->is_ajax_request()) {
+			show_error("Anda tidak memiliki izin untuk mengakses sumber daya ini.", 403, "Akses Ditolak");
+		}
+
+		$this->output->set_status_header(200);
+		echo json_encode(array('success' => true, 'code' => 200, 'data' => $this->ProductVariant->find($id)));
 	}
 
 	/**
@@ -132,16 +109,6 @@ class ProductVariantController extends CI_Controller {
 		}
 
 		$this->auth->protect(1);
-
-		if ($this->input->post('attachment') == null || $this->input->post('attachment') == "") {
-			if (empty($_FILES['attachment']['name'])) {
-				$this->form_validation->set_rules('attachment', 'Lampiran', 'required', array(
-					'required' => '%s tidak boleh kosong.',
-				));
-			}
-		}
-
-		$old_attachment = $this->input->post('old_attachment');
 
 		$this->rules($this->input->post('id'));
 
@@ -158,49 +125,12 @@ class ProductVariantController extends CI_Controller {
 			return;
 		}
 
-		if (@$_FILES['attachment']['name']) {
-			$path = 'uploads/products/';
-
-			if (!is_dir($path)) {
-				mkdir($path, 0777, TRUE);
-			}
-
-			$config['upload_path'] 		= './'.$path;
-			$config['allowed_types'] 	= 'jpg|jpeg|png';
-			$config['max_filename']	 	= '255';
-			$config['encrypt_name'] 	= TRUE;
-			$config['max_size'] 		= 2024;
-			$this->load->library('upload', $config);
-
-			if (!$this->upload->do_upload("attachment")) {
-				$this->output->set_status_header(400);
-
-				echo json_encode(array('attachment' => "Terjadi error saat upload file"));
-				return;
-			}
-
-			$file_data 	= $this->upload->data();
-			$file_name 	= $path.$file_data['file_name'];
-			$arr_file 	= explode('.', $file_name);
-			$extension 	= end($arr_file);
-
-			if(file_exists('./' . $old_attachment)) {
-				unlink('./'.$old_attachment);
-			}
-		} else {
-			$file_name = $old_attachment;
-		}
-
 		$data = array(
 			'id' => $this->input->post('id'),
-			'title' => $this->input->post('title'),
+			'name' => $this->input->post('name'),
 			'price' => $this->input->post('price'),
-			'attachment' => $file_name,
-			'description' => $this->input->post('description'),
 			'stock' => $this->input->post('stock'),
-			'slug' => slug($this->input->post('title')),
-			'created_by' => $this->auth->user()->id,
-			'category_id' => $this->input->post('category_id'),
+			'product_id' => $this->input->post('product_id'),
 			'updated_at' => date('Y-m-d H:i:s'),
 		);
 
@@ -226,17 +156,19 @@ class ProductVariantController extends CI_Controller {
 	public function rules($id = null)
 	{
 		$rules = array(
-			'title' => $id == null ? 'required|is_unique[products.title]' : 'required|edit_unique[products.title.'.$id.']',
+			'name' => $id == null ? 'required|is_unique[product_variants.name]' : 'required|edit_unique[product_variants.name.'.$id.']',
+			'product_id' => $id == null ? 'required' : '',
 		);
 
-		$this->form_validation->set_rules('title', 'Judul', $rules['title'], array(
+		$this->form_validation->set_rules('name', 'Nama', $rules['name'], array(
 			'required' => '%s tidak boleh kosong',
 			'is_unique' => '%s harus berisi nilai unik',
 			'edit_unique' => '%s harus berisi nilai unik'
 		));
-		$this->form_validation->set_rules('category_id', 'Kategori', 'required', array(
+		$this->form_validation->set_rules('product_id', 'Produk', $rules['product_id'], array(
 			'required' => '%s tidak boleh kosong'
 		));
+
 		$this->form_validation->set_rules('stock', 'Stok', 'required|numeric', array(
 			'required' => '%s tidak boleh kosong',
 			'numeric' => '%s harus berupa angka',

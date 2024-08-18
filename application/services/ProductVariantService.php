@@ -4,6 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class ProductVariantService extends MY_Service{
 	public function __construct() {
 		$this->load->model('ProductVariant');
+		$this->load->model('Product');
 	}
 
 	public function table()
@@ -27,8 +28,10 @@ class ProductVariantService extends MY_Service{
 	{
 		try {
 			$this->output->set_status_header(200);
+
 			$this->ProductVariant->create($data);
-			echo json_encode(array('status' => "OK", 'code' => 200, 'message' => "Data produk berhasil ditambahkan"));
+			$this->changeDataProduct($data, true);
+			echo json_encode(array('status' => "OK", 'code' => 200, 'message' => "Data varian produk berhasil ditambahkan"));
 			return;
 		} catch (Exception $exception) {
 			show_error('Terjadi kesalahan', 500);
@@ -42,7 +45,8 @@ class ProductVariantService extends MY_Service{
 			unset($data['id']);
 			$this->output->set_status_header(200);
 			$this->ProductVariant->update($id, $data);
-			echo json_encode(array('status' => "OK", 'code' => 200, 'message' => "Data produk berhasil diupdate"));
+			$this->changeDataProduct($data, false);
+			echo json_encode(array('status' => "OK", 'code' => 200, 'message' => "Data varian produk berhasil diupdate"));
 		} catch (Exception $exception) {
 			show_error('Terjadi kesalahan', 500);
 		}
@@ -51,31 +55,43 @@ class ProductVariantService extends MY_Service{
 	public function delete($id)
 	{
 		try {
-			$product = $this->ProductVariant->find($id);
-
-			if ($product) {
-				$this->ProductVariant->delete($product->id);
-
-				if(file_exists('./' . $product->attachment)) {
-					unlink('./'.$product->attachment);
-				}
-			}
-
+			$productVariant = $this->ProductVariant->find($id);
+			$this->ProductVariant->delete($productVariant->id);
+			$this->changeDataProduct(get_object_vars($productVariant), false);
 			$this->output->set_status_header(200);
-			echo json_encode(array('success' => true, 'code' => 200, 'message' => "Data produk berhasil dihapus"));
+			echo json_encode(array('success' => true, 'code' => 200, 'message' => "Data varian produk berhasil dihapus"));
 		} catch (Exception $exception) {
 			show_error('Terjadi kesalahan', 500);
 		}
 	}
 
-	public function checkStock($products)
+	public function changeDataProduct($data_product, $is_created = true)
 	{
-		foreach ($products as $product) {
-			if ($product->stock == 0) {
-				return false;
-			}
-		}
+		try {
+			if ($is_created) {
+				$product = $this->Product->find($data_product['product_id']);
+				$data['price'] = $data_product['price'];
+				$data['stock'] = $product->stock + $data_product['stock'];
+			} else {
+				$productVariant = $this->ProductVariant->findAllByProductId($data_product['product_id']);
+				$totalStock = 0;
 
-		return true;
+				foreach ($productVariant as $variant) {
+					$totalStock += $variant->stock;
+				}
+
+
+				$data['price'] = $data_product['price'];
+				$data['stock'] = $totalStock;
+
+				if (count($productVariant) == 0 ) {
+					$data['price'] = 0;
+				}
+			}
+
+			$this->Product->update($data_product['product_id'], $data);
+		} catch (Exception $exception) {
+			show_error('Terjadi kesalahan', 500);
+		}
 	}
 }

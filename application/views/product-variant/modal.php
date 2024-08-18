@@ -10,7 +10,7 @@
 					<input type="hidden" name="id" id="id" value="">
 					<div class="mb-3">
 						<label class="form-label">Produk</label>
-						<select name="category_id" id="category-id" class="form-control">
+						<select name="product_id" id="product-id" class="form-control">
 							<option value="">Pilih produk</option>
 							@foreach($products as $product)
 							<option value="{{ $product->id }}">{{ $product->title }}</option>
@@ -19,7 +19,7 @@
 					</div>
 					<div class="mb-3">
 						<label class="form-label">Nama</label>
-						<input id="title" type="text" class="form-control" name="name" placeholder="Nama">
+						<input id="name" type="text" class="form-control" name="name" placeholder="Nama">
 					</div>
 					<div class="mb-3">
 						<label class="form-label">Stok</label>

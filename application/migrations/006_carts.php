@@ -33,6 +33,7 @@ class Migration_Carts extends CI_Migration
 				'type'              => 'INT',
 				'constraint'        => 11,
 				'unsigned'          => TRUE,
+				'null'				=> true
 			],
 			'quantity' => [
 				'type'              => 'INT',

@@ -90,6 +90,12 @@ class ProductController extends CI_Controller {
 		$arr_file 	= explode('.', $file_name);
 		$extension 	= end($arr_file);
 
+		if (@$this->input->post('is_variant')) {
+			$isVariant = 1;
+		} else {
+			$isVariant = 0;
+		}
+
 		$data = array(
 			'title' => $this->input->post('title'),
 			'price' => $this->input->post('price'),
@@ -99,6 +105,7 @@ class ProductController extends CI_Controller {
 			'slug' => slug($this->input->post('title')),
 			'created_by' => $this->auth->user()->id,
 			'category_id' => $this->input->post('category_id'),
+			'is_variant' => $isVariant,
 		);
 
 		return $this->productService->create($data);
@@ -191,6 +198,12 @@ class ProductController extends CI_Controller {
 			$file_name = $old_attachment;
 		}
 
+		if (@$this->input->post('is_variant')) {
+			$isVariant = 1;
+		} else {
+			$isVariant = 0;
+		}
+
 		$data = array(
 			'id' => $this->input->post('id'),
 			'title' => $this->input->post('title'),
@@ -200,6 +213,7 @@ class ProductController extends CI_Controller {
 			'stock' => $this->input->post('stock'),
 			'slug' => slug($this->input->post('title')),
 			'created_by' => $this->auth->user()->id,
+			'is_variant' => $isVariant,
 			'category_id' => $this->input->post('category_id'),
 			'updated_at' => date('Y-m-d H:i:s'),
 		);

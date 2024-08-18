@@ -17,6 +17,12 @@ class ProductVariant extends CI_Model
         return $builder->get()->result();
     }
 
+	public function findAllByProductId($product_id)
+	{
+		$query = $this->db->get_where($this->table, ['product_id' => $product_id]);
+		return $query->result();
+	}
+
     public function find($id)
     {
         $query = $this->db->get_where($this->table, ['id' => $id]);
@@ -47,7 +53,7 @@ class ProductVariant extends CI_Model
 		if($keyword) {
 			$arrKeyword = explode(" ", $keyword);
 			for ($i=0; $i < count($arrKeyword); $i++) {
-				$builder = $builder->or_like('title', $arrKeyword[$i]);
+				$builder = $builder->or_like('name', $arrKeyword[$i]);
 			}
 		}
 
@@ -64,91 +70,6 @@ class ProductVariant extends CI_Model
 	{
 		$query = $this->db->select("*")->from($this->table);
 		return $query->limit($limit)->get()->result();
-	}
-
-	public function findByCategoryId($category_id)
-	{
-		$query = $this->db->select("*")->from($this->table);
-
-		if ($category_id == "") {
-			return $query->get()->result();
-		}
-
-		$query->where('category_id', $category_id);
-		return $query->get()->result();
-	}
-
-	public function findBySlug($slug)
-	{
-		$query = $this->db->select("*")->from($this->table);
-		$query->where('slug', $slug);
-		return $query->get()->row();
-	}
-
-	public function paginate($limit = null, $offset = null)
-	{
-		if (!$limit && !$offset) {
-			$query = $this->db
-				->select("*")
-				->from($this->table)
-				->order_by('created_at', 'desc');
-		} else {
-			$query = $this->db
-				->select("*")
-				->from($this->table)
-				->order_by('created_at', 'desc')
-				->limit($limit)
-				->offset($offset)
-				->order_by('created_at', 'desc');
-		}
-
-		return $query->get();
-	}
-
-	public function filter($data = null)
-	{
-		if ($data == null) {
-			$query = $this->db
-				->select("*")
-				->from($this->table)
-				->order_by('total_sold', 'desc');
-		}
-
-		if ($data) {
-			$query = $this->db
-				->select("*")
-				->from($this->table);
-			if (@$data['category']) {
-				$query = $query
-					->where_in('category_id', $data['category']);
-			}
-
-			if ($data['sort_by']) {
-				if ($data['sort_by'] == "popular") {
-					$query = $query->order_by('total_sold', 'desc');
-				}
-				if ($data['sort_by'] == "title_asc") {
-					$query = $query->order_by('title', 'asc');
-				}
-				if ($data['sort_by'] == "title_desc") {
-					$query = $query->order_by('title', 'desc');
-				}
-				if ($data['sort_by'] == "price_asc") {
-					$query = $query->order_by('price', 'asc');
-				}
-				if ($data['sort_by'] == "price_desc") {
-					$query = $query->order_by('price', 'desc');
-				}
-				if ($data['sort_by'] == "created_desc") {
-					$query = $query->order_by('created_at', 'desc');
-				}
-				if ($data['sort_by'] == "created_asc") {
-					$query = $query->order_by('created_at', 'asc');
-				}
-			}
-		}
-
-		return $query->get();
 	}
 }
 

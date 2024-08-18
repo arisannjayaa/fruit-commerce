@@ -95,6 +95,7 @@ $("#table").on("change", ".change-delivery-status", function () {
 $("#table").on("click", ".detail", function () {
 	let id = $(this).data("id");
 	let url = $("#detail-url").val();
+	let gmapsUrl = "https://www.google.com/maps?q=";
 	url = url.replace(":id", id);
 
 	ajaxGet(url).done(function (res) {

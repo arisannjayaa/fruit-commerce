@@ -15,9 +15,7 @@ $("#table").DataTable({
 				return meta.row + meta.settings._iDisplayStart + 1;
 			}
 		},
-		{ data: 'name', name: 'name', className: 'text-nowrap', render: function (data, type, row, meta) {
-				return `<div><img class="img-fluid me-3" width="50" src="${BASE_URL + row.attachment}" alt=""><span>${row.title}</span></div>`
-			}},
+		{ data: 'name', name: 'name', className: 'text-nowrap'},
 		{ data: 'stock', name: 'stock', className: 'text-nowrap', orderable: false, searchable: false, render: function (data) {
 				return `<span class="badge bg-success">${data}</span>`
 			}},
@@ -34,6 +32,7 @@ $("#table").DataTable({
 });
 
 $('#btn-add').click(function () {
+	$("#product-id").prop('disabled', false);
 	$("#form-product-variant")[0].reset();
 	$("#modal-product-variant").modal('show');
 
@@ -44,9 +43,7 @@ $("#form-product-variant").submit(function (e) {
 	e.preventDefault();
 
 	let id = $("#id").val();
-	let description = quill.getSemanticHTML();
 	let formData = new FormData(this);
-	formData.append('description', description);
 	formData.set('price', reverseFormatRupiah($("#price").val()));
 	let btn = "#btn-submit";
 	let table = "#table";
@@ -54,6 +51,7 @@ $("#form-product-variant").submit(function (e) {
 	let modal = "#modal-product-variant";
 
 	if (id !== "") {
+		formData.append("product_id", $("#product-id").val());
 		var url = $("#update-url").val();
 	} else {
 		var url = $("#create-url").val();
@@ -79,7 +77,8 @@ $("#table").on("click", ".edit", function () {
 		$("#name").val(res.data.name);
 		$("#price").val(formatRupiah(res.data.price, "IDR"));
 		$("#stock").val(res.data.stock);
-		$("#category-id").val(res.data.category_id);
+		$("#product-id").val(res.data.product_id);
+		$("#product-id").prop('disabled', true);
 
 		$("#modal-product-variant").modal("show");
 	});

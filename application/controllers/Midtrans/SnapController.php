@@ -40,17 +40,19 @@ class SnapController extends CI_Controller {
 		foreach ($data as $item) {
 			$arrProduct[] = [
 				'id' => $item->product_id,
-				'price' => $item->price,
+				'price' => ($item->is_variant == 1 ? $item->variant_price : $item->price),
 				'quantity' => $item->quantity,
-				'name' => $item->title,
+				'name' => $item->title . ($item->is_variant == 1 ? ' - ' . $item->variant_name : ''),
 				'user_id' => $item->user_id,
+				'variant_id' => $item->variant_id,
 				'description' => $item->description,
 				'attachment' => $item->attachment,
 			];
-			array_push($arrSubTotal, $item->price * $item->quantity);
+			array_push($arrSubTotal, ($item->is_variant == 1 ? $item->variant_price : $item->price) * $item->quantity);
 		}
 
 		$grossAmount = array_sum($arrSubTotal);
+
 
 		// Required
 		$transaction_details = array(
@@ -90,6 +92,8 @@ class SnapController extends CI_Controller {
 		  'email'         => $this->auth->user()->email,
 		  'phone'         => $this->auth->user()->telephone,
 		  'shipping_address'=> $shipping_address,
+		  'latitude' => $address->latitude,
+		  'longitude' => $address->longitude,
 		);
 
 		// Data yang akan dikirim untuk request redirect_url.
