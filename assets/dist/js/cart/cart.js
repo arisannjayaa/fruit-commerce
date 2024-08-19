@@ -7,16 +7,6 @@ let loadingElement = `<div class="d-flex justify-content-center">
 							  </div>`;
 fetchCart();
 
-$(document).on('click', '.product-variant-id', function () {
-	let idProductVariant = $(this).val();
-	let url = BASE_URL + 'product-variant/' + idProductVariant;
-	$("#price").html(loadingElement);
-	ajaxGet(url).done(function (res) {
-		$("#price").html(formatRupiah(res.data.price, "IDR"));
-		$("#stock").html("Stok "+res.data.stock);
-	});
-})
-
 $(document).on('click', '.product-remove', function () {
 	let id = $(this).data("id");
 	let url = $("#delete-item-cart-url").val();
@@ -171,8 +161,7 @@ function fetchCart() {
 
 		data.forEach(function (item) {
 			let attachment = item.attachment != null ? BASE_URL + item.attachment : BASE_URL + 'assets/home/images/image_5.jpg';
-
-			if (item.stock > 0) {
+			if ((item.is_variant == 1 ? item.variant_stock : item.stock) > 0) {
 				html += `<div id="product" class="mb-3">
 					<div class="card">
 						<div class="card-body">

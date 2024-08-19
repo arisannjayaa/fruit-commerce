@@ -18,13 +18,12 @@ class InvoiceController extends CI_Controller {
 			show_error("Sumber daya yang diminta tidak dapat ditemukan di server ini.", 404, "Halaman Tidak Ditemukan");
 		}
 
-
 		$data['transaction'] = $transaction;
 
+//		dd($data['transaction']);
 		if ($this->auth->isMember()) {
 			return view('invoice/outcoming', $data);
 		}
-
 		return view('invoice/incoming', $data);
 	}
 }

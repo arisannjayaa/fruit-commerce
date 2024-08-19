@@ -47,6 +47,7 @@ class SnapController extends CI_Controller {
 				'variant_id' => $item->variant_id,
 				'description' => $item->description,
 				'attachment' => $item->attachment,
+				'is_variant' => $item->is_variant
 			];
 			array_push($arrSubTotal, ($item->is_variant == 1 ? $item->variant_price : $item->price) * $item->quantity);
 		}

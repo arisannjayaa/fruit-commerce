@@ -5,6 +5,7 @@ class TransactionService extends MY_Service{
 	public function __construct() {
 		$this->load->model('Cart');
 		$this->load->model('Product');
+		$this->load->model('ProductVariant');
 		$this->load->model('Transaction');
 		$this->load->helper('custom');
 		$this->load->model('Notification');
@@ -260,7 +261,7 @@ class TransactionService extends MY_Service{
 
 	public function checkProduct($products)
 	{
-		dd($products);
+
 		foreach ($products as $product) {
 			$find = $this->Product->find($product->id);
 			if ($find->stock == 0) {

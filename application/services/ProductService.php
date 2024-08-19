@@ -40,6 +40,12 @@ class ProductService extends MY_Service{
 		try {
 			$id = $data['id'];
 			unset($data['id']);
+
+			if ($data['is_variant'] == 1) {
+				unset($data['stock']);
+				unset($data['price']);
+			}
+
 			$this->output->set_status_header(200);
 			$this->Product->update($id, $data);
 			echo json_encode(array('status' => "OK", 'code' => 200, 'message' => "Data produk berhasil diupdate"));
@@ -71,7 +77,8 @@ class ProductService extends MY_Service{
 	public function checkStock($products)
 	{
 		foreach ($products as $product) {
-			if ($product->stock == 0) {
+
+			if (($product->stock) == 0) {
 				return false;
 			}
 		}

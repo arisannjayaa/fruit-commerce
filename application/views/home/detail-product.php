@@ -119,4 +119,19 @@
 	});
 </script>
 @endif
+<script>
+	$(document).on('click', '.product-variant-id', function () {
+		let idProductVariant = $(this).val();
+		let url = BASE_URL + 'product-variant/' + idProductVariant;
+		$("#price").html(`<div class="d-flex">
+								  <div class="spinner-border" role="status" style="color: #82ae46;">
+									<span class="sr-only">Loading...</span>
+								  </div>
+							  </div>`);
+		ajaxGet(url).done(function (res) {
+			$("#price").html(formatRupiah(res.data.price, "IDR"));
+			$("#stock").html("Stok "+res.data.stock);
+		});
+	});
+</script>
 @endsection
