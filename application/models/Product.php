@@ -19,6 +19,28 @@ class Product extends CI_Model
 
     public function find($id)
     {
+//		$select = "c.*,
+//				p.title,
+//				p.attachment,
+//				p.slug,
+//				p.description,
+//				p.stock,
+//				p.price,
+//				p.is_variant,
+//				pv.id as variant_id,
+//				pv.stock as variant_stock,
+//				pv.price as variant_price,
+//				pv.name as variant_name";
+//
+//		$builder = $this->db
+//			->select($select)
+//			->from('carts c')
+//			->join('products p', 'p.id = c.product_id', 'left')
+//			->join('product_variants pv', 'pv.id = c.product_variant_id', 'left')
+//			->where('c.user_id', $user_id);
+//
+//		return $builder->get();
+		
         $query = $this->db->get_where($this->table, ['id' => $id]);
         return $query->row();
     }
@@ -83,6 +105,13 @@ class Product extends CI_Model
 		$query = $this->db->select("*")->from($this->table);
 		$query->where('slug', $slug);
 		return $query->get()->row();
+	}
+
+	public function findAllByIsVariant($is_variant)
+	{
+		$query = $this->db->select("*")->from($this->table);
+		$query->where('is_variant', 1);
+		return $query->get()->result();
 	}
 
 	public function paginate($limit = null, $offset = null)

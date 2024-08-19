@@ -40,17 +40,20 @@ class SnapController extends CI_Controller {
 		foreach ($data as $item) {
 			$arrProduct[] = [
 				'id' => $item->product_id,
-				'price' => $item->price,
+				'price' => ($item->is_variant == 1 ? $item->variant_price : $item->price),
 				'quantity' => $item->quantity,
-				'name' => $item->title,
+				'name' => $item->title . ($item->is_variant == 1 ? ' - ' . $item->variant_name : ''),
 				'user_id' => $item->user_id,
+				'variant_id' => $item->variant_id,
 				'description' => $item->description,
 				'attachment' => $item->attachment,
+				'is_variant' => $item->is_variant
 			];
-			array_push($arrSubTotal, $item->price * $item->quantity);
+			array_push($arrSubTotal, ($item->is_variant == 1 ? $item->variant_price : $item->price) * $item->quantity);
 		}
 
 		$grossAmount = array_sum($arrSubTotal);
+
 
 		// Required
 		$transaction_details = array(
@@ -90,6 +93,8 @@ class SnapController extends CI_Controller {
 		  'email'         => $this->auth->user()->email,
 		  'phone'         => $this->auth->user()->telephone,
 		  'shipping_address'=> $shipping_address,
+		  'latitude' => $address->latitude,
+		  'longitude' => $address->longitude,
 		);
 
 		// Data yang akan dikirim untuk request redirect_url.
@@ -139,10 +144,10 @@ class SnapController extends CI_Controller {
 			'order_id' => $result->order_id,
 			'products' => $products,
 			'gross_amount' => $result->gross_amount,
-			'status_code' => $result->status_code,
+			'status_code' => "201",
 			'payment_type' => $result->payment_type,
 			'bank' => $result->va_numbers[0]->bank ?? null,
-			'transaction_status' => $result->transaction_status,
+			'transaction_status' => "pending",
 			'delivery_status' => "Menunggu Konfirmasi",
 			'capture_payment_request' => $captureRequest,
 			'capture_payment_response' => $captureResponse,

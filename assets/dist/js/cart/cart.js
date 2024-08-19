@@ -74,7 +74,19 @@ $(document).on("click", ".btn-decrease", function () {
 
 $(".item-product").on('click', '.add-cart', function (){
 	let productId = $(this).data("id");
+	let isVariant = $("#is-variant").val();
 	let formData = new FormData();
+	let productVariantId = $('input[name="product_variant_id"]:checked').val();
+
+	if (isVariant == 1) {
+		if(productVariantId){
+			formData.append("product_variant_id", productVariantId)
+		} else {
+			sweetError("Pilih Varian Produk Terlebih Dahulu");
+			return;
+		}
+	}
+
 	let url = $("#create-url").val()
 	formData.append("product_id", productId)
 	formData.append("user_id", userId)
@@ -120,6 +132,7 @@ function fetchCart() {
 		let html = '';
 		let productSold = '';
 		data = res.data;
+		console.log(data);
 
 		$("#product-container").html(loadingElement);
 
@@ -146,12 +159,9 @@ function fetchCart() {
 				</div>`;
 		}
 
-		console.log(data);
-
 		data.forEach(function (item) {
 			let attachment = item.attachment != null ? BASE_URL + item.attachment : BASE_URL + 'assets/home/images/image_5.jpg';
-
-			if (item.stock > 0) {
+			if ((item.is_variant == 1 ? item.variant_stock : item.stock) > 0) {
 				html += `<div id="product" class="mb-3">
 					<div class="card">
 						<div class="card-body">
@@ -159,9 +169,9 @@ function fetchCart() {
 								<img width="80" height="80" style="object-fit: cover; border-radius: 7px" src="${attachment}" alt="">
 								<div class="d-flex flex-column justify-content-between flex-grow-1 flex-shrink-1">
 									<div class="d-flex justify-content-between flex-grow-1 flex-shrink-1">
-										<a href="#" class="product-name">${item.title}</a>
-										<span data-price="${item.price}" class="price">${ formatRupiah(item.price, "IDR", false) }</span>
-										<input type="hidden" id="total" value="${item.quantity * item.price}">
+										<a href="#" class="product-name">${item.title + (item.variant_name ? " - " + item.variant_name : "")}</a>
+										<span data-price="${item.is_variant == 1 ? item.variant_price : item.price}" class="price">${ formatRupiah(item.is_variant == 1 ? item.variant_price : item.price, "IDR", false) }</span>
+										<input type="hidden" id="total" value="${item.quantity * (item.is_variant == 1 ? item.variant_price : item.price)}">
 									</div>
 									<div class="d-flex justify-content-end flex-grow-1 flex-shrink-1 align-items-center" style="gap: 10px">
 										<button data-id="${item.id}" id="btn-remove" class="btn btn-trash product-remove" style="height: 30px !important;"><i class="ion-ios-trash"></i></button>
@@ -169,7 +179,7 @@ function fetchCart() {
 											<button data-id="${item.id}" class="btn btn-decrease" style="height: 30px !important;">
 												<i class="ion-ios-remove"></i>
 											</button>
-											<input data-id="${item.id}" class="quantity" id="quantity" name="quantity" type="number" style="border: none; outline: none; background-color: transparent; appearance: textfield; text-align: center; width: 50px" min="1" max="${item.stock}" step="1" value="${item.quantity}">
+											<input data-id="${item.id}" class="quantity" id="quantity" name="quantity" type="number" style="border: none; outline: none; background-color: transparent; appearance: textfield; text-align: center; width: 50px" min="1" max="${item.is_variant == 1 ? item.variant_stock : item.stock}" step="1" value="${item.quantity}">
 											<button data-id="${item.id}" class="btn btn-increase" style="height: 30px !important;">
 												<i class="ion-ios-add"></i>
 											</button>

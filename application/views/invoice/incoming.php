@@ -102,7 +102,7 @@
 								<td class="text-center">{{ $index }}</td>
 								<td>
 									<p class="strong mb-1">{{ $product->name }}</p>
-									<div class="text-secondary">{{ trimString($product->description, 100) }}</div>
+									<div class="text-secondary">{{ strip_tags(trimString($product->description, 150)) }}</div>
 								</td>
 								<td class="text-center">
 									{{ $product->quantity }}

@@ -18,6 +18,30 @@
 	.btn-primary {
 		color: #fff !important;
 	}
+
+	.hidden-radio {
+		position: absolute;
+		opacity: 0;
+		width: 0;
+		height: 0;
+	}
+
+	/* Gaya label sebagai alternatif radio button */
+	.radio-label {
+		display: inline-block;
+		padding: 10px;
+		margin: 5px;
+		border: 2px solid #ccc;
+		border-radius: 5px;
+		cursor: pointer;
+	}
+
+	/* Gaya label ketika radio button terpilih */
+	.hidden-radio:checked + .radio-label {
+		color: white;
+		background-color: #006400 !important;
+		border-color: #006400 !important;
+	}
 </style>
 @endsection
 
@@ -48,15 +72,25 @@
 				<div class="rating d-flex">
 					<p class="text-left">
 						<a href="javascript:void()" class="mr-2" style="color: #000;"><span
-								style="color: #bbb;">{{ "Stok " . $product->stock }}</span></a>
+								style="color: #bbb;" id="stock"	>{{ "Stok " . $product->stock }}</span></a>
 						<a href="javascript:void()" class="mr-2" style="color: #000;"><span
 								style="color: #bbb;">{{ "Terjual " . $product->total_sold }}</span></a>
 					</p>
 				</div>
-				<p class="price"><span>{{ formatToRupiah($product->price) }}</span></p>
+
+				@if(count($variants) > 0)
+				<div>
+					@foreach($variants as $variant)
+					<input <?= $variant->stock == 0 ? 'disabled' : '' ?> type="radio" id="variant_id_<?= $variant->id ?>" name="product_variant_id" value="<?= $variant->id ?>" class="hidden-radio product-variant-id">
+					<label for="variant_id_<?= $variant->id ?>" class="radio-label"><?= $variant->name ?></label>
+					@endforeach
+				</div>
+				@endif
+				<p class="price"><span id="price">{{ formatToRupiah($product->price) }}</span></p>
 				<p>
 					{{ $product->description }}
 				</p>
+				<input type="hidden" id="is-variant" value="{{ $product->is_variant }}">
 				<a class="btn btn-primary add-cart" data-id="{{ $product->id }}"><i class="ion-ios-cart"></i>
 					Keranjang</a>
 			</div>
@@ -85,4 +119,19 @@
 	});
 </script>
 @endif
+<script>
+	$(document).on('click', '.product-variant-id', function () {
+		let idProductVariant = $(this).val();
+		let url = BASE_URL + 'product-variant/' + idProductVariant;
+		$("#price").html(`<div class="d-flex">
+								  <div class="spinner-border" role="status" style="color: #82ae46;">
+									<span class="sr-only">Loading...</span>
+								  </div>
+							  </div>`);
+		ajaxGet(url).done(function (res) {
+			$("#price").html(formatRupiah(res.data.price, "IDR"));
+			$("#stock").html("Stok "+res.data.stock);
+		});
+	});
+</script>
 @endsection

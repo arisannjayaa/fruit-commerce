@@ -57,13 +57,13 @@
 			</div>
 			<div class="card-body">
 				<div class="row">
-					<div class="col-4">
+					<div class="col-lg-4 col-12 mb-lg-0 mb-3">
 						<div class="d-flex flex-column justify-content-center" style="gap: 10px;">
 							<img src="<?= base_url($user->attachment ?? 'assets/dist/img/face.png') ?>" alt="profile" class="img-profile">
 							<button data-id="<?= $user->id ?>" class="btn btn-primary w-100 edit">Ubah Biodata</button>
 						</div>
 					</div>
-					<div class="col-6">
+					<div class="col-lg-6 col-12">
 						<h5>Detail</h5>
 						<table>
 							<tr>

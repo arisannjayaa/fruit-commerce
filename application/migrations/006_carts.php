@@ -29,6 +29,12 @@ class Migration_Carts extends CI_Migration
 				'constraint'        => 11,
 				'unsigned'          => TRUE,
 			],
+			'product_variant_id' => [
+				'type'              => 'INT',
+				'constraint'        => 11,
+				'unsigned'          => TRUE,
+				'null'				=> true
+			],
 			'quantity' => [
 				'type'              => 'INT',
 				'constraint'        => 11
@@ -40,6 +46,7 @@ class Migration_Carts extends CI_Migration
         $this->dbforge->add_field("created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP");
 		$this->dbforge->add_field('CONSTRAINT FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE');
 		$this->dbforge->add_field('CONSTRAINT FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE ON UPDATE CASCADE');
+		$this->dbforge->add_field('CONSTRAINT FOREIGN KEY (product_variant_id) REFERENCES product_variants(id) ON DELETE CASCADE ON UPDATE CASCADE');
 
         $this->dbforge->create_table($this->tableName);
     }

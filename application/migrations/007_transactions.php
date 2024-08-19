@@ -24,6 +24,11 @@ class Migration_Transactions extends CI_Migration
 				'constraint'        => 11,
 				'unsigned'          => TRUE,
 			],
+			'address_id' => [
+				'type'              => 'INT',
+				'constraint'        => 11,
+				'unsigned'          => TRUE,
+			],
 			'order_id' => [
 				'type'              => 'VARCHAR',
 				'constraint'        => '255'

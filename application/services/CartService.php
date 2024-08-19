@@ -47,7 +47,7 @@ class CartService extends MY_Service{
 	public function create($data)
 	{
 		try {
-			$cartItem = $this->Cart->checkProduct($data['product_id'], $data['user_id']);
+			$cartItem = @$data['product_variant_id'] ? $this->Cart->checkProductIsVariant($data) : $this->Cart->checkProduct($data);
 			$totalCart = $this->Cart->findByUserId($this->auth->user()->id)->result();
 			$product = $this->Product->find($data['product_id']);
 

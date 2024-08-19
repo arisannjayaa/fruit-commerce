@@ -12,6 +12,13 @@
 						<div class="custom-file"></div>
 					</div>
 					<div class="mb-3">
+						<div class="form-label">Varian</div>
+						<label class="form-check form-switch">
+							<input class="form-check-input" type="checkbox" id="is-variant" name="is_variant">
+							<span class="form-check-label">Apakah produk akan memiliki varian?</span>
+						</label>
+					</div>
+					<div class="mb-3">
 						<label class="form-label">Judul</label>
 						<input id="title" type="text" class="form-control" name="title" placeholder="judul">
 					</div>
@@ -24,11 +31,11 @@
 							@endforeach
 						</select>
 					</div>
-					<div class="mb-3">
+					<div class="mb-3" id="stock-wrapper">
 						<label class="form-label">Stok</label>
 						<input id="stock" type="number" class="form-control" name="stock" placeholder="stok">
 					</div>
-					<div class="mb-3">
+					<div class="mb-3" id="price-wrapper">
 						<label class="form-label">Harga</label>
 						<input id="price" type="text" class="form-control convert-currency" name="price" placeholder="harga">
 					</div>

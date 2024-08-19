@@ -5,6 +5,7 @@ class TransactionService extends MY_Service{
 	public function __construct() {
 		$this->load->model('Cart');
 		$this->load->model('Product');
+		$this->load->model('ProductVariant');
 		$this->load->model('Transaction');
 		$this->load->helper('custom');
 		$this->load->model('Notification');
@@ -59,12 +60,17 @@ class TransactionService extends MY_Service{
 
 				foreach ($products as $product) {
 					$findProduct = $this->Product->find($product->id);
-
+					$findVariant = $this->ProductVariant->find($product->variant_id);
 					$dataProduct = array(
 						'stock' => 	$findProduct->stock - $product->quantity,
 						'total_sold' => $findProduct->total_sold + $product->quantity,
 					);
+
 					$this->Product->update($product->id, $dataProduct);
+
+					if ($product->is_variant == 1) {
+						$this->ProductVariant->update($product->variant_id, array('stock' => $findVariant->stock - $product->quantity));
+					}
 				}
 			}
 			// cek transaski pending
@@ -259,6 +265,7 @@ class TransactionService extends MY_Service{
 
 	public function checkProduct($products)
 	{
+
 		foreach ($products as $product) {
 			$find = $this->Product->find($product->id);
 			if ($find->stock == 0) {

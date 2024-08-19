@@ -24,12 +24,18 @@ class Cart extends CI_Model
 				p.slug,
 				p.description,
 				p.stock,
-				p.price";
+				p.price,
+				p.is_variant,
+				pv.id as variant_id,
+				pv.stock as variant_stock,
+				pv.price as variant_price,
+				pv.name as variant_name";
 
 		$builder = $this->db
 			->select($select)
 			->from('carts c')
-			->join('products p', 'p.id = c.product_id')
+			->join('products p', 'p.id = c.product_id', 'left')
+			->join('product_variants pv', 'pv.id = c.product_variant_id', 'left')
 			->where('c.user_id', $user_id);
 
 		return $builder->get();
@@ -65,7 +71,7 @@ class Cart extends CI_Model
 		return $this->db->delete($this->table);
 	}
 
-	public function checkProduct($product_id, $user_id)
+	public function checkProduct($data)
 	{
 		$select = "c.*,
 				p.title,
@@ -79,11 +85,35 @@ class Cart extends CI_Model
 			->select($select)
 			->from('carts c')
 			->join('products p', 'p.id = c.product_id')
-			->where('c.user_id', $user_id)
-			->where('c.product_id', $product_id);
+			->where('c.user_id', $data['user_id'])
+			->where('c.product_id', $data['product_id']);
 
 		return $builder->get()->row();
 	}
+
+	public function checkProductIsVariant($data)
+	{
+		$select = "c.*,
+				p.title,
+				p.attachment,
+				p.slug,
+				p.description,
+				pv.stock,
+				p.price,
+				pv.name as variant_name";
+
+		$builder = $this->db
+			->select($select)
+			->from('carts c')
+			->join('products p', 'p.id = c.product_id', 'left')
+			->join('product_variants pv', 'pv.id = c.product_variant_id', 'left')
+			->where('c.user_id', $data['user_id'])
+			->where('c.product_id', $data['product_id'])
+			->where('c.product_variant_id', $data['product_variant_id']);
+
+		return $builder->get()->row();
+	}
+
 
 	public function datatable($keyword = null, $start = 0, $length = 0)
 	{

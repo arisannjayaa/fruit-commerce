@@ -80,7 +80,7 @@
 					@endphp
 					@foreach($carts as $cart)
 					@php
-					$subtotal = $cart->price * $cart->quantity;
+					$subtotal = ($cart->is_variant == 1 ? $cart->variant_price : $cart->price) * $cart->quantity;
 					$total += $subtotal;
 					$attachment = $cart->attachment !== null ? base_url($cart->attachment) : base_url('assets/home/images/image_5.jpg');
 					@endphp
@@ -91,11 +91,11 @@
 									<img width="80" height="80" style="object-fit: cover; border-radius: 7px" src="{{ $attachment }}" alt="">
 									<div class="d-flex justify-content-between flex-grow-1 flex-shrink-1">
 										<div class="d-flex flex-column">
-											<a href="#" class="product-name">{{ $cart->title }}</a>
+											<a href="#" class="product-name">{{ $cart->title . ($cart->variant_name ? " - " . $cart->variant_name : "") }}</a>
 											<span></span>
-											<span data-price="{{ $cart->title }}" class="price">{{ $cart->quantity . ' x ' . formatToRupiah($cart->price) }} </span>
+											<span data-price="{{ $cart->title }}" class="price">{{ $cart->quantity . ' x ' . formatToRupiah($cart->is_variant == 1 ? $cart->variant_price : $cart->price) }} </span>
 										</div>
-										<span data-total-price="{{ $cart->title }}" class="total-price">{{ formatToRupiah($cart->price * $cart->quantity) }} </span>
+										<span data-total-price="{{ $cart->title }}" class="total-price">{{ formatToRupiah(($cart->is_variant == 1 ? $cart->variant_price : $cart->price) * $cart->quantity) }} </span>
 										<input type="hidden" id="total" value="{{ formatToRupiah($cart->price * $cart->quantity) }}">
 									</div>
 								</div>

@@ -167,5 +167,14 @@ $route['distance'] = 'LocationController/checkDistance';
 // change delivery status
 $route['change/delivery/status'] = 'OrderController/changeDeliveryStatus';
 
+// variant produk
+$route['product-variant']['GET'] = 'ProductVariantController/index';
+$route['product-variant/store'] = 'ProductVariantController/store';
+$route['product-variant/update'] = 'ProductVariantController/update';
+$route['product-variant/delete'] = 'ProductVariantController/delete';
+$route['product-variant/edit/(:any)'] = 'ProductVariantController/edit/$1';
+$route['product-variant/table']['GET'] = 'ProductVariantController/table';
+$route['product-variant/(:any)'] = 'ProductVariantController/find/$1';
+
 $route['404_override'] = 'ErrorController/error_404';
 $route['translate_uri_dashes'] = FALSE;
