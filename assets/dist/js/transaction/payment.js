@@ -106,6 +106,7 @@ $("#table").on("click", ".detail", function () {
 		let captureResponse = JSON.parse(res.data.capture_payment_response);
 
 		$(".modal-title").empty().append("Detail Pemesanan");
+		$("#location").attr('href', gmapsUrl + captureRequest.customer_details.latitude + "," + captureRequest.customer_details.longitude);
 		$("#invoice").html(res.data.order_id);
 		$("#fullname").html(res.data.first_name + ' ' + res.data.last_name);
 		$("#email").html(res.data.email);

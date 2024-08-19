@@ -81,7 +81,7 @@
 				@if(count($variants) > 0)
 				<div>
 					@foreach($variants as $variant)
-					<input type="radio" id="variant_id_<?= $variant->id ?>" name="product_variant_id" value="<?= $variant->id ?>" class="hidden-radio product-variant-id">
+					<input <?= $variant->stock == 0 ? 'disabled' : '' ?> type="radio" id="variant_id_<?= $variant->id ?>" name="product_variant_id" value="<?= $variant->id ?>" class="hidden-radio product-variant-id">
 					<label for="variant_id_<?= $variant->id ?>" class="radio-label"><?= $variant->name ?></label>
 					@endforeach
 				</div>

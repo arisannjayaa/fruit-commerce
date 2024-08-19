@@ -65,8 +65,12 @@ class TransactionService extends MY_Service{
 						'stock' => 	$findProduct->stock - $product->quantity,
 						'total_sold' => $findProduct->total_sold + $product->quantity,
 					);
+
 					$this->Product->update($product->id, $dataProduct);
-					$this->ProductVariant->update($product->variant_id, ['stock' => $findVariant->stock - $product->quantity]);
+
+					if ($product->is_variant == 1) {
+						$this->ProductVariant->update($product->variant_id, array('stock' => $findVariant->stock - $product->quantity));
+					}
 				}
 			}
 			// cek transaski pending
