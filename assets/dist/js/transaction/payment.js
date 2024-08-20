@@ -49,12 +49,13 @@ $("#table").DataTable({
 		{ data: 'payment_type', name: 'payment_type', className: 'text-nowrap', orderable: false, searchable: false,
 			render: function (data, type, row, meta) {
 				let paymentResponse = JSON.parse(row.capture_payment_response);
-				return `<span class="badge ${badgeStatusPayment(paymentResponse.transaction_status)}">${statusPayment(paymentResponse.transaction_status)}</span>`;
+				return `<span>${paymentMethod(paymentResponse.payment_type)}</span>`;
 			}
 		},
 		{ data: 'transaction_status', name: 'transaction_status', className: 'text-nowrap', orderable: false, searchable: false,
 			render: function (data, type, row, meta) {
-				return `<span class="badge ${badgeStatusPayment(row.transaction_status)}">${statusPayment(row.transaction_status)}</span>`;
+				let paymentResponse = JSON.parse(row.capture_payment_response);
+				return `<span class="badge ${badgeStatusPayment(paymentResponse.transaction_status)}">${statusPayment(paymentResponse.transaction_status)}</span>`;
 			}
 		},
 		{ data: 'delivery_status', name: 'delivery_status', className: 'text-nowrap', orderable: false, searchable: false,
