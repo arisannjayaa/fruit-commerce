@@ -49,7 +49,7 @@ $("#table").DataTable({
 		{ data: 'payment_type', name: 'payment_type', className: 'text-nowrap', orderable: false, searchable: false,
 			render: function (data, type, row, meta) {
 				let paymentResponse = JSON.parse(row.capture_payment_response);
-				return `<span>${paymentMethod(paymentResponse.payment_type)}</span>`;
+				return `<span class="badge ${badgeStatusPayment(paymentResponse.transaction_status)}">${statusPayment(paymentResponse.transaction_status)}</span>`;
 			}
 		},
 		{ data: 'transaction_status', name: 'transaction_status', className: 'text-nowrap', orderable: false, searchable: false,
